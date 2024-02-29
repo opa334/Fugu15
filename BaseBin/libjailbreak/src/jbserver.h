@@ -28,7 +28,7 @@ struct jbserver_action {
 };
 
 struct jbserver_domain {
-    void *permissionHandler;
+    bool (*permissionHandler)(audit_token_t);
     struct jbserver_action actions[];  // Flexible array member moved to the end
 };
 

@@ -14,6 +14,7 @@ localisort -t ./Application/Dopamine/en.lproj/Localizable.strings -i ./Applicati
 localisort -t ./Application/Dopamine/en.lproj/Localizable.strings -i ./Application/Dopamine/pt-BR.lproj/Localizable.strings -r
 localisort -t ./Application/Dopamine/en.lproj/Localizable.strings -i ./Application/Dopamine/ru.lproj/Localizable.strings -r
 localisort -t ./Application/Dopamine/en.lproj/Localizable.strings -i ./Application/Dopamine/sv.lproj/Localizable.strings -r
+localisort -t ./Application/Dopamine/en.lproj/Localizable.strings -i ./Application/Dopamine/th.lproj/Localizable.strings -r
 localisort -t ./Application/Dopamine/en.lproj/Localizable.strings -i ./Application/Dopamine/tr.lproj/Localizable.strings -r
 localisort -t ./Application/Dopamine/en.lproj/Localizable.strings -i ./Application/Dopamine/uk.lproj/Localizable.strings -r
 localisort -t ./Application/Dopamine/en.lproj/Localizable.strings -i ./Application/Dopamine/ur.lproj/Localizable.strings -r

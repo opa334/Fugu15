@@ -67,7 +67,7 @@ int posix_spawn_hook(pid_t *restrict pid, const char *restrict path,
 					   char *const argv[restrict],
 					   char *const envp[restrict])
 {
-	return spawn_hook_common(pid, path, file_actions, attrp, argv, envp, (void *)posix_spawn, jbclient_trust_binary);
+	return spawn_hook_common(pid, path, file_actions, attrp, argv, envp, (void *)posix_spawn, jbclient_trust_binary, jbclient_platform_set_process_debugged);
 }
 
 int posix_spawnp_hook(pid_t *restrict pid, const char *restrict file,
@@ -77,7 +77,7 @@ int posix_spawnp_hook(pid_t *restrict pid, const char *restrict file,
 					   char *const envp[restrict])
 {
 	return resolvePath(file, NULL, ^int(char *path) {
-		return spawn_hook_common(pid, path, file_actions, attrp, argv, envp, (void *)posix_spawn, jbclient_trust_binary);
+		return spawn_hook_common(pid, path, file_actions, attrp, argv, envp, (void *)posix_spawn, jbclient_trust_binary, jbclient_platform_set_process_debugged);
 	});
 }
 
@@ -87,7 +87,7 @@ int execve_hook(const char *path, char *const argv[], char *const envp[])
 	posix_spawnattr_t attr = NULL;
 	posix_spawnattr_init(&attr);
 	posix_spawnattr_setflags(&attr, POSIX_SPAWN_SETEXEC);
-	int result = spawn_hook_common(NULL, path, NULL, &attr, argv, envp, (void *)posix_spawn, jbclient_trust_binary);
+	int result = spawn_hook_common(NULL, path, NULL, &attr, argv, envp, (void *)posix_spawn, jbclient_trust_binary, jbclient_platform_set_process_debugged);
 	if (attr) {
 		posix_spawnattr_destroy(&attr);
 	}
@@ -283,8 +283,8 @@ int ptrace_hook(int request, pid_t pid, caddr_t addr, int data)
 	// but when the victim process does not have the get-task-allow entitlement,
 	// it will fail to set the debug flags, therefore we patch ptrace to manually apply them
 	if (retval == 0 && (request == PT_ATTACHEXC || request == PT_ATTACH)) {
-		jbclient_platform_set_process_debugged(pid);
-		jbclient_platform_set_process_debugged(getpid());
+		jbclient_platform_set_process_debugged(pid, true);
+		jbclient_platform_set_process_debugged(getpid(), true);
 	}
 
 	return retval;
@@ -421,17 +421,17 @@ __attribute__((constructor)) static void initializer(void)
 				if (tweakLoaderHandle != NULL) {
 					dlclose(tweakLoaderHandle);
 					dopamine_fix_NSTask();
-
-#ifndef __arm64e__
-					// Feeable attempt at adding back CS_VALID
-					// If any hooks are applied after this, it is lost again
-					// Temporary workaround until a better solution for this problem is found
-					// This + the csops hook should resolve all cases unless a tweak does something really stupid
-					jbclient_cs_revalidate();
-#endif
 				}
 			}
 		}
+
+#ifndef __arm64e__
+		// Feeable attempt at adding back CS_VALID
+		// If any hooks are applied after this, it is lost again
+		// Temporary workaround until a better solution for this problem is found
+		// This + the csops hook should resolve all cases unless a tweak does something really stupid
+		jbclient_cs_revalidate();
+#endif
 	}
 }
 

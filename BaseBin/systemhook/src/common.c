@@ -217,6 +217,13 @@ kBinaryConfig configForBinary(const char* path, char *const argv[restrict])
 							return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
 						}
 					}
+#ifndef __arm64e__
+ 					// Attempt to solve issues with VPN on arm64
+					else if (!strcmp(argv[1], "com.apple.terminusd") ||
+							 !strcmp(argv[1], "com.apple.nesessionmanager")) {
+						return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
+					}
+#endif
 				}
 			}
 		}
@@ -248,7 +255,8 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 					   char *const argv[restrict],
 					   char *const envp[restrict],
 					   void *orig,
-					   int (*trust_binary)(const char *))
+					   int (*trust_binary)(const char *),
+					   int (*set_process_debugged)(uint64_t pid, bool fullyDebugged))
 {
 	int (*pspawn_orig)(pid_t *restrict, const char *restrict, const posix_spawn_file_actions_t *restrict, const posix_spawnattr_t *restrict, char *const[restrict], char *const[restrict]) = orig;
 	if (!path) {
@@ -386,9 +394,11 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 		}
 	}
 
+	int retval = -1;
+
 	if ((shouldInsertJBEnv && JBEnvAlreadyInsertedCount == 1) || (!shouldInsertJBEnv && JBEnvAlreadyInsertedCount == 0 && !hasSafeModeVariable)) {
 		// we're already good, just call orig
-		return pspawn_orig(pid, path, file_actions, attrp, argv, envp);
+		retval = pspawn_orig(pid, path, file_actions, attrp, argv, envp);
 	}
 	else {
 		// the state we want to be in is not the state we are in right now
@@ -437,8 +447,21 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 			envbuf_unsetenv(&envc, "_MSSafeMode");
 		}
 
-		int retval = pspawn_orig(pid, path, file_actions, attrp, argv, envc);
+		retval = pspawn_orig(pid, path, file_actions, attrp, argv, envc);
 		envbuf_free(envc);
-		return retval;
 	}
+
+	if (retval == 0 && attrp != NULL && pid != NULL) {
+		short flags = 0;
+		if (posix_spawnattr_getflags(attrp, &flags) == 0) {
+			if (flags & POSIX_SPAWN_START_SUSPENDED) {
+				// If something spawns a process as suspended, ensure mapping invalid pages in it is possible
+				// Normally it would only be possible after systemhook.dylib enables it
+				// Fixes Frida issues
+				int r = set_process_debugged(*pid, false);
+			}
+		}
+	}
+
+	return retval;
 }
