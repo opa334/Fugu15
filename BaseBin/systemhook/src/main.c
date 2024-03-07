@@ -11,8 +11,19 @@
 #include <libjailbreak/codesign.h>
 #include "litehook.h"
 
+int necp_match_policy(uint8_t *parameters, size_t parameters_size, void *returned_result);
+int necp_open(int flags);
+int necp_client_action(int necp_fd, uint32_t action, uuid_t client_id, size_t client_id_len, uint8_t *buffer, size_t buffer_size);
+int necp_session_open(int flags);
+int necp_session_action(int necp_fd, uint32_t action, uint8_t *in_buffer, size_t in_buffer_length, uint8_t *out_buffer, size_t out_buffer_length);
+
 #define SYSCALL_CSOPS 0xA9
 #define SYSCALL_CSOPS_AUDITTOKEN 0xAA
+#define SYSCALL_NECP_MATCH_POLICY 0x1CC
+#define SYSCALL_NECP_OPEN 0x1F5
+#define SYSCALL_NECP_CLIENT_ACTION 0x1F6
+#define SYSCALL_NECP_SESSION_OPEN 0x20A
+#define SYSCALL_NECP_SESSION_ACTION 0x20B
 
 #define JBRootPath(path) ({ \
 	char *outPath = alloca(PATH_MAX); \
@@ -290,6 +301,8 @@ int ptrace_hook(int request, pid_t pid, caddr_t addr, int data)
 	return retval;
 }
 
+#ifdef __arm64e__
+
 void loadForkFix(void)
 {
 	if (gTweaksEnabled) {
@@ -328,7 +341,46 @@ int daemon_hook(int __nochdir, int __noclose)
 	return daemon(__nochdir, __noclose);
 }
 
-// Always set CS_VALID in csflag to avoid causing a crash when hooking a c function on arm64
+#else
+
+// The NECP subsystem is the only thing in the kernel that ever checks CS_VALID on userspace processes (Only on iOS 16)
+// In order to not break system functionality, we need to readd CS_VALID before any of these are invoked
+
+int necp_match_policy_hook(uint8_t *parameters, size_t parameters_size, void *returned_result)
+{
+	jbclient_cs_revalidate();
+	return syscall(SYSCALL_NECP_MATCH_POLICY, parameters, parameters_size, returned_result);
+}
+
+int necp_open_hook(int flags)
+{
+	jbclient_cs_revalidate();
+	return syscall(SYSCALL_NECP_OPEN, flags);
+}
+
+int necp_client_action_hook(int necp_fd, uint32_t action, uuid_t client_id, size_t client_id_len, uint8_t *buffer, size_t buffer_size)
+{
+	jbclient_cs_revalidate();
+	return syscall(SYSCALL_NECP_CLIENT_ACTION, necp_fd, action, client_id, client_id_len, buffer, buffer_size);
+}
+
+int necp_session_open_hook(int flags)
+{
+	jbclient_cs_revalidate();
+	return syscall(SYSCALL_NECP_SESSION_OPEN, flags);
+}
+
+int necp_session_action_hook(int necp_fd, uint32_t action, uint8_t *in_buffer, size_t in_buffer_length, uint8_t *out_buffer, size_t out_buffer_length)
+{
+	jbclient_cs_revalidate();
+	return syscall(SYSCALL_NECP_SESSION_ACTION, necp_fd, action, in_buffer, in_buffer_length, out_buffer, out_buffer_length);
+}
+
+// For the userland, there are multiple processes that will check CS_VALID for one reason or another
+// As we inject system wide (or at least almost system wide), we can just patch the source of the info though - csops itself
+// Additionally we also remove CS_DEBUGGED while we're at it, as on arm64e this also is not set and everything is fine
+// That way we have unified behaviour between both arm64 and arm64e
+
 int csops_hook(pid_t pid, unsigned int ops, void *useraddr, size_t usersize)
 {
 	int rv = syscall(SYSCALL_CSOPS, pid, ops, useraddr, usersize);
@@ -357,6 +409,8 @@ int csops_audittoken_hook(pid_t pid, unsigned int ops, void *useraddr, size_t us
 	return rv;
 }
 
+#endif
+
 bool shouldEnableTweaks(void)
 {
 	if (access(JBRootPath("/basebin/.safe_mode"), F_OK) == 0) {
@@ -377,9 +431,20 @@ bool shouldEnableTweaks(void)
 		// Dopamine app itself (jailbreak detection bypass tweaks can break it)
 		"Dopamine.app/Dopamine",
 	};
-	for (size_t i = 0; i < sizeof(tweaksDisabledPathSuffixes) / sizeof(const char*); i++)
-	{
+	for (size_t i = 0; i < sizeof(tweaksDisabledPathSuffixes) / sizeof(const char*); i++) {
 		if (stringEndsWith(gExecutablePath, tweaksDisabledPathSuffixes[i])) return false;
+	}
+
+	if (__builtin_available(iOS 16.0, *)) {
+		// These seem to be problematic on iOS 16+ (dyld gets stuck in a weird way when opening TweakLoader)
+		const char *iOS16TweaksDisabledPaths[] = {
+			"/usr/libexec/logd",
+			"/usr/sbin/notifyd",
+			"/usr/libexec/usermanagerd",
+		};
+		for (size_t i = 0; i < sizeof(iOS16TweaksDisabledPaths) / sizeof(const char*); i++) {
+			if (!strcmp(gExecutablePath, iOS16TweaksDisabledPaths[i])) return false;
+		}
 	}
 
 	return true;
@@ -409,8 +474,18 @@ __attribute__((constructor)) static void initializer(void)
 		}
 
 #ifndef __arm64e__
+		// On arm64, writing to executable pages removes CS_VALID from the csflags of the process
+		// These hooks are neccessary to get the system to behave with this
+		// They're ugly but they're needed
 		litehook_hook_function(csops, csops_hook);
 		litehook_hook_function(csops_audittoken, csops_audittoken_hook);
+		if (__builtin_available(iOS 16.0, *)) {
+			litehook_hook_function(necp_match_policy, necp_match_policy_hook);
+			litehook_hook_function(necp_open, necp_open_hook);
+			litehook_hook_function(necp_client_action, necp_client_action_hook);
+			litehook_hook_function(necp_session_open, necp_session_open_hook);
+			litehook_hook_function(necp_session_action, necp_session_action_hook);
+		}
 #endif
 
 		if (shouldEnableTweaks()) {

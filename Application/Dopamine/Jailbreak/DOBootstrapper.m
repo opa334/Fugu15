@@ -283,8 +283,15 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
 
 - (void)fixupPathPermissions
 {
+    // Ensure the following paths are owned by root:wheel and have permissions of 755:
+    // /private
+    // /private/preboot
+    // /private/preboot/UUID
+    // /private/preboot/UUID/dopamine-<UUID>
+    // /private/preboot/UUID/dopamine-<UUID>/procursus
+
     NSString *tmpPath = NSJBRootPath(@"/");
-    while (![tmpPath isEqualToString:@"/private/preboot"]) {
+    while (![tmpPath isEqualToString:@"/"]) {
         struct stat s;
         stat(tmpPath.fileSystemRepresentation, &s);
         if (s.st_uid != 0 || s.st_gid != 0) {

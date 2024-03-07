@@ -195,35 +195,12 @@ kBinaryConfig configForBinary(const char* path, char *const argv[restrict])
 		if (argv) {
 			if (argv[0]) {
 				if (argv[1]) {
-					if (!strcmp(argv[1], "com.apple.ReportCrash")) {
-						// Skip ReportCrash too as it might need to execute while jailbreakd is in a crashed state
-						return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
-					}
-					else if (!strcmp(argv[1], "com.apple.ReportMemoryException")) {
-						// Skip ReportMemoryException too as it might need to execute while jailbreakd is in a crashed state
-						return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
-					}
-					else if (!strcmp(argv[1], "com.apple.logd")   ||
-							 !strcmp(argv[1], "com.apple.notifyd") ||
-							 !strcmp(argv[1], "com.apple.mobile.usermanagerd")) {
-						// These seem to be problematic on iOS 16+ (dyld gets stuck in a weird way)
-						if (__builtin_available(iOS 16.0, *)) {
-							return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
-						}
-					}
-					else if (stringStartsWith(argv[1], "com.apple.WebKit.WebContent")) {
+					if (stringStartsWith(argv[1], "com.apple.WebKit.WebContent")) {
 						// The most sandboxed process on the system, we can't support it on iOS 16+ for now
 						if (__builtin_available(iOS 16.0, *)) {
 							return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
 						}
 					}
-#ifndef __arm64e__
- 					// Attempt to solve issues with VPN on arm64
-					else if (!strcmp(argv[1], "com.apple.terminusd") ||
-							 !strcmp(argv[1], "com.apple.nesessionmanager")) {
-						return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
-					}
-#endif
 				}
 			}
 		}
