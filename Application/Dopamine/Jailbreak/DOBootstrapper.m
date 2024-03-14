@@ -395,6 +395,8 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
         return;
     }
     
+    [self fixupPathPermissions];
+    
     // Remove /var/jb as it might be wrong
     if (![self deleteSymlinkAtPath:@"/var/jb" error:&error]) {
         if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/jb"]) {

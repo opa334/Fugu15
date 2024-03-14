@@ -76,7 +76,7 @@ int main(int argc, char* argv[])
 				return 4;
 			}
 			NSString *trollstorehelperPath = [trollstoreAppProxy.bundleURL.path stringByAppendingPathComponent:@"trollstorehelper"];
-			int r = exec_cmd(trollstorehelperPath.fileSystemRepresentation, "install", "force", updateFile, NULL);
+			int r = exec_cmd(trollstorehelperPath.fileSystemRepresentation, "install", "skip-uicache", "force", updateFile, NULL);
 			if (r != 0) {
 				printf("Failed to install tipa via TrollStore: %d\n", r);
 				return 5;
