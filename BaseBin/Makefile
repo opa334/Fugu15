@@ -74,6 +74,10 @@ rootlesshooks: .build .include
 	rm -rf .include
 	mkdir -p .include
 	cp -r _external/include/* .include
+# If the SDK already ships XPC (it does so in iOS 17.4+), remove the local copy of it
+ifneq (,$(wildcard $(shell xcrun --sdk iphoneos --show-sdk-path)/usr/include/xpc.modulemap))
+	rm -rf .include/xpc
+endif
 
 basebin.tc: subprojects
 	trustcache create .build/basebin.tc .build

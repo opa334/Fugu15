@@ -3,7 +3,7 @@
 #include "boomerang.h"
 #include "crashreporter.h"
 #include "update.h"
-#include "substrate.h"
+#include <substrate.h>
 #include <mach-o/dyld.h>
 #include <sys/param.h>
 #include <sys/mount.h>

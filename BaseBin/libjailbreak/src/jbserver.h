@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <xpc/xpc.h>
+#include <xpc_private.h>
 
 typedef enum {
     JBS_TYPE_BOOL,

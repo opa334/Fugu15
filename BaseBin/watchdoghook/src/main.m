@@ -4,7 +4,7 @@
 #include <IOKit/IOKitLib.h>
 #include <libjailbreak/jbclient_xpc.h>
 
-#include "substrate.h"
+#include <substrate.h>
 
 int reboot3(uint64_t flags, ...);
 #define RB2_USERREBOOT (0x2000000000000000llu)

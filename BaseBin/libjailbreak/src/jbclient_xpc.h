@@ -2,6 +2,7 @@
 #define JBCLIENT_XPC_H
 
 #include <xpc/xpc.h>
+#include <xpc_private.h>
 #include <stdint.h>
 
 void jbclient_xpc_set_custom_port(mach_port_t serverPort);

@@ -1,3 +1,6 @@
+#ifndef __SANDBOX_H__
+#define __SANDBOX_H__
+
 #include <mach/mach.h>
 #include <stdlib.h>
 
@@ -116,3 +119,5 @@ int sandbox_extension_release_file(int64_t extension_handle, const char *path);
 int sandbox_extension_update_file(int64_t extension_handle, const char *path);
 
 int __sandbox_ms(const char *policyname, int call, void *arg);
+
+#endif
