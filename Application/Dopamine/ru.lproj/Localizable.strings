@@ -29,8 +29,8 @@
 "Changelog_Unavailable_Text" = "Список изменений недоступен";
 
 // Removed Jailbreak Alert
-/*Removed_Jailbreak_Alert_Title*/
-/*Removed_Jailbreak_Alert_Message*/
+"Removed_Jailbreak_Alert_Title" = "Джейлбрейк удалён";
+"Removed_Jailbreak_Alert_Message" = "Джейлбрейк успешно удален. Рекомендуется перезагрузить устройство.";
 "Button_Close" = "Закрыть";
 
 // Error View
@@ -58,20 +58,20 @@
 "Section_Exploits" = "Эксплоиты";
 
 // Settings Alerts
-/*Alert_Tweak_Injection_Toggled_Title*/
+"Alert_Tweak_Injection_Toggled_Title" = "Перезагрузите Userspace";
 "Alert_Tweak_Injection_Toggled_Body" = "Чтобы изменения вступили в силу, нужно перезагрузить Userspace. Перезагрузить сейчас?";
-/*Alert_Tweak_Injection_Toggled_Reboot_Now*/
-/*Alert_Tweak_Injection_Toggled_Reboot_Later*/
+"Alert_Tweak_Injection_Toggled_Reboot_Now" = "Сейчас";
+"Alert_Tweak_Injection_Toggled_Reboot_Later" = "Потом";
 "Alert_Remove_Jailbreak_Title" = "Удаление джейлбрейка";
-"Alert_Remove_Jailbreak_Pressed_Body" = "Удаление джейлбрейка приведет к удалению всех файлов, связанных с джейлбрейком, но все обычные приложения, файлы и данные будут сохранены. Вы уверены, что хотите продолжить? Вы не сможете отменить это действие.";
-/*Alert_Remove_Jailbreak_Enabled_Body*/
+"Alert_Remove_Jailbreak_Pressed_Body" = "Удаление джейлбрейка приведёт к удалению всех файлов, связанных с джейлбрейком, но все обычные приложения, файлы и данные будут сохранены. Вы уверены, что хотите продолжить? Вы не сможете отменить это действие.";
+"Alert_Remove_Jailbreak_Enabled_Body" = "Нажимая \"Удаление джейлбрейка\", все файлы, связанные с джейлбрейком, будут удалены до следующего джейлбрейка. Все обычные приложения, файлы и данные будут сохранены. Вы уверены, что хотите продолжить? Вы не сможете отменить это действие.";
 "Button_Cancel" = "Отмена";
 "Button_Continue" = "Продолжить";
 
 // Duplicate Apps Errors
-/*Duplicate_Apps_Error_Dopamine_App*/
-/*Duplicate_Apps_Error_User_App*/
-/*Duplicate_Apps_Error_Icon_Cache*/
+"Duplicate_Apps_Error_Dopamine_App" = "Обнаружено несколько приложений с идентификатором \"%@\" внутри пути Dopamine (\"%@\"). Невозможно продолжить.";
+"Duplicate_Apps_Error_User_App" = "Приложения с идентификатором %@ есть в директории Dopamine (\"%@\"), но в системе установлены раздельно. Невозможно продолжить.";
+"Duplicate_Apps_Error_Icon_Cache" = "Приложение с идентификатором \"%@\" есть в каталоге приложений (\"%@\"), но также зарегистрировано в кэше иконок по пути (\"%@\"). Невозможно продолжить.";
 
 // Settings Lists
 "Theme" = "Темы";
@@ -85,18 +85,18 @@
 "Credits_Button_Source_Code" = "Исходный код";
 
 // Logs
-"Initializing Environment" = "Инициализация переменной среды";
-"Loading BaseBin TrustCache" = "Загружаем BaseBin TrustCache";
-/*Applying Bind Mount*/
-"Removing Jailbreak" = "Удаляем джейлбрейк";
-"Elevating Privileges" = "Повышаем права";
-"Cleaning Up Exploits" = "Очищаем Эксплоиты";
-"Building Phys R/W Primitive" = "Создаем R/W примитивы";
-"Rebooting Userspace" = "Перезагружаем Userspace";
+"Initializing Environment" = "Инициализация среды";
+"Loading BaseBin TrustCache" = "Получение кэша доверия BaseBin";
+"Applying Bind Mount" = "Применение монтирования с привязкой";
+"Removing Jailbreak" = "Удаление джейлбрейка";
+"Elevating Privileges" = "Повышение прав";
+"Cleaning Up Exploits" = "Очистка эксплоитов";
+"Building Phys R/W Primitive" = "Создание R/W примитива";
+"Rebooting Userspace" = "Перезагрузка Userspace";
 "Patchfinding" = "Поиск патчей";
-"Exploiting Kernel (%@)" = "Эксплуатируем ядро";
-"Bypassing PAC (%@)" = "Обходим PAC";
-"Bypassing PPL (%@)" = "Обходим PPL";
+"Exploiting Kernel (%@)" = "Эксплуатация ядра (%@)";
+"Bypassing PAC (%@)" = "Обход PAC (%@)";
+"Bypassing PPL (%@)" = "Обход PPL (%@)";
 
 // Package Manager selection
 "Status_Title_Select_Package_Managers" = "Выберите менеджер(ы) пакетов";
