@@ -71,6 +71,7 @@ struct system_info {
 		uint64_t pmap_image4_trust_caches;
 		uint64_t ppl_trust_cache_rt;
 		uint64_t mach_kobj_count;
+		uint64_t developer_mode_enabled;
 	} kernelSymbol;
 
 	struct {
@@ -209,163 +210,164 @@ extern struct system_info gSystemInfo;
 #define KERNEL_CONSTANTS_ITERATE(ctx, iterator) \
 	iterator(ctx, kernelConstant.slide); \
 	iterator(ctx, kernelConstant.staticBase); \
-    iterator(ctx, kernelConstant.base); \
-    iterator(ctx, kernelConstant.virtBase); \
-    iterator(ctx, kernelConstant.virtSize); \
-    iterator(ctx, kernelConstant.physBase); \
-    iterator(ctx, kernelConstant.physSize); \
-    iterator(ctx, kernelConstant.cpuTTEP); \
-    iterator(ctx, kernelConstant.kernel_el); \
-    iterator(ctx, kernelConstant.pointer_mask); \
-    iterator(ctx, kernelConstant.T1SZ_BOOT); \
-    iterator(ctx, kernelConstant.ARM_TT_L1_INDEX_MASK); \
-    iterator(ctx, kernelConstant.smrBase); \
-    iterator(ctx, kernelConstant.PT_INDEX_MAX); \
-    iterator(ctx, kernelConstant.nsysent); \
-    iterator(ctx, kernelConstant.mach_trap_count);
+	iterator(ctx, kernelConstant.base); \
+	iterator(ctx, kernelConstant.virtBase); \
+	iterator(ctx, kernelConstant.virtSize); \
+	iterator(ctx, kernelConstant.physBase); \
+	iterator(ctx, kernelConstant.physSize); \
+	iterator(ctx, kernelConstant.cpuTTEP); \
+	iterator(ctx, kernelConstant.kernel_el); \
+	iterator(ctx, kernelConstant.pointer_mask); \
+	iterator(ctx, kernelConstant.T1SZ_BOOT); \
+	iterator(ctx, kernelConstant.ARM_TT_L1_INDEX_MASK); \
+	iterator(ctx, kernelConstant.smrBase); \
+	iterator(ctx, kernelConstant.PT_INDEX_MAX); \
+	iterator(ctx, kernelConstant.nsysent); \
+	iterator(ctx, kernelConstant.mach_trap_count);
 
 #define JAILBREAK_INFO_ITERATE(ctx, iterator) \
 	iterator(ctx, jailbreakInfo.usesPACBypass); \
 	iterator(ctx, jailbreakInfo.rootPath);
 
 #define KERNEL_SYMBOLS_ITERATE(ctx, iterator) \
-    iterator(ctx, kernelSymbol.perfmon_dev_open); \
-    iterator(ctx, kernelSymbol.vn_kqfilter); \
-    iterator(ctx, kernelSymbol.proc_find); \
-    iterator(ctx, kernelSymbol.proc_rele); \
-    iterator(ctx, kernelSymbol.kalloc_data_external); \
-    iterator(ctx, kernelSymbol.kfree_data_external); \
-    iterator(ctx, kernelSymbol.ml_sign_thread_state); \
-    iterator(ctx, kernelSymbol.pmap_alloc_page_for_kern); \
-    iterator(ctx, kernelSymbol.pmap_create_options); \
-    iterator(ctx, kernelSymbol.pmap_enter_options_addr); \
-    iterator(ctx, kernelSymbol.pmap_mark_page_as_ppl_page); \
-    iterator(ctx, kernelSymbol.pmap_nest); \
-    iterator(ctx, kernelSymbol.pmap_remove_options); \
-    iterator(ctx, kernelSymbol.pmap_set_nested); \
-    iterator(ctx, kernelSymbol.hw_lck_ticket_reserve_orig_allow_invalid); \
-    iterator(ctx, kernelSymbol.exception_return); \
+	iterator(ctx, kernelSymbol.perfmon_dev_open); \
+	iterator(ctx, kernelSymbol.vn_kqfilter); \
+	iterator(ctx, kernelSymbol.proc_find); \
+	iterator(ctx, kernelSymbol.proc_rele); \
+	iterator(ctx, kernelSymbol.kalloc_data_external); \
+	iterator(ctx, kernelSymbol.kfree_data_external); \
+	iterator(ctx, kernelSymbol.ml_sign_thread_state); \
+	iterator(ctx, kernelSymbol.pmap_alloc_page_for_kern); \
+	iterator(ctx, kernelSymbol.pmap_create_options); \
+	iterator(ctx, kernelSymbol.pmap_enter_options_addr); \
+	iterator(ctx, kernelSymbol.pmap_mark_page_as_ppl_page); \
+	iterator(ctx, kernelSymbol.pmap_nest); \
+	iterator(ctx, kernelSymbol.pmap_remove_options); \
+	iterator(ctx, kernelSymbol.pmap_set_nested); \
+	iterator(ctx, kernelSymbol.hw_lck_ticket_reserve_orig_allow_invalid); \
+	iterator(ctx, kernelSymbol.exception_return); \
 	iterator(ctx, kernelSymbol.mac_label_set); \
 	\
-    iterator(ctx, kernelSymbol.perfmon_devices); \
-    iterator(ctx, kernelSymbol.cdevsw); \
-    iterator(ctx, kernelSymbol.allproc); \
-    iterator(ctx, kernelSymbol.gPhysBase); \
-    iterator(ctx, kernelSymbol.gPhysSize); \
-    iterator(ctx, kernelSymbol.gVirtBase); \
-    iterator(ctx, kernelSymbol.cpu_ttep); \
-    iterator(ctx, kernelSymbol.ptov_table); \
-    iterator(ctx, kernelSymbol.vm_first_phys); \
-    iterator(ctx, kernelSymbol.vm_first_phys_ppnum); \
-    iterator(ctx, kernelSymbol.vm_last_phys); \
-    iterator(ctx, kernelSymbol.pv_head_table); \
-    iterator(ctx, kernelSymbol.pp_attr_table); \
-    iterator(ctx, kernelSymbol.vm_page_array_beginning_addr); \
-    iterator(ctx, kernelSymbol.vm_page_array_ending_addr); \
-    iterator(ctx, kernelSymbol.pmap_image4_trust_caches); \
-    iterator(ctx, kernelSymbol.ppl_trust_cache_rt); \
-    iterator(ctx, kernelSymbol.mach_kobj_count);
+	iterator(ctx, kernelSymbol.perfmon_devices); \
+	iterator(ctx, kernelSymbol.cdevsw); \
+	iterator(ctx, kernelSymbol.allproc); \
+	iterator(ctx, kernelSymbol.gPhysBase); \
+	iterator(ctx, kernelSymbol.gPhysSize); \
+	iterator(ctx, kernelSymbol.gVirtBase); \
+	iterator(ctx, kernelSymbol.cpu_ttep); \
+	iterator(ctx, kernelSymbol.ptov_table); \
+	iterator(ctx, kernelSymbol.vm_first_phys); \
+	iterator(ctx, kernelSymbol.vm_first_phys_ppnum); \
+	iterator(ctx, kernelSymbol.vm_last_phys); \
+	iterator(ctx, kernelSymbol.pv_head_table); \
+	iterator(ctx, kernelSymbol.pp_attr_table); \
+	iterator(ctx, kernelSymbol.vm_page_array_beginning_addr); \
+	iterator(ctx, kernelSymbol.vm_page_array_ending_addr); \
+	iterator(ctx, kernelSymbol.pmap_image4_trust_caches); \
+	iterator(ctx, kernelSymbol.ppl_trust_cache_rt); \
+	iterator(ctx, kernelSymbol.mach_kobj_count); \
+	iterator(ctx, kernelSymbol.developer_mode_enabled);
 
 #define KERNEL_GADGETS_ITERATE(ctx, iterator) \
-    iterator(ctx, kernelGadget.pacda); \
-    iterator(ctx, kernelGadget.hw_lck_ticket_reserve_orig_allow_invalid_signed); \
-    iterator(ctx, kernelGadget.ldp_x0_x1_x8); \
-    iterator(ctx, kernelGadget.br_x22); \
-    iterator(ctx, kernelGadget.exception_return_after_check); \
-    iterator(ctx, kernelGadget.exception_return_after_check_no_restore); \
-    iterator(ctx, kernelGadget.str_x0_x19_ldr_x20); \
-    iterator(ctx, kernelGadget.str_x8_x9);
+	iterator(ctx, kernelGadget.pacda); \
+	iterator(ctx, kernelGadget.hw_lck_ticket_reserve_orig_allow_invalid_signed); \
+	iterator(ctx, kernelGadget.ldp_x0_x1_x8); \
+	iterator(ctx, kernelGadget.br_x22); \
+	iterator(ctx, kernelGadget.exception_return_after_check); \
+	iterator(ctx, kernelGadget.exception_return_after_check_no_restore); \
+	iterator(ctx, kernelGadget.str_x0_x19_ldr_x20); \
+	iterator(ctx, kernelGadget.str_x8_x9);
 
 #define KERNEL_STRUCTS_ITERATE(ctx, iterator) \
-    iterator(ctx, kernelStruct.proc.list_next); \
-    iterator(ctx, kernelStruct.proc.list_prev); \
-    iterator(ctx, kernelStruct.proc.task); \
-    iterator(ctx, kernelStruct.proc.pptr); \
-    iterator(ctx, kernelStruct.proc.proc_ro); \
-    iterator(ctx, kernelStruct.proc.svuid); \
-    iterator(ctx, kernelStruct.proc.svgid); \
-    iterator(ctx, kernelStruct.proc.pid); \
-    iterator(ctx, kernelStruct.proc.fd); \
-    iterator(ctx, kernelStruct.proc.flag); \
-    iterator(ctx, kernelStruct.proc.textvp); \
-    iterator(ctx, kernelStruct.proc.ucred); \
-    iterator(ctx, kernelStruct.proc.csflags); \
-    iterator(ctx, kernelStruct.proc.syscall_filter_mask); \
-    iterator(ctx, kernelStruct.proc.struct_size); \
+	iterator(ctx, kernelStruct.proc.list_next); \
+	iterator(ctx, kernelStruct.proc.list_prev); \
+	iterator(ctx, kernelStruct.proc.task); \
+	iterator(ctx, kernelStruct.proc.pptr); \
+	iterator(ctx, kernelStruct.proc.proc_ro); \
+	iterator(ctx, kernelStruct.proc.svuid); \
+	iterator(ctx, kernelStruct.proc.svgid); \
+	iterator(ctx, kernelStruct.proc.pid); \
+	iterator(ctx, kernelStruct.proc.fd); \
+	iterator(ctx, kernelStruct.proc.flag); \
+	iterator(ctx, kernelStruct.proc.textvp); \
+	iterator(ctx, kernelStruct.proc.ucred); \
+	iterator(ctx, kernelStruct.proc.csflags); \
+	iterator(ctx, kernelStruct.proc.syscall_filter_mask); \
+	iterator(ctx, kernelStruct.proc.struct_size); \
 	\
-    iterator(ctx, kernelStruct.proc_ro.exists); \
-    iterator(ctx, kernelStruct.proc_ro.ucred); \
-    iterator(ctx, kernelStruct.proc_ro.csflags); \
-    iterator(ctx, kernelStruct.proc_ro.syscall_filter_mask); \
-    iterator(ctx, kernelStruct.proc_ro.mach_trap_filter_mask); \
-    iterator(ctx, kernelStruct.proc_ro.mach_kobj_filter_mask); \
+	iterator(ctx, kernelStruct.proc_ro.exists); \
+	iterator(ctx, kernelStruct.proc_ro.ucred); \
+	iterator(ctx, kernelStruct.proc_ro.csflags); \
+	iterator(ctx, kernelStruct.proc_ro.syscall_filter_mask); \
+	iterator(ctx, kernelStruct.proc_ro.mach_trap_filter_mask); \
+	iterator(ctx, kernelStruct.proc_ro.mach_kobj_filter_mask); \
 	\
-    iterator(ctx, kernelStruct.filedesc.ofiles_start); \
+	iterator(ctx, kernelStruct.filedesc.ofiles_start); \
 	\
-    iterator(ctx, kernelStruct.ucred.uid); \
-    iterator(ctx, kernelStruct.ucred.ruid); \
-    iterator(ctx, kernelStruct.ucred.svuid); \
-    iterator(ctx, kernelStruct.ucred.groups); \
-    iterator(ctx, kernelStruct.ucred.rgid); \
-    iterator(ctx, kernelStruct.ucred.svgid); \
-    iterator(ctx, kernelStruct.ucred.label); \
+	iterator(ctx, kernelStruct.ucred.uid); \
+	iterator(ctx, kernelStruct.ucred.ruid); \
+	iterator(ctx, kernelStruct.ucred.svuid); \
+	iterator(ctx, kernelStruct.ucred.groups); \
+	iterator(ctx, kernelStruct.ucred.rgid); \
+	iterator(ctx, kernelStruct.ucred.svgid); \
+	iterator(ctx, kernelStruct.ucred.label); \
 	\
-    iterator(ctx, kernelStruct.task.map); \
-    iterator(ctx, kernelStruct.task.threads); \
-    iterator(ctx, kernelStruct.task.itk_space); \
-    iterator(ctx, kernelStruct.task.task_can_transfer_memory_ownership); \
-    iterator(ctx, kernelStruct.task.mach_trap_filter_mask); \
-    iterator(ctx, kernelStruct.task.mach_kobj_filter_mask); \
+	iterator(ctx, kernelStruct.task.map); \
+	iterator(ctx, kernelStruct.task.threads); \
+	iterator(ctx, kernelStruct.task.itk_space); \
+	iterator(ctx, kernelStruct.task.task_can_transfer_memory_ownership); \
+	iterator(ctx, kernelStruct.task.mach_trap_filter_mask); \
+	iterator(ctx, kernelStruct.task.mach_kobj_filter_mask); \
 	\
-    iterator(ctx, kernelStruct.thread.recover); \
-    iterator(ctx, kernelStruct.thread.machine_kstackptr); \
-    iterator(ctx, kernelStruct.thread.machine_CpuDatap); \
-    iterator(ctx, kernelStruct.thread.machine_contextData); \
+	iterator(ctx, kernelStruct.thread.recover); \
+	iterator(ctx, kernelStruct.thread.machine_kstackptr); \
+	iterator(ctx, kernelStruct.thread.machine_CpuDatap); \
+	iterator(ctx, kernelStruct.thread.machine_contextData); \
 	\
-    iterator(ctx, kernelStruct.ipc_space.table); \
-    iterator(ctx, kernelStruct.ipc_space.table_uses_smr); \
+	iterator(ctx, kernelStruct.ipc_space.table); \
+	iterator(ctx, kernelStruct.ipc_space.table_uses_smr); \
 	\
-    iterator(ctx, kernelStruct.ipc_entry.object); \
-    iterator(ctx, kernelStruct.ipc_entry.struct_size); \
+	iterator(ctx, kernelStruct.ipc_entry.object); \
+	iterator(ctx, kernelStruct.ipc_entry.struct_size); \
 	\
-    iterator(ctx, kernelStruct.ipc_port.kobject); \
+	iterator(ctx, kernelStruct.ipc_port.kobject); \
 	\
-    iterator(ctx, kernelStruct.vm_map.hdr); \
-    iterator(ctx, kernelStruct.vm_map.pmap); \
-    iterator(ctx, kernelStruct.vm_map.flags); \
+	iterator(ctx, kernelStruct.vm_map.hdr); \
+	iterator(ctx, kernelStruct.vm_map.pmap); \
+	iterator(ctx, kernelStruct.vm_map.flags); \
 	\
-    iterator(ctx, kernelStruct.vm_map_header.links); \
+	iterator(ctx, kernelStruct.vm_map_header.links); \
 	\
-    iterator(ctx, kernelStruct.vm_map_entry.links); \
-    iterator(ctx, kernelStruct.vm_map_entry.flags); \
+	iterator(ctx, kernelStruct.vm_map_entry.links); \
+	iterator(ctx, kernelStruct.vm_map_entry.flags); \
 	\
-    iterator(ctx, kernelStruct.vm_map_links.prev); \
-    iterator(ctx, kernelStruct.vm_map_links.next); \
-    iterator(ctx, kernelStruct.vm_map_links.min); \
-    iterator(ctx, kernelStruct.vm_map_links.max); \
+	iterator(ctx, kernelStruct.vm_map_links.prev); \
+	iterator(ctx, kernelStruct.vm_map_links.next); \
+	iterator(ctx, kernelStruct.vm_map_links.min); \
+	iterator(ctx, kernelStruct.vm_map_links.max); \
 	\
-    iterator(ctx, kernelStruct.pmap.tte); \
-    iterator(ctx, kernelStruct.pmap.ttep); \
-    iterator(ctx, kernelStruct.pmap.sw_asid); \
-    iterator(ctx, kernelStruct.pmap.wx_allowed); \
-    iterator(ctx, kernelStruct.pmap.type); \
+	iterator(ctx, kernelStruct.pmap.tte); \
+	iterator(ctx, kernelStruct.pmap.ttep); \
+	iterator(ctx, kernelStruct.pmap.sw_asid); \
+	iterator(ctx, kernelStruct.pmap.wx_allowed); \
+	iterator(ctx, kernelStruct.pmap.type); \
 	\
-    iterator(ctx, kernelStruct.pt_desc.pmap); \
-    iterator(ctx, kernelStruct.pt_desc.va); \
-    iterator(ctx, kernelStruct.pt_desc.ptd_info); \
+	iterator(ctx, kernelStruct.pt_desc.pmap); \
+	iterator(ctx, kernelStruct.pt_desc.va); \
+	iterator(ctx, kernelStruct.pt_desc.ptd_info); \
 	\
-    iterator(ctx, kernelStruct.trustcache.nextptr); \
-    iterator(ctx, kernelStruct.trustcache.prevptr); \
-    iterator(ctx, kernelStruct.trustcache.size); \
-    iterator(ctx, kernelStruct.trustcache.fileptr); \
-    iterator(ctx, kernelStruct.trustcache.struct_size);
+	iterator(ctx, kernelStruct.trustcache.nextptr); \
+	iterator(ctx, kernelStruct.trustcache.prevptr); \
+	iterator(ctx, kernelStruct.trustcache.size); \
+	iterator(ctx, kernelStruct.trustcache.fileptr); \
+	iterator(ctx, kernelStruct.trustcache.struct_size);
 
 #define SYSTEM_INFO_ITERATE(ctx, iterator) \
-    KERNEL_CONSTANTS_ITERATE(ctx, iterator); \
+	KERNEL_CONSTANTS_ITERATE(ctx, iterator); \
 	JAILBREAK_INFO_ITERATE(ctx, iterator); \
-    KERNEL_SYMBOLS_ITERATE(ctx, iterator); \
-    KERNEL_GADGETS_ITERATE(ctx, iterator); \
-    KERNEL_STRUCTS_ITERATE(ctx, iterator);
+	KERNEL_SYMBOLS_ITERATE(ctx, iterator); \
+	KERNEL_GADGETS_ITERATE(ctx, iterator); \
+	KERNEL_STRUCTS_ITERATE(ctx, iterator);
 
 static void _safe_xpc_dictionary_get_string(xpc_object_t xdict, const char *name, char **out)
 {

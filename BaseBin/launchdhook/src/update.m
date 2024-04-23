@@ -114,7 +114,7 @@ void jbupdate_update_system_info(void)
 		int r = xpf_start_with_kernel_path(kernelPath);
 		const char *error = NULL;
 		if (r == 0) {
-			const char *sets[] = {
+			char *sets[] = {
 				"translation",
 				"trustcache",
 				"sandbox",
@@ -122,14 +122,20 @@ void jbupdate_update_system_info(void)
 				"struct",
 				"physrw",
 				"perfkrw",
-				"badRecovery",
-				NULL
+				NULL,
+				NULL,
+				NULL,
 			};
-			
-			if (!xpf_set_is_supported("badRecovery")) {
-				sets[(sizeof(sets)/sizeof(sets[0]))-2] = NULL;
+
+			uint32_t idx = 7;
+			if (xpf_set_is_supported("devmode")) {
+				sets[idx++] = "devmode"; 
 			}
-			systemInfoXdict = xpf_construct_offset_dictionary(sets);
+			if (xpf_set_is_supported("badRecovery")) {
+				sets[idx++] = "badRecovery"; 
+			}
+
+			systemInfoXdict = xpf_construct_offset_dictionary((const char **)sets);
 			if (!systemInfoXdict) {
 				error = xpf_get_error();
 			}

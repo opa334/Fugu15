@@ -15,6 +15,13 @@ int jbserver_received_xpc_message(struct jbserver_impl *server, xpc_object_t xms
 	}
 	if (!domain) return -1;
 
+	audit_token_t clientToken = { 0 };
+	xpc_dictionary_get_audit_token(xmsg, &clientToken);
+
+	if (domain->permissionHandler) {
+		if (!domain->permissionHandler(clientToken)) return -2;
+	}
+
 	uint64_t actionIdx = xpc_dictionary_get_uint64(xmsg, "action");
 	if (actionIdx == 0) return -1;
 	struct jbserver_action *action = &domain->actions[0];
@@ -22,9 +29,6 @@ int jbserver_received_xpc_message(struct jbserver_impl *server, xpc_object_t xms
 		action = &domain->actions[i];
 	}
 	if (!action->handler) return -1;
-
-	audit_token_t clientToken = { 0 };
-	xpc_dictionary_get_audit_token(xmsg, &clientToken);
 
 	int (*handler)(void *a1, void *a2, void *a3, void *a4, void *a5, void *a6, void *a7, void *a8) = action->handler;
 	void *args[8] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };

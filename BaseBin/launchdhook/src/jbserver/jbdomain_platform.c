@@ -11,11 +11,11 @@ static bool platform_domain_allowed(audit_token_t clientToken)
 	return (csflags & CS_PLATFORM_BINARY);
 }
 
-static int platform_set_process_debugged(uint64_t pid)
+int platform_set_process_debugged(uint64_t pid, bool fullyDebugged)
 {
 	uint64_t proc = proc_find(pid);
 	if (!proc) return -1;
-	cs_allow_invalid(proc, true);
+	cs_allow_invalid(proc, fullyDebugged);
 	return 0;
 }
 
@@ -36,6 +36,7 @@ struct jbserver_domain gPlatformDomain = {
 			.handler = platform_set_process_debugged,
 			.args = (jbserver_arg[]){
 				{ .name = "pid", .type = JBS_TYPE_UINT64, .out = false },
+				{ .name = "fully-debugged", .type = JBS_TYPE_BOOL, .out = false },
 				{ 0 },
 			},
 		},

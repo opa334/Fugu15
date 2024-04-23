@@ -2,7 +2,7 @@
 #import <sys/types.h>
 #import <sys/stat.h>
 #import <unistd.h>
-#import "substrate.h"
+#import <substrate.h>
 #import <mach-o/dyld.h>
 #import <libjailbreak/libjailbreak.h>
 #import <Foundation/Foundation.h>

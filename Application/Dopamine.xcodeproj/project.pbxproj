@@ -284,6 +284,7 @@
 		04DD0B462B7CBEEA0055DE4F /* DOTheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOTheme.m; sourceTree = "<group>"; };
 		04DD0B5A2B7D19E60055DE4F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		04DD0B5C2B7D1A210055DE4F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		04DD0B5D2B7D1A210055DE4F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8C029F412B4DFD5D0071DE58 /* DOExploitManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOExploitManager.h; sourceTree = "<group>"; };
 		8C029F422B4DFD5D0071DE58 /* DOExploitManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOExploitManager.m; sourceTree = "<group>"; };
 		8C029F442B4DFD910071DE58 /* DOBootstrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOBootstrapper.h; sourceTree = "<group>"; };
@@ -375,6 +376,7 @@
 		8CDD08422B4F6DD800A32B61 /* libjailbreak.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjailbreak.dylib; path = ../BaseBin/.build/libjailbreak.dylib; sourceTree = "<group>"; };
 		8CDD08432B4F6DD800A32B61 /* libchoma.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libchoma.dylib; path = ../BaseBin/.build/libchoma.dylib; sourceTree = "<group>"; };
 		8CDD08442B4F6DD800A32B61 /* libxpf.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxpf.dylib; path = ../BaseBin/.build/libxpf.dylib; sourceTree = "<group>"; };
+		C075B0CB2B8F2BCE009A26BB /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1002,6 +1004,7 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
 				fr,
 				de,
 				ar,
@@ -1025,6 +1028,7 @@
 				"zh-Hans",
 				"zh-TW",
 				"zh-CN",
+				th,
 			);
 			mainGroup = 8C71980C2ABF0E82003C6658;
 			packageReferences = (
@@ -1263,6 +1267,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				04DD0B5A2B7D19E60055DE4F /* en */,
+				04DD0B5D2B7D1A210055DE4F /* es */,
 				04DD0B5C2B7D1A210055DE4F /* fr */,
 				049D52042B7E7C1D00389436 /* ar */,
 				049D52052B7E7C2500389436 /* da */,
@@ -1286,6 +1291,7 @@
 				049D521C2B7E7EB300389436 /* zh-Hans */,
 				049D521D2B7E7EDA00389436 /* zh-TW */,
 				049D521E2B7E7F1C00389436 /* zh-CN */,
+				C075B0CB2B8F2BCE009A26BB /* th */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1600,7 +1606,7 @@
 					"$(PROJECT_DIR)/Dopamine/Dependencies",
 					"$(PROJECT_DIR)/Dopamine/Resources",
 				);
-				MARKETING_VERSION = 2.0.8;
+				MARKETING_VERSION = 2.0.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.opa334.Dopamine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1637,7 +1643,7 @@
 					"$(PROJECT_DIR)/Dopamine/Dependencies",
 					"$(PROJECT_DIR)/Dopamine/Resources",
 				);
-				MARKETING_VERSION = 2.0.8;
+				MARKETING_VERSION = 2.0.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.opa334.Dopamine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

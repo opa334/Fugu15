@@ -3,13 +3,14 @@
 #include "boomerang.h"
 #include "crashreporter.h"
 #include "update.h"
-#include "substrate.h"
+#include <substrate.h>
 #include <mach-o/dyld.h>
 #include <sys/param.h>
 #include <sys/mount.h>
 extern char **environ;
 
 extern int systemwide_trust_binary(const char *binaryPath);
+extern int platform_set_process_debugged(uint64_t pid, bool fullyDebugged);
 
 #define LOG_PROCESS_LAUNCHES 0
 
@@ -126,7 +127,7 @@ int posix_spawn_hook(pid_t *restrict pid, const char *restrict path,
 		}
 	}
 
-	return spawn_hook_common(pid, path, file_actions, attrp, argv, envp, posix_spawn_orig_wrapper, systemwide_trust_binary);
+	return spawn_hook_common(pid, path, file_actions, attrp, argv, envp, posix_spawn_orig_wrapper, systemwide_trust_binary, platform_set_process_debugged);
 }
 
 void initSpawnHooks(void)

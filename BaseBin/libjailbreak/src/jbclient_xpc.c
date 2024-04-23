@@ -172,7 +172,7 @@ char *realafpath(const char *restrict path, char *restrict resolved_path)
 		// Running realpath on stuff in /var/jb or on rootfs causes some processes, on some devices, to crash
 		// If it starts with /, it's not a relative path and we can skip calling realpath on it
 		// We only care about resolving relative paths, so we can skip anything that doesn't look like one
-		// As a side effect, we also ignore loader relative paths that start with (@rpath/@executable_path/@loader_path)
+		// Additionally, we also ignore loader relative paths that start with (@rpath/@executable_path/@loader_path)
 		if (!resolved_path) {
 			resolved_path = malloc(PATH_MAX);
 		}
@@ -273,10 +273,11 @@ int jbclient_cs_revalidate(void)
 	return -1;
 }
 
-int jbclient_platform_set_process_debugged(uint64_t pid)
+int jbclient_platform_set_process_debugged(uint64_t pid, bool fullyDebugged)
 {
 	xpc_object_t xargs = xpc_dictionary_create_empty();
 	xpc_dictionary_set_uint64(xargs, "pid", pid);
+	xpc_dictionary_set_bool(xargs, "fully-debugged", fullyDebugged);
 	xpc_object_t xreply = jbserver_xpc_send(JBS_DOMAIN_PLATFORM, JBS_PLATFORM_SET_PROCESS_DEBUGGED, xargs);
 	xpc_release(xargs);
 	if (xreply) {

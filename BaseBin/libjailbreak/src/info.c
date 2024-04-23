@@ -50,7 +50,7 @@ void jbinfo_initialize_hardcoded_offsets(void)
 		}
 	}
 #endif
-    
+
 	// proc
 	gSystemInfo.kernelStruct.proc.list_next =  0x0;
 	gSystemInfo.kernelStruct.proc.list_prev =  0x8;
@@ -88,7 +88,7 @@ void jbinfo_initialize_hardcoded_offsets(void)
 	gSystemInfo.kernelStruct.pmap.wx_allowed = 0;
 	gSystemInfo.kernelStruct.pmap.type       = 0x9c + pmapA11Adjust;
 #endif
-    
+
 	// pt_desc
 	gSystemInfo.kernelStruct.pt_desc.pmap     = 0x10;
 	gSystemInfo.kernelStruct.pt_desc.va       = 0x18;
@@ -133,7 +133,7 @@ void jbinfo_initialize_hardcoded_offsets(void)
 #else
 		gSystemInfo.kernelStruct.task.task_can_transfer_memory_ownership = 0x590;
 #endif
-        
+
 		// ipc_port
 		gSystemInfo.kernelStruct.ipc_port.kobject = 0x58;
 

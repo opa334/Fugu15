@@ -14,8 +14,7 @@ MachO *ljb_fat_find_preferred_slice(FAT *fat)
 	
 	MachO *candidateSlice = NULL;
 
-	if (cpusubtype == CPU_SUBTYPE_ARM64E)
-	{
+	if (cpusubtype == CPU_SUBTYPE_ARM64E) {
 		// New arm64e ABI
 		candidateSlice = fat_find_slice(fat, cputype, CPU_SUBTYPE_ARM64E | CPU_SUBTYPE_ARM64E_ABI_V2);
 		if (!candidateSlice) {

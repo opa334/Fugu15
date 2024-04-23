@@ -34,7 +34,6 @@ uint64_t proc_self(void)
 	static uint64_t gSelfProc = 0;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		bool needsRelease = false;
 		gSelfProc = proc_find(getpid());
 		// decrement ref count again, we assume proc_self will exist for the whole lifetime of this process
 		proc_rele(gSelfProc);

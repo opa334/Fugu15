@@ -363,7 +363,7 @@ int trustcache_file_build_from_path(const char *filePath, trustcache_file_v1 **t
 	return 0;
 }
 
-bool is_cdhash_in_trustcache(uint64_t tcKaddr, cdhash_t CDHash)
+bool trustcache_contains_cdhash(uint64_t tcKaddr, cdhash_t CDHash)
 {
 	uint64_t tcFileKaddr = kread64(tcKaddr + koffsetof(trustcache, fileptr));
 	uint32_t length = kread32(tcFileKaddr + offsetof(trustcache_file_v1, length));
@@ -393,7 +393,7 @@ bool is_cdhash_trustcached(cdhash_t CDHash)
 {
 	__block bool inTrustCache = false;
 	_trustcache_list_enumerate(^(uint64_t tcKaddr, bool *stop) {
-		bool inThisTrustCache = is_cdhash_in_trustcache(tcKaddr, CDHash);
+		bool inThisTrustCache = trustcache_contains_cdhash(tcKaddr, CDHash);
 		if (inThisTrustCache) {
 			inTrustCache = true;
 			*stop = true;

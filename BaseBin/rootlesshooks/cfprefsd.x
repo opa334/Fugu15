@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "substrate.h"
-
+#import <substrate.h>
 
 BOOL preferencePlistNeedsRedirection(NSString *plistPath)
 {
@@ -38,11 +37,8 @@ BOOL preferencePlistNeedsRedirection(NSString *plistPath)
 	return ![additionalSystemPlistNames containsObject:plistName];
 }
 
-
-BOOL (*orig_CFPrefsGetPathForTriplet)(CFStringRef, CFStringRef, BOOL, CFStringRef, UInt8*);
-BOOL new_CFPrefsGetPathForTriplet(CFStringRef bundleIdentifier, CFStringRef user, BOOL byHost, CFStringRef path, UInt8 *buffer)
-{
-	BOOL orig = orig_CFPrefsGetPathForTriplet(bundleIdentifier, user, byHost, path, buffer);
+%hookf(BOOL, CFPrefsGetPathForTriplet, CFStringRef bundleIdentifier, CFStringRef user, BOOL byHost, CFStringRef path, UInt8 *buffer) {
+	BOOL orig = %orig(bundleIdentifier, user, byHost, path, buffer);
 
 	if(orig && buffer && !access("/var/jb", F_OK))
 	{
@@ -60,12 +56,8 @@ BOOL new_CFPrefsGetPathForTriplet(CFStringRef bundleIdentifier, CFStringRef user
 
 void cfprefsdInit(void)
 {
-	MSImageRef coreFoundationImage = MSGetImageByName("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation");
-	void* CFPrefsGetPathForTriplet_ptr = MSFindSymbol(coreFoundationImage, "__CFPrefsGetPathForTriplet");
-	if(CFPrefsGetPathForTriplet_ptr)
-	{
-		MSHookFunction(CFPrefsGetPathForTriplet_ptr, (void *)&new_CFPrefsGetPathForTriplet, (void **)&orig_CFPrefsGetPathForTriplet);
+	MSImageRef cfImg = MSGetImageByName("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation");
+	if (cfImg) {
+		%init(CFPrefsGetPathForTriplet = MSFindSymbol(cfImg, "__CFPrefsGetPathForTriplet"));
 	}
-
-	%init();
 }

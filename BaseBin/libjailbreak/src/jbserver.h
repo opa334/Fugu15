@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <xpc/xpc.h>
+#include <xpc_private.h>
 
 typedef enum {
     JBS_TYPE_BOOL,
@@ -28,7 +29,7 @@ struct jbserver_action {
 };
 
 struct jbserver_domain {
-    void *permissionHandler;
+    bool (*permissionHandler)(audit_token_t);
     struct jbserver_action actions[];  // Flexible array member moved to the end
 };
 

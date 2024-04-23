@@ -195,23 +195,7 @@ kBinaryConfig configForBinary(const char* path, char *const argv[restrict])
 		if (argv) {
 			if (argv[0]) {
 				if (argv[1]) {
-					if (!strcmp(argv[1], "com.apple.ReportCrash")) {
-						// Skip ReportCrash too as it might need to execute while jailbreakd is in a crashed state
-						return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
-					}
-					else if (!strcmp(argv[1], "com.apple.ReportMemoryException")) {
-						// Skip ReportMemoryException too as it might need to execute while jailbreakd is in a crashed state
-						return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
-					}
-					else if (!strcmp(argv[1], "com.apple.logd")   ||
-							 !strcmp(argv[1], "com.apple.notifyd") ||
-							 !strcmp(argv[1], "com.apple.mobile.usermanagerd")) {
-						// These seem to be problematic on iOS 16+ (dyld gets stuck in a weird way)
-						if (__builtin_available(iOS 16.0, *)) {
-							return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
-						}
-					}
-					else if (stringStartsWith(argv[1], "com.apple.WebKit.WebContent")) {
+					if (stringStartsWith(argv[1], "com.apple.WebKit.WebContent")) {
 						// The most sandboxed process on the system, we can't support it on iOS 16+ for now
 						if (__builtin_available(iOS 16.0, *)) {
 							return (kBinaryConfigDontInject | kBinaryConfigDontProcess);
@@ -239,8 +223,9 @@ kBinaryConfig configForBinary(const char* path, char *const argv[restrict])
 	return 0;
 }
 
-// 1. Make sure the about to be spawned binary and all of it's dependencies are trust cached
+// 1. Ensure the binary about to be spawned and all of it's dependencies are trust cached
 // 2. Insert "DYLD_INSERT_LIBRARIES=/usr/lib/systemhook.dylib" into all binaries spawned
+// 3. Increase Jetsam limit to more sane value (Multipler defined as JETSAM_MULTIPLIER)
 
 int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 					   const posix_spawn_file_actions_t *restrict file_actions,
@@ -248,7 +233,8 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 					   char *const argv[restrict],
 					   char *const envp[restrict],
 					   void *orig,
-					   int (*trust_binary)(const char *))
+					   int (*trust_binary)(const char *),
+					   int (*set_process_debugged)(uint64_t pid, bool fullyDebugged))
 {
 	int (*pspawn_orig)(pid_t *restrict, const char *restrict, const posix_spawn_file_actions_t *restrict, const posix_spawnattr_t *restrict, char *const[restrict], char *const[restrict]) = orig;
 	if (!path) {
@@ -258,7 +244,7 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 	kBinaryConfig binaryConfig = configForBinary(path, argv);
 
 	if (!(binaryConfig & kBinaryConfigDontProcess)) {
-		// jailbreakd: Upload binary to trustcache if needed
+		// Upload binary to trustcache if needed
 		trust_binary(path);
 	}
 
@@ -386,9 +372,11 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 		}
 	}
 
+	int retval = -1;
+
 	if ((shouldInsertJBEnv && JBEnvAlreadyInsertedCount == 1) || (!shouldInsertJBEnv && JBEnvAlreadyInsertedCount == 0 && !hasSafeModeVariable)) {
 		// we're already good, just call orig
-		return pspawn_orig(pid, path, file_actions, attrp, argv, envp);
+		retval = pspawn_orig(pid, path, file_actions, attrp, argv, envp);
 	}
 	else {
 		// the state we want to be in is not the state we are in right now
@@ -437,8 +425,21 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 			envbuf_unsetenv(&envc, "_MSSafeMode");
 		}
 
-		int retval = pspawn_orig(pid, path, file_actions, attrp, argv, envc);
+		retval = pspawn_orig(pid, path, file_actions, attrp, argv, envc);
 		envbuf_free(envc);
-		return retval;
 	}
+
+	if (retval == 0 && attrp != NULL && pid != NULL) {
+		short flags = 0;
+		if (posix_spawnattr_getflags(attrp, &flags) == 0) {
+			if (flags & POSIX_SPAWN_START_SUSPENDED) {
+				// If something spawns a process as suspended, ensure mapping invalid pages in it is possible
+				// Normally it would only be possible after systemhook.dylib enables it
+				// Fixes Frida issues
+				int r = set_process_debugged(*pid, false);
+			}
+		}
+	}
+
+	return retval;
 }

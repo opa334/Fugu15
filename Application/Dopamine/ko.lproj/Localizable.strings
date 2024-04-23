@@ -1,19 +1,19 @@
-"Credits_Made_By" = "opa334, évelyne에 의해서 개발됨";
+"Credits_Made_By" = "by opa334, ElleKit by évelyne";
 
 // Log
-"Status_Title_Jailbreaking" = "탈옥하는 중";
+"Status_Title_Jailbreaking" = "탈옥 중";
 "Log_Error" = "실패";
 
 // Jailbreak Button
 "Button_Jailbreak_Title" = "탈옥";
-"Status_Title_Jailbroken" = "탈옥 되어있습니다";
-/*Unsupported*/
+"Status_Title_Jailbroken" = "탈옥 되었습니다";
+"Unsupported" = "지원되지 않음";
 
 // Action Menu
 "Menu_Settings_Title" = "설정";
 "Menu_Restart_SpringBoard_Title" = "SpringBoard 재시작";
 "Menu_Reboot_Userspace_Title" = "Userspace 재시작";
-"Menu_Credits_Title" = "이 앱에 대하여";
+"Menu_Credits_Title" = "크레딧";
 
 // Updating
 "Button_Update" = "업데이트";
@@ -24,60 +24,60 @@
 "Update_Status_Downloading" = "업데이트 다운로드 중...";
 "Update_Status_Subtitle_Please_Wait" = "파일 다운로드가 완료되는 동안 기다려 주십시오.";
 "Update_Status_Installing" = "업데이트 설치 중...";
-"Update_Status_Subtitle_Restart_Soon" = "잠시 후 기기가 재시작합니다.";
+"Update_Status_Subtitle_Restart_Soon" = "잠시 후 기기가 재시작됩니다.";
 "Title_Changelog" = "변경 로그";
 "Changelog_Unavailable_Text" = "변경 로그 없음";
 
 // Removed Jailbreak Alert
-/*Removed_Jailbreak_Alert_Title*/
-/*Removed_Jailbreak_Alert_Message*/
-/*Button_Close*/
+"Removed_Jailbreak_Alert_Title" = "탈옥이 제거되었습니다.";
+"Removed_Jailbreak_Alert_Message" = "탈옥을 성공적으로 제거했습니다. 재시작이 권장됩니다.";
+"Button_Close" = "닫기";
 
 // Error View
-/*Button_Share*/
-/*Button_Reboot*/
+"Button_Share" = "공유";
+"Button_Reboot" = "재시작";
 
 // Settings Toggles
-"Settings_Tweak_Injection" = "트윅 추가";
+"Settings_Tweak_Injection" = "트윅 주입";
 "Settings_iDownload" = "iDownload (개발자 터미널)";
 "Settings_Verbose_Logs" = "로그";
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "탈옥 제거";
-"Button_Hide_Jailbreak" = "탈옥 감지 우회";
-"Button_Unhide_Jailbreak" = "탈옥 감지 우회 취소";
-/*Button_Refresh_Jailbreak_Apps*/
+"Button_Hide_Jailbreak" = "탈옥 숨기기";
+"Button_Unhide_Jailbreak" = "탈옥 숨기기 취소";
+"Button_Refresh_Jailbreak_Apps" = "탈옥 앱 새로고침";
 "Button_Reinstall_Package_Managers" = "패키지 매니저 재설치";
 
 // Settings Hints
-"Hint_Hide_Jailbreak" = "\"탈옥감지 우회\" 다음 탈옥까지 일시적으로 탈옥 관련 파일을 제거합니다";
-"Hint_Hide_Jailbreak_Jailbroken" = "\"탈옥 숨기기\"는 탈옥 기능을 부분적으로 비활성화 해 탐지를 더 어렵게 만드는 것을 목표로 합니다. 그러나, 모두 우회가 되는건 아니며 모든 것을 숨기는 것은 아닙니다.";
-/*Section_Jailbreak_Settings*/
-/*Section_Actions*/
-/*Section_Customization*/
-/*Section_Exploits*/
+"Hint_Hide_Jailbreak" = "\"탈옥 숨기기\"는 다음 탈옥까지 일시적으로 탈옥 관련 파일을 제거합니다.";
+"Hint_Hide_Jailbreak_Jailbroken" = "\"탈옥 숨기기\"는 탈옥기능을 부분적으로 비활성화해 탐지를 더 어렵게 만드는 것을 목표로 합니다. 그러나, 모두 우회가 되는건 아니며 모든 것을 숨기는 것은 아닙니다.";
+"Section_Jailbreak_Settings" = "탈옥 설정";
+"Section_Actions" = "동작";
+"Section_Customization" = "커스텀";
+"Section_Exploits" = "익스플로잇";
 
 // Settings Alerts
-/*Alert_Tweak_Injection_Toggled_Title*/
-"Alert_Tweak_Injection_Toggled_Body" = "변경 사항을 적용하려면 Userspace 재부팅이 필요합니다. 지금 하시겠습니까?";
-/*Alert_Tweak_Injection_Toggled_Reboot_Now*/
-/*Alert_Tweak_Injection_Toggled_Reboot_Later*/
+"Alert_Tweak_Injection_Toggled_Title" = "Userspace 재시작이 필요합니다.";
+"Alert_Tweak_Injection_Toggled_Body" = "변경 사항을 적용하려면 Userspace 재시작이 필요합니다. 지금 하시겠습니까?";
+"Alert_Tweak_Injection_Toggled_Reboot_Now" = "지금 재시작";
+"Alert_Tweak_Injection_Toggled_Reboot_Later" = "나중에";
 "Alert_Remove_Jailbreak_Title" = "탈옥 제거";
-"Alert_Remove_Jailbreak_Pressed_Body" = "탈옥을 제거하면 탈옥 관련 파일은 모두 삭제되지만 일반 앱, 파일 및 데이터는 모두 보관됩니다. 계속하시겠습니까? 이 작업을 되돌릴 수 없습니다.";
-/*Alert_Remove_Jailbreak_Enabled_Body*/
+"Alert_Remove_Jailbreak_Pressed_Body" = "탈옥을 제거하면 탈옥 관련 파일은 모두 삭제되지만 일반 앱, 파일 및 데이터는 모두 유지됩니다. 계속하시겠습니까? 이 작업은 돌이킬 수 없습니다.";
+"Alert_Remove_Jailbreak_Enabled_Body" = "\"탈옥 제거\"를 활성화하면 다음 탈옥 시 모든 탈옥 관련 파일이 삭제되지만, 모든 일반 앱, 파일 및 데이터는 유지됩니다. 계속하시겠습니까? 이 작업은 돌이킬 수 없습니다.";
 "Button_Cancel" = "취소";
-/*Button_Continue*/
+"Button_Continue" = "계속";
 
 // Duplicate Apps Errors
-/*Duplicate_Apps_Error_Dopamine_App*/
-/*Duplicate_Apps_Error_User_App*/
-/*Duplicate_Apps_Error_Icon_Cache*/
+"Duplicate_Apps_Error_Dopamine_App" = "Dopamine 애플리케이션 디렉터리(\"%@\") 내에 동일한 식별자를 가진 여러 앱이 있습니다. 계속할 수 없습니다.";
+"Duplicate_Apps_Error_User_App" = "Dopamine 애플리케이션 디렉터리(\"%@\")에는 식별자 %@가 있는 앱이 존재하지만, 시스템에 별도로 설치되어 있습니다. 계속할 수 없습니다.";
+"Duplicate_Apps_Error_Icon_Cache" = "Dopamine 애플리케이션 디렉터리(\"%@\")에는 식별자 \"%@\가 있는 앱이 존재하지만, 다른 경로(\"%@\")에 아이콘 캐시에 등록되어 있습니다. 계속할 수 없습니다.";
 
 // Settings Lists
-/*Theme*/
-/*Kernel Exploit*/
-/*PPL Bypass*/
-/*PAC Bypass*/
+"Theme" = "테마";
+"Kernel Exploit" = "커널 익스플로잇";
+"PPL Bypass" = "PPL 우회";
+"PAC Bypass" = "PAC 우회";
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -86,20 +86,20 @@
 
 // Logs
 "Initializing Environment" = "환경 초기화 중";
-/*Loading BaseBin TrustCache*/
-/*Applying Bind Mount*/
-/*Removing Jailbreak*/
-/*Elevating Privileges*/
-/*Cleaning Up Exploits*/
-/*Building Phys R/W Primitive*/
-/*Rebooting Userspace*/
+"Loading BaseBin TrustCache" = "배이스 바이너리 신뢰 캐시 불러오기";
+"Applying Bind Mount" = "바인드 마운트 적용";
+"Removing Jailbreak" = "탈옥 제거";
+"Elevating Privileges" = "권한 상승";
+"Cleaning Up Exploits" = "익스플로잇 정리";
+"Building Phys R/W Primitive" = "읽기/쓰기 도구 생성";
+"Rebooting Userspace" = "Userspace 재시작";
 "Patchfinding" = "패치파인딩";
-/*Exploiting Kernel (%@)*/
-/*Bypassing PAC (%@)*/
-/*Bypassing PPL (%@)*/
+"Exploiting Kernel (%@)" = "커널 악용 (%@)";
+"Bypassing PAC (%@)" = "PAC 우회 (%@)";
+"Bypassing PPL (%@)" = "PPL 우회 (%@)";
 
 // Package Manager selection
-"Status_Title_Select_Package_Managers" = "패키지 매니저 선텍";
+"Status_Title_Select_Package_Managers" = "패키지 매니저 선택";
 "Select_Package_Managers_Install_Message" = "어떤 것을 선택할지 확실하지 않은 경우 Sileo를 선택하세요.";
 "Continue" = "계속";
 
