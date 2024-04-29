@@ -334,7 +334,10 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
 - (NSString *)bootstrapVersion
 {
     uint64_t cfver = (((uint64_t)kCFCoreFoundationVersionNumber / 100) * 100);
-    if (cfver >= 2000) {
+    if (cfver == 2000) {
+        cfver -= 100;
+    }
+    if (cfver > 2000) {
         return nil;
     }
     return [NSString stringWithFormat:@"%llu", cfver];

@@ -238,6 +238,9 @@ void jbinfo_initialize_hardcoded_offsets(void)
 										gSystemInfo.kernelStruct.proc.textvp  = 0x350;
 									}
 								}
+                                if (strcmp(xnuVersion, "23.0") == 0) {
+                                    gSystemInfo.kernelStruct.task.threads     = 0x58;
+                                }
 							}
 						}
 					}
