@@ -8,6 +8,40 @@
 
 SInt32 CFUserNotificationDisplayAlert(CFTimeInterval timeout, CFOptionFlags flags, CFURLRef iconURL, CFURLRef soundURL, CFURLRef localizationURL, CFStringRef alertHeader, CFStringRef alertMessage, CFStringRef defaultButtonTitle, CFStringRef alternateButtonTitle, CFStringRef otherButtonTitle, CFOptionFlags *responseFlags) API_AVAILABLE(ios(3.0));
 
+void execute_unsandboxed(void (^block)(void))
+{
+	uint64_t credBackup = 0;
+	jbclient_root_steal_ucred(0, &credBackup);
+	block();
+	jbclient_root_steal_ucred(credBackup, NULL);
+}
+
+int mount_unsandboxed(const char *type, const char *dir, int flags, void *data)
+{
+	__block int r = 0;
+	execute_unsandboxed(^{
+		r = mount(type, dir, flags, data);
+	});
+	return r;
+}
+
+void ensureProtected(const char *path)
+{
+	struct statfs sb;
+	statfs(path, &sb);
+	if (strcmp(path, sb.f_mntonname) != 0) {
+		mount_unsandboxed("bindfs", path, 0, (void *)path);
+	}
+}
+
+void ensureProtectionActive(void)
+{
+	// Protect /private/preboot/UUID/<System, usr> from being modified by bind mounting them on top of themselves
+	// This protects dumb users from accidentally deleting these, which would induce a recovery loop after rebooting
+	ensureProtected(prebootUUIDPath("/System"));
+	ensureProtected(prebootUUIDPath("/usr"));
+}
+
 int jbctl_handle_internal(const char *command, int argc, char* argv[])
 {
 	if (!strcmp(command, "launchd_stash_port")) {
@@ -51,6 +85,10 @@ int jbctl_handle_internal(const char *command, int argc, char* argv[])
 		mach_port_deallocate(mach_task_self(), launchdTaskPort);
 		return 0;
 	}
+	else if (!strcmp(command, "protection_init")) {
+		ensureProtectionActive();
+		return 0;
+	}
 	else if (!strcmp(command, "fakelib_init")) {
 		NSString *basebinPath = NSJBRootPath(@"/basebin");
 		NSString *fakelibPath = NSJBRootPath(@"/basebin/.fakelib");
@@ -79,22 +117,11 @@ int jbctl_handle_internal(const char *command, int argc, char* argv[])
 		return 0;
 	}
 	else if (!strcmp(command, "fakelib_mount")) {
-		int ret = 10;
-		// Mount fakelib on top of /usr/lib
-		printf("Getting kernel ucred...\n");
-		uint64_t orgUcred = 0;
-		if (jbclient_root_steal_ucred(0, &orgUcred) == 0) {
-			// Here we steal the kernel ucred
-			// This allows us to mount to paths that would otherwise be restricted by sandbox
-			printf("Applying mount...\n");
-			ret = mount("bindfs", "/usr/lib", MNT_RDONLY, (void *)JBRootPath("/basebin/.fakelib"));
-			// revert
-			printf("Dropping kernel ucred...\n");
-			jbclient_root_steal_ucred(orgUcred, NULL);
-		}
-		return ret;
+		printf("Applying mount...\n");
+		return mount_unsandboxed("bindfs", "/usr/lib", MNT_RDONLY, (void *)JBRootPath("/basebin/.fakelib"));
 	}
 	else if (!strcmp(command, "startup")) {
+		ensureProtectionActive();
 		char *panicMessage = NULL;
 		if (jbclient_watchdog_get_last_userspace_panic(&panicMessage) == 0) {
 			NSString *printMessage = [NSString stringWithFormat:@"Dopamine has protected you from a userspace panic by temporarily disabling tweak injection and triggering a userspace reboot instead. A log is available under Analytics in the Preferences app. You can reenable tweak injection in the Dopamine app.\n\nPanic message: \n%s", panicMessage];
@@ -107,7 +134,7 @@ int jbctl_handle_internal(const char *command, int argc, char* argv[])
 		if (argc > 1) {
 			extern char **environ;
 			char *dpkg = JBRootPath("/usr/bin/dpkg");
-			int r = execve(dpkg, (const char *[]){dpkg, "-i", argv[1], NULL}, environ);
+			int r = execve(dpkg, (char *const *)(const char *[]){dpkg, "-i", argv[1], NULL}, environ);
 			return r;
 		}
 		return -1;

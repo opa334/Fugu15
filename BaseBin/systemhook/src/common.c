@@ -223,8 +223,9 @@ kBinaryConfig configForBinary(const char* path, char *const argv[restrict])
 	return 0;
 }
 
-// 1. Make sure the about to be spawned binary and all of it's dependencies are trust cached
+// 1. Ensure the binary about to be spawned and all of it's dependencies are trust cached
 // 2. Insert "DYLD_INSERT_LIBRARIES=/usr/lib/systemhook.dylib" into all binaries spawned
+// 3. Increase Jetsam limit to more sane value (Multipler defined as JETSAM_MULTIPLIER)
 
 int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 					   const posix_spawn_file_actions_t *restrict file_actions,
@@ -243,7 +244,7 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 	kBinaryConfig binaryConfig = configForBinary(path, argv);
 
 	if (!(binaryConfig & kBinaryConfigDontProcess)) {
-		// jailbreakd: Upload binary to trustcache if needed
+		// Upload binary to trustcache if needed
 		trust_binary(path);
 	}
 

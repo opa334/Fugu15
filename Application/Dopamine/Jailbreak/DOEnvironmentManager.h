@@ -44,6 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)rebootUserspace;
 - (void)refreshJailbreakApps;
 - (void)reboot;
+- (void)changeMobilePassword:(NSString *)newPassword;
 - (NSError*)updateEnvironment;
 - (void)updateJailbreakFromTIPA:(NSString *)tipaPath;
 

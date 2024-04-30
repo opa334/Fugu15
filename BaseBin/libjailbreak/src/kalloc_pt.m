@@ -16,7 +16,7 @@ int kalloc_global_pt(uint64_t *kaddrOut, uint64_t size)
 	@autoreleasepool {
 		if (!kaddrOut) return -1;
 		if (size == 0) return -1;
-		if (size > PAGE_SIZE) return -1; // nope
+		if (size > vm_real_kernel_page_size) return -1; // nope
 		
 		if (gPool.count) {
 			NSNumber *poolAllocation = gPool[0];

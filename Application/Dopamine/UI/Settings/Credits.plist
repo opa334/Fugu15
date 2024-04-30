@@ -181,6 +181,24 @@
 				</dict>
 				<dict>
 					<key>name</key>
+					<string>John Aakerblom</string>
+					<key>link</key>
+					<string>https://twitter.com/jaakerblom</string>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>potmdehex</string>
+					<key>link</key>
+					<string>https://github.com/potmdehex</string>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>_simo36</string>
+					<key>link</key>
+					<string>https://twitter.com/_simo36</string>
+				</dict>
+				<dict>
+					<key>name</key>
 					<string>0x7ff</string>
 					<key>link</key>
 					<string>https://github.com/0x7ff</string>
@@ -214,6 +232,12 @@
 					<string>Capt Inc</string>
 					<key>link</key>
 					<string>https://github.com/captinc</string>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>Nick Chan</string>
+					<key>link</key>
+					<string>https://github.com/asdfugil</string>
 				</dict>
 				<dict>
 					<key>name</key>

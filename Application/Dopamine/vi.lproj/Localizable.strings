@@ -41,6 +41,7 @@
 "Settings_Tweak_Injection" = "Cho phép chạy Tweak";
 "Settings_iDownload" = "iDownload (nhà phát triển)";
 "Settings_Verbose_Logs" = "Hiện Log dạng phức tạp";
+/*Settings_Apps_JIT*/
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "Gỡ Jailbreak";
@@ -48,6 +49,7 @@
 "Button_Unhide_Jailbreak" = "Bỏ ẩn Jailbreak";
 "Button_Refresh_Jailbreak_Apps" = "Làm mới các app Jailbreak";
 "Button_Reinstall_Package_Managers" = "Cài lại các trình quản lý gói";
+/*Button_Change_Mobile_Password*/
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "Tùy chọn \"Ẩn Jailbreak\" sẽ tạm thời xóa các tệp liên quan đến jailbreak và khôi phục lại các tệp này khi bạn jailbreak vào lần tới.";
@@ -65,6 +67,10 @@
 "Alert_Remove_Jailbreak_Title" = "Gỡ bỏ Jailbreak";
 "Alert_Remove_Jailbreak_Pressed_Body" = "Việc gỡ bỏ jailbreak sẽ xóa toàn bộ các tệp liên quan đến jailbreak. Các ứng dụng, tệp và dữ liệu thông thường sẽ vẫn được giữ nguyên. Bạn sẽ không thể hoàn tác việc gỡ jailbreak sau khi nhấn \"Tiếp tục\".";
 "Alert_Remove_Jailbreak_Enabled_Body" = "Tùy chọn \"Gỡ Jailbreak\" sẽ xóa toàn bộ các tệp liên quan đến jailbreak khi bạn thực hiện jailbreak vào lần tới. Các ứng dụng, tệp và dữ liệu thông thường sẽ vẫn được giữ nguyên. Bạn sẽ không thể hoàn tác việc gỡ jailbreak sau khi nhấn \"Tiếp tục\".";
+/*Alert_Change_Mobile_Password_Body*/
+/*Password_Placeholder*/
+/*Repeat_Password_Placeholder*/
+/*Button_Change*/
 "Button_Cancel" = "Hủy bỏ";
 "Button_Continue" = "Tiếp tục";
 
@@ -78,6 +84,8 @@
 "Kernel Exploit" = "Lỗ hổng Kernel";
 "PPL Bypass" = "Lỗ hổng PPL";
 "PAC Bypass" = "Lỗ hổng PAC";
+/*None*/
+/*Recommended*/
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -86,6 +94,7 @@
 
 // Logs
 "Initializing Environment" = "Khởi tạo môi trường Jailbreak";
+/*Initializing Protection*/
 "Loading BaseBin TrustCache" = "Đang tải TrustCache BaseBin";
 "Applying Bind Mount" = "Đang gắn Bind Mount";
 "Removing Jailbreak" = "Đang gỡ bỏ Jailbreak";
@@ -102,3 +111,4 @@
 "Status_Title_Select_Package_Managers" = "Chọn trình quản lý gói";
 "Select_Package_Managers_Install_Message" = "Nếu bạn không biết nên chọn trình quản lý gói nào, hãy chọn Sileo (sẽ không bao giờ có Cydia cho bạn chọn)";
 "Continue" = "Tiếp tục";
+

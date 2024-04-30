@@ -33,6 +33,10 @@ struct system_info {
 	} jailbreakInfo;
 
 	struct {
+		bool markAppsAsDebugged;
+	} jailbreakSettings;
+
+	struct {
 		// Functions
 		uint64_t perfmon_dev_open;
 		uint64_t vn_kqfilter;
@@ -82,7 +86,9 @@ struct system_info {
 		uint64_t exception_return_after_check;
 		uint64_t exception_return_after_check_no_restore;
 		uint64_t str_x0_x19_ldr_x20;
+		uint64_t str_x8_x0;
 		uint64_t str_x8_x9;
+		uint64_t kcall_return;
 	} kernelGadget;
 
 	struct {
@@ -229,6 +235,9 @@ extern struct system_info gSystemInfo;
 	iterator(ctx, jailbreakInfo.usesPACBypass); \
 	iterator(ctx, jailbreakInfo.rootPath);
 
+#define JAILBREAK_SETTINGS_ITERATE(ctx, iterator) \
+	iterator(ctx, jailbreakSettings.markAppsAsDebugged);
+
 #define KERNEL_SYMBOLS_ITERATE(ctx, iterator) \
 	iterator(ctx, kernelSymbol.perfmon_dev_open); \
 	iterator(ctx, kernelSymbol.vn_kqfilter); \
@@ -276,7 +285,9 @@ extern struct system_info gSystemInfo;
 	iterator(ctx, kernelGadget.exception_return_after_check); \
 	iterator(ctx, kernelGadget.exception_return_after_check_no_restore); \
 	iterator(ctx, kernelGadget.str_x0_x19_ldr_x20); \
-	iterator(ctx, kernelGadget.str_x8_x9);
+	iterator(ctx, kernelGadget.str_x8_x0); \
+	iterator(ctx, kernelGadget.str_x8_x9); \
+	iterator(ctx, kernelGadget.kcall_return);
 
 #define KERNEL_STRUCTS_ITERATE(ctx, iterator) \
 	iterator(ctx, kernelStruct.proc.list_next); \
@@ -365,11 +376,12 @@ extern struct system_info gSystemInfo;
 #define SYSTEM_INFO_ITERATE(ctx, iterator) \
 	KERNEL_CONSTANTS_ITERATE(ctx, iterator); \
 	JAILBREAK_INFO_ITERATE(ctx, iterator); \
+	JAILBREAK_SETTINGS_ITERATE(ctx, iterator); \
 	KERNEL_SYMBOLS_ITERATE(ctx, iterator); \
 	KERNEL_GADGETS_ITERATE(ctx, iterator); \
 	KERNEL_STRUCTS_ITERATE(ctx, iterator);
 
-static void _safe_xpc_dictionary_get_string(xpc_object_t xdict, const char *name, char **out)
+__attribute__((__unused__)) static void _safe_xpc_dictionary_get_string(xpc_object_t xdict, const char *name, char **out)
 {
 	const char *str = xpc_dictionary_get_string(xdict, name);
 	if (str) {
@@ -378,7 +390,7 @@ static void _safe_xpc_dictionary_get_string(xpc_object_t xdict, const char *name
 	}
 }
 
-static void _safe_xpc_dictionary_set_string(xpc_object_t xdict, const char *name, const char *string)
+__attribute__((__unused__)) static void _safe_xpc_dictionary_set_string(xpc_object_t xdict, const char *name, const char *string)
 {
 	if (string) {
 		xpc_dictionary_set_string(xdict, name, string);
@@ -409,6 +421,7 @@ static void _safe_xpc_dictionary_set_string(xpc_object_t xdict, const char *name
 
 #define kconstant(name) (gSystemInfo.kernelConstant.name)
 #define jbinfo(name) (gSystemInfo.jailbreakInfo.name)
+#define jbsetting(name) (gSystemInfo.jailbreakSettings.name)
 #define ksymbol(name) (gSystemInfo.kernelSymbol.name ? (gSystemInfo.kernelConstant.slide + gSystemInfo.kernelSymbol.name) : 0)
 #define kgadget(name) (gSystemInfo.kernelGadget.name ? (gSystemInfo.kernelConstant.slide + gSystemInfo.kernelGadget.name) : 0)
 #define koffsetof(structname, member) (gSystemInfo.kernelStruct.structname.member)
@@ -418,5 +431,26 @@ void jbinfo_initialize_dynamic_offsets(xpc_object_t xoffsetDict);
 void jbinfo_initialize_hardcoded_offsets(void);
 void jbinfo_initialize_boot_constants(void);
 xpc_object_t jbinfo_get_serialized(void);
+
+uint64_t get_vm_real_kernel_page_size(void);
+#define vm_real_kernel_page_size get_vm_real_kernel_page_size()
+#define vm_real_kernel_page_mask (vm_real_kernel_page_size - 1)
+
+uint64_t get_vm_real_kernel_page_shift(void);
+#define vm_real_kernel_page_shift get_vm_real_kernel_page_shift()
+
+uint64_t get_l1_block_size(void);
+uint64_t get_l1_block_mask(void);
+uint64_t get_l1_block_count(void);
+uint64_t get_l2_block_size(void);
+uint64_t get_l2_block_mask(void);
+uint64_t get_l2_block_count(void);
+
+#define L1_BLOCK_SIZE get_l1_block_size()
+#define L1_BLOCK_MASK get_l1_block_mask()
+#define L1_BLOCK_COUNT get_l1_block_count()
+#define L2_BLOCK_SIZE get_l2_block_size()
+#define L2_BLOCK_MASK get_l2_block_mask()
+#define L2_BLOCK_COUNT get_l2_block_count()
 
 #endif

@@ -41,6 +41,7 @@
 "Settings_Tweak_Injection" = "Inyección de ajustes";
 "Settings_iDownload" = "iDownload (Shell de desarrollador)";
 "Settings_Verbose_Logs" = "Registros detallados";
+/*Settings_Apps_JIT*/
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "Eliminar Jailbreak";
@@ -48,6 +49,7 @@
 "Button_Unhide_Jailbreak" = "Desocultar Jailbreak";
 "Button_Refresh_Jailbreak_Apps" = "Actualizar aplicaciones Jailbreak";
 "Button_Reinstall_Package_Managers" = "Reinstalar los gestores de paquetes";
+/*Button_Change_Mobile_Password*/
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "\"Ocultar Jailbreak\" elimina temporalmente los archivos relacionados con el jailbreak hasta el próximo rejailbreak";
@@ -65,6 +67,10 @@
 "Alert_Remove_Jailbreak_Title" = "Quitar Jailbreak";
 "Alert_Remove_Jailbreak_Pressed_Body" = "Al eliminar jailbreak se borrarán todos los archivos relacionados con jailbreak, pero se conservarán todas las aplicaciones, archivos y datos normales. ¿Estás seguro de que quieres continuar? No puedes deshacer esta acción";
 "Alert_Remove_Jailbreak_Enabled_Body" = "Al activar \"Quitar Jailbreak\" se eliminarán todos los archivos relacionados con el jailbreak en el próximo jailbreak, pero se conservarán todas las aplicaciones, archivos y datos normales. ¿Estás seguro de que quieres continuar? No puedes deshacer esta acción";
+/*Alert_Change_Mobile_Password_Body*/
+/*Password_Placeholder*/
+/*Repeat_Password_Placeholder*/
+/*Button_Change*/
 "Button_Cancel" = "Cancelar";
 "Button_Continue" = "Continuar";
 
@@ -78,6 +84,8 @@
 "Kernel Exploit" = "Kernel Exploit";
 "PPL Bypass" = "PPL Bypass";
 "PAC Bypass" = "PAC Bypass";
+/*None*/
+/*Recommended*/
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -86,6 +94,7 @@
 
 // Logs
 "Initializing Environment" = "Inicializando entorno de Jailbreak";
+/*Initializing Protection*/
 "Loading BaseBin TrustCache" = "Cargando BaseBin TrustCache";
 "Applying Bind Mount" = "Aplicando montaje por vínculo";
 "Removing Jailbreak" = "Eliminando Jailbreak";
@@ -102,3 +111,4 @@
 "Status_Title_Select_Package_Managers" = "Seleccione gestor(es) de paquetes";
 "Select_Package_Managers_Install_Message" = "Si no está seguro de cuál seleccionar, seleccione Sileo";
 "Continue" = "Continuar";
+

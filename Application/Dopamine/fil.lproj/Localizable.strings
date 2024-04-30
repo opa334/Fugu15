@@ -41,6 +41,7 @@
 "Settings_Tweak_Injection" = "Tweak Injection";
 "Settings_iDownload" = "iDownload (Terminal ng Developer)";
 "Settings_Verbose_Logs" = "Mga Verbose Logs";
+/*Settings_Apps_JIT*/
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "Tanggalin ang Jailbreak";
@@ -48,6 +49,7 @@
 "Button_Unhide_Jailbreak" = "Ihinto ang pag-tatago ng Jailbreak";
 "Button_Refresh_Jailbreak_Apps" = "i-Refresh ang mga Apps ng Jailbreak";
 "Button_Reinstall_Package_Managers" = "i-Reinstall ang mga Package Managers";
+/*Button_Change_Mobile_Password*/
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "\"Itago ang Jailbreak\" pansamantalang itatago ang mga file na nauugnay sa Jailbreak hanggang sa susunod na re-jailbreak";
@@ -65,6 +67,10 @@
 "Alert_Remove_Jailbreak_Title" = "Tanggalin ang Jailbreak";
 "Alert_Remove_Jailbreak_Pressed_Body" = "Ang pag-tatanggal ng Jailbreak ay magtatanggal ng lahat ng file na nauugnay sa Jailbreak, ngunit lahat ng regular na app, file at data ay mananatili. Sigurado ka bang gusto mong magpatuloy? Hindi mo maa-undo ang pagtanggal nito.";
 "Alert_Remove_Jailbreak_Enabled_Body" = "Kapag na-enable ang \"Tanggalin ang Jailbreak\" ay tatanggalin ang lahat ng file na nauugnay sa Jailbreak sa susunod na Jailbreak, ngunit lahat ng regular na app, file at data ay mananatili. Sigurado ka bang gusto mong magpatuloy? Hindi mo maa-undo ang pagtanggal nito.";
+/*Alert_Change_Mobile_Password_Body*/
+/*Password_Placeholder*/
+/*Repeat_Password_Placeholder*/
+/*Button_Change*/
 "Button_Cancel" = "Wag ituloy";
 "Button_Continue" = "Ituloy";
 
@@ -78,6 +84,8 @@
 "Kernel Exploit" = "Mga Kernel Exploit";
 "PPL Bypass" = "PPL Bypass";
 "PAC Bypass" = "PAC Bypass";
+/*None*/
+/*Recommended*/
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -86,6 +94,7 @@
 
 // Logs
 "Initializing Environment" = "Sinisimulan ang Jailbreak Environment";
+/*Initializing Protection*/
 "Loading BaseBin TrustCache" = "Nilo-load ang BaseBin TrustCache";
 "Applying Bind Mount" = "Paglalapat ng Bind Mount";
 "Removing Jailbreak" = "Tinatatanggal ang Jailbreak";

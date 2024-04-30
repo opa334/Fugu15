@@ -41,6 +41,7 @@
 "Settings_Tweak_Injection" = "載入插體";
 "Settings_iDownload" = "iDownload (開發者终端)";
 "Settings_Verbose_Logs" = "詳細日誌";
+/*Settings_Apps_JIT*/
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "移除越獄";
@@ -48,6 +49,7 @@
 "Button_Unhide_Jailbreak" = "顯示越獄";
 "Button_Refresh_Jailbreak_Apps" = "重新整理越獄Apps";
 "Button_Reinstall_Package_Managers" = "重新安裝套件管理器";
+/*Button_Change_Mobile_Password*/
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "\"隱藏越獄\"將在下次越獄時暫時移除越獄檔案";
@@ -64,6 +66,11 @@
 "Alert_Tweak_Injection_Toggled_Reboot_Later" = "稍後重新啟動";
 "Alert_Remove_Jailbreak_Title" = "移除越獄";
 "Alert_Remove_Jailbreak_Pressed_Body" = "移除越獄將移除所有和越獄相關的檔案，但將保留普通 App、檔案、資料。請注意，移除的檔案無法復原。確定移除越獄嗎？";
+/*Alert_Remove_Jailbreak_Enabled_Body*/
+/*Alert_Change_Mobile_Password_Body*/
+/*Password_Placeholder*/
+/*Repeat_Password_Placeholder*/
+/*Button_Change*/
 "Button_Cancel" = "取消";
 "Button_Continue" = "繼續";
 
@@ -77,6 +84,8 @@
 "Kernel Exploit" = "核心漏洞";
 "PPL Bypass" = "繞過 PPL";
 "PAC Bypass" = "繞過 PAC";
+/*None*/
+/*Recommended*/
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -85,6 +94,7 @@
 
 // Logs
 "Initializing Environment" = "正在初始化環境";
+/*Initializing Protection*/
 "Loading BaseBin TrustCache" = "正在載入 BaseBin TrustCache";
 "Applying Bind Mount" = "正在套用 Bind Mount";
 "Removing Jailbreak" = "正在移除越獄";

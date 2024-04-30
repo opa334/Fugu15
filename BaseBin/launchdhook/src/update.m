@@ -106,8 +106,7 @@ void jbupdate_update_system_info(void)
 		void (*xpf_stop)(void) = dlsym(xpfHandle, "xpf_stop");
 		xpc_object_t (*xpf_construct_offset_dictionary)(const char *sets[]) = dlsym(xpfHandle, "xpf_construct_offset_dictionary");
 
-		// XXX: this is a hack
-		const char *kernelPath = JBRootPath("/../../System/Library/Caches/com.apple.kernelcaches/kernelcache");
+		const char *kernelPath = prebootUUIDPath("/System/Library/Caches/com.apple.kernelcaches/kernelcache");
 		xpc_object_t systemInfoXdict = NULL;
 
 		// Rerun patchfinder
@@ -125,6 +124,7 @@ void jbupdate_update_system_info(void)
 				NULL,
 				NULL,
 				NULL,
+				NULL,	
 			};
 
 			uint32_t idx = 7;
@@ -133,6 +133,9 @@ void jbupdate_update_system_info(void)
 			}
 			if (xpf_set_is_supported("badRecovery")) {
 				sets[idx++] = "badRecovery"; 
+			}
+			if (xpf_set_is_supported("arm64kcall")) {
+				sets[idx++] = "arm64kcall"; 
 			}
 
 			systemInfoXdict = xpf_construct_offset_dictionary((const char **)sets);
@@ -186,5 +189,11 @@ void jbupdate_finalize_stage2(const char *prevVersion, const char *newVersion)
 	// Legacy, this file is no longer used
 	if (!access(JBRootPath("/basebin/.idownloadd_enabled"), F_OK)) {
 		remove(JBRootPath("/basebin/.idownloadd_enabled"));
+	}
+
+	if (strcmp(prevVersion, "2.1") < 0 && strcmp(newVersion, "2.1") >= 0) {
+		// Default value for this pref is true
+		// Set it during jbupdate if prev version is <2.1 and new version is >=2.1
+		gSystemInfo.jailbreakSettings.markAppsAsDebugged = true;
 	}
 }

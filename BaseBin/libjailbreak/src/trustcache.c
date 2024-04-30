@@ -133,7 +133,7 @@ void _jb_trustcache_enumerate(void (^enumerateBlock)(uint64_t jbTcKaddr, bool *s
 	});
 }
 
-void _jb_trustcache_clear(void)
+void jb_trustcache_clear(void)
 {
 	_jb_trustcache_enumerate(^(uint64_t jbTcKaddr, bool *stop) {
 		kwrite64(jbTcKaddr + offsetof(jb_trustcache, file.length), 0);
@@ -219,12 +219,33 @@ int jb_trustcache_add_entry(struct trustcache_entry_v1 entry)
 int jb_trustcache_add_directory(const char *directoryPath)
 {
 
-}
-
-void jb_trustcache_rebuild(void)
-{
-
 }*/
+
+xpc_object_t jb_trustcache_info(void)
+{
+	xpc_object_t arr = xpc_array_create_empty();
+	_jb_trustcache_enumerate(^(uint64_t jbTcKaddr, bool *stop) {
+		uuid_t uuid;
+		kreadbuf(jbTcKaddr + offsetof(jb_trustcache, file.uuid), (void *)uuid, sizeof(uuid));
+		uint32_t length = kread32(jbTcKaddr + offsetof(jb_trustcache, file.length));
+
+		xpc_object_t tcDict = xpc_dictionary_create_empty();
+		xpc_dictionary_set_data(tcDict, "uuid", &uuid, sizeof(uuid));
+
+		xpc_object_t hashesArr = xpc_array_create_empty();
+		for (int i = 0; i < length; i++) {
+			trustcache_entry_v1 entry;
+			kreadbuf(jbTcKaddr + offsetof(jb_trustcache, file.entries[i]), &entry, sizeof(entry));
+			xpc_array_set_data(hashesArr, XPC_ARRAY_APPEND, &entry.hash, sizeof(entry.hash));
+		}
+		xpc_dictionary_set_value(tcDict, "cdhashes", hashesArr);
+		xpc_release(hashesArr);
+
+		xpc_array_append_value(arr, tcDict);
+		xpc_release(tcDict);
+	});
+	return arr;
+}
 
 void jb_trustcache_debug_print(FILE *f)
 {
@@ -363,7 +384,7 @@ int trustcache_file_build_from_path(const char *filePath, trustcache_file_v1 **t
 	return 0;
 }
 
-bool is_cdhash_in_trustcache(uint64_t tcKaddr, cdhash_t CDHash)
+bool trustcache_contains_cdhash(uint64_t tcKaddr, cdhash_t CDHash)
 {
 	uint64_t tcFileKaddr = kread64(tcKaddr + koffsetof(trustcache, fileptr));
 	uint32_t length = kread32(tcFileKaddr + offsetof(trustcache_file_v1, length));
@@ -393,7 +414,7 @@ bool is_cdhash_trustcached(cdhash_t CDHash)
 {
 	__block bool inTrustCache = false;
 	_trustcache_list_enumerate(^(uint64_t tcKaddr, bool *stop) {
-		bool inThisTrustCache = is_cdhash_in_trustcache(tcKaddr, CDHash);
+		bool inThisTrustCache = trustcache_contains_cdhash(tcKaddr, CDHash);
 		if (inThisTrustCache) {
 			inTrustCache = true;
 			*stop = true;

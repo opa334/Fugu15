@@ -41,6 +41,7 @@
 "Settings_Tweak_Injection" = "트윅 주입";
 "Settings_iDownload" = "iDownload (개발자 터미널)";
 "Settings_Verbose_Logs" = "로그";
+/*Settings_Apps_JIT*/
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "탈옥 제거";
@@ -48,6 +49,7 @@
 "Button_Unhide_Jailbreak" = "탈옥 숨기기 취소";
 "Button_Refresh_Jailbreak_Apps" = "탈옥 앱 새로고침";
 "Button_Reinstall_Package_Managers" = "패키지 매니저 재설치";
+/*Button_Change_Mobile_Password*/
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "\"탈옥 숨기기\"는 다음 탈옥까지 일시적으로 탈옥 관련 파일을 제거합니다.";
@@ -65,19 +67,25 @@
 "Alert_Remove_Jailbreak_Title" = "탈옥 제거";
 "Alert_Remove_Jailbreak_Pressed_Body" = "탈옥을 제거하면 탈옥 관련 파일은 모두 삭제되지만 일반 앱, 파일 및 데이터는 모두 유지됩니다. 계속하시겠습니까? 이 작업은 돌이킬 수 없습니다.";
 "Alert_Remove_Jailbreak_Enabled_Body" = "\"탈옥 제거\"를 활성화하면 다음 탈옥 시 모든 탈옥 관련 파일이 삭제되지만, 모든 일반 앱, 파일 및 데이터는 유지됩니다. 계속하시겠습니까? 이 작업은 돌이킬 수 없습니다.";
+/*Alert_Change_Mobile_Password_Body*/
+/*Password_Placeholder*/
+/*Repeat_Password_Placeholder*/
+/*Button_Change*/
 "Button_Cancel" = "취소";
 "Button_Continue" = "계속";
 
 // Duplicate Apps Errors
 "Duplicate_Apps_Error_Dopamine_App" = "Dopamine 애플리케이션 디렉터리(\"%@\") 내에 동일한 식별자를 가진 여러 앱이 있습니다. 계속할 수 없습니다.";
 "Duplicate_Apps_Error_User_App" = "Dopamine 애플리케이션 디렉터리(\"%@\")에는 식별자 %@가 있는 앱이 존재하지만, 시스템에 별도로 설치되어 있습니다. 계속할 수 없습니다.";
-"Duplicate_Apps_Error_Icon_Cache" = "Dopamine 애플리케이션 디렉터리(\"%@\")에는 식별자 \"%@\가 있는 앱이 존재하지만, 다른 경로(\"%@\")에 아이콘 캐시에 등록되어 있습니다. 계속할 수 없습니다.";
+"Duplicate_Apps_Error_Icon_Cache" = "Dopamine 애플리케이션 디렉터리(\"%@\")에는 식별자 \"%@가 있는 앱이 존재하지만, 다른 경로(\"%@\")에 아이콘 캐시에 등록되어 있습니다. 계속할 수 없습니다.";
 
 // Settings Lists
 "Theme" = "테마";
 "Kernel Exploit" = "커널 익스플로잇";
 "PPL Bypass" = "PPL 우회";
 "PAC Bypass" = "PAC 우회";
+/*None*/
+/*Recommended*/
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -86,6 +94,7 @@
 
 // Logs
 "Initializing Environment" = "환경 초기화 중";
+/*Initializing Protection*/
 "Loading BaseBin TrustCache" = "배이스 바이너리 신뢰 캐시 불러오기";
 "Applying Bind Mount" = "바인드 마운트 적용";
 "Removing Jailbreak" = "탈옥 제거";

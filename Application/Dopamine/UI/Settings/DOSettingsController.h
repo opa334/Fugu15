@@ -9,14 +9,15 @@
 #import <Preferences/PSListController.h>
 #import <Preferences/PSSpecifier.h>
 #import "DOPSListController.h"
+#import "DOExploit.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DOSettingsController : DOPSListController
 {
-    NSArray *_availableKernelExploits;
-    NSArray *_availablePACBypasses;
-    NSArray *_availablePPLBypasses;
+    NSArray <DOExploit *>*_availableKernelExploits;
+    NSArray <DOExploit *>*_availablePACBypasses;
+    NSArray <DOExploit *>*_availablePPLBypasses;
     NSString *_lastKnownTheme;
 }
 

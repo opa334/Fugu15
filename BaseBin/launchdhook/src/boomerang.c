@@ -7,6 +7,7 @@
 #include <libjailbreak/primitives_IOSurface.h>
 #include <libjailbreak/kalloc_pt.h>
 #include <libjailbreak/kcall_Fugu14.h>
+#include <libjailbreak/kcall_arm64.h>
 #include <unistd.h>
 
 int posix_spawnattr_set_registered_ports_np(posix_spawnattr_t *__restrict attr, mach_port_t portarray[], uint32_t count);
@@ -80,35 +81,12 @@ int boomerang_recoverPrimitives(bool firstRetrieval, bool shouldEndBoomerang)
 		unsetenv("BOOMERANG_PID");
 	}
 
-	// Retrieve system info
-	xpc_object_t xSystemInfoDict = NULL;
-	if (jbclient_root_get_sysinfo(&xSystemInfoDict) != 0) return -4;
-	SYSTEM_INFO_DESERIALIZE(xSystemInfoDict);
-
-	// Retrieve physrw
-	int physrwRet = jbclient_root_get_physrw(firstRetrieval);
-	if (physrwRet != 0) return -20 + physrwRet;
-	if (firstRetrieval) {
-		// For performance reasons we only use physrw_pte until the first userspace reboot
-		// Handing off full physrw from the app is really slow and causes watchdog timeouts
-		// But from launchd it's generally fine, no clue why
-		libjailbreak_physrw_pte_init(true);
-	}
-	else {
-		libjailbreak_physrw_init(true);
-	}
-
-	libjailbreak_translation_init();
-
-	libjailbreak_IOSurface_primitives_init();
-	if (__builtin_available(iOS 16.0, *)) {
-		libjailbreak_kalloc_pt_init();
-	}
-
-	// Retrieve kcall if available
-	if (jbinfo(usesPACBypass)) {
-		jbclient_get_fugu14_kcall();
-	}
+	// Retrieve primitives
+	// For performance reasons we only use physrw_pte until the first userspace reboot
+	// Handing off full physrw from the app is really slow and causes watchdog timeouts
+	// But from launchd it's generally fine, no clue why
+	bool physrwPTE = firstRetrieval && !is_kcall_available();
+	jbclient_initialize_primitives_internal(physrwPTE);
 
 	if (shouldEndBoomerang) {
 		// Send done message to boomerang

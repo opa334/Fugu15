@@ -207,7 +207,10 @@ void libjailbreak_IOSurface_primitives_init(void)
 	}
 	CFRelease(surfaceRef);
 
-	gPrimitives.kalloc_global = IOSurface_kalloc_global;
-	gPrimitives.kalloc_local  = IOSurface_kalloc_local;
-	gPrimitives.kmap          = IOSurface_map;
+	gPrimitives.kmap = IOSurface_map;
+	if (@available(iOS 16.0, *)) {}
+	else {
+		gPrimitives.kalloc_global = IOSurface_kalloc_global;
+		gPrimitives.kalloc_local  = IOSurface_kalloc_local;
+	}
 }

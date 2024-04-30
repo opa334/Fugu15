@@ -17,15 +17,21 @@ static bool boomerang_domain_allowed(audit_token_t clientToken)
 	return (audit_token_to_pid(clientToken) == 1) || (getpid() == 1);
 }
 
-int boomerang_get_physrw(audit_token_t *clientToken, bool singlePTE)
+int boomerang_get_physrw(audit_token_t *clientToken, bool singlePTE, uint64_t *singlePTEAsidPtr)
 {
+	int r = -1;
 	pid_t pid = audit_token_to_pid(*clientToken);
+
+	thread_caffeinate_start();
 	if (singlePTE) {
-		return physrw_pte_handoff(pid);
+		r = physrw_pte_handoff(pid, singlePTEAsidPtr);
 	}
 	else {
-		return physrw_handoff(pid);
+		r = physrw_handoff(pid);
 	}
+	thread_caffeinate_stop();
+
+	return r;
 }
 
 int boomerang_sign_thread(audit_token_t *clientToken, mach_port_t threadPort)
@@ -64,6 +70,7 @@ struct jbserver_domain gBoomerangDomain = {
 			.args = (jbserver_arg[]){
 				{ .name = "caller-token", .type = JBS_TYPE_CALLER_TOKEN, .out = false },
 				{ .name = "single-pte", .type = JBS_TYPE_BOOL, .out = false },
+				{ .name = "single-pte-asid-ptr", .type = JBS_TYPE_UINT64, .out = true },
 				{ 0 },
 			},
 		},

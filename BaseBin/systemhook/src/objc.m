@@ -100,7 +100,7 @@ bool NSConcreteTask_launchWithDictionary_error__hook(id self, id sender, NSDicti
 void dopamine_fix_NSTask(void)
 {
 	// This only works if libobjc and Foundation are already loaded, that is by design
-	// So as of right now it only automatically works if some any tweak is loaded (as libellekit depends on Foundation)
+	// So as of right now it only automatically works if some tweak is loaded (as libellekit depends on Foundation)
 	// If you want to use NSTask in your app or whatever, call this function yourself after Foundation is loaded
 	// This could be automated but it's difficult due to image loading callbacks being shit
 	void *libobjcHandle = dlopen("/usr/lib/libobjc.A.dylib", RTLD_NOLOAD);

@@ -41,6 +41,7 @@
 "Settings_Tweak_Injection" = "Tweak Injection";
 "Settings_iDownload" = "iDownload (開発者用シェル)";
 "Settings_Verbose_Logs" = "詳細なログ";
+/*Settings_Apps_JIT*/
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "Jailbreak環境の削除";
@@ -48,6 +49,7 @@
 "Button_Unhide_Jailbreak" = "Jailbreak環境を戻す";
 "Button_Refresh_Jailbreak_Apps" = "Jailbreakアプリを更新 (UICache)";
 "Button_Reinstall_Package_Managers" = "パッケージマネージャーを再インストール";
+/*Button_Change_Mobile_Password*/
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "\"Jailbreakを隠す\"は、次のjailbreakの実行までjailbreak関連のファイルを一時的に隠します";
@@ -65,6 +67,10 @@
 "Alert_Remove_Jailbreak_Title" = "Jailbreak環境を削除";
 "Alert_Remove_Jailbreak_Pressed_Body" = "Jailbreak環境を削除すると、jailbreak関連のファイルはすべて削除されますが、通常のアプリケーション、ファイル、データはすべて保持されます。本当に続けてもよろしいですか？この操作を元に戻すことはできません。";
 "Alert_Remove_Jailbreak_Enabled_Body" = "\"Jailbreak環境を削除\"を有効にすると、次回のjailbreak実行時にjailbreak関連ファイルはすべて削除されますが、通常のアプリ、ファイル、データはすべて保持されます。本当に続けてもよろしいですか？この操作を元に戻すことはできません。";
+/*Alert_Change_Mobile_Password_Body*/
+/*Password_Placeholder*/
+/*Repeat_Password_Placeholder*/
+/*Button_Change*/
 "Button_Cancel" = "キャンセル";
 "Button_Continue" = "続ける";
 
@@ -78,6 +84,8 @@
 "Kernel Exploit" = "Kernel Exploit";
 "PPL Bypass" = "PPL Bypass";
 "PAC Bypass" = "PAC Bypass";
+/*None*/
+/*Recommended*/
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -86,6 +94,7 @@
 
 // Logs
 "Initializing Environment" = "Initializing Jailbreak Environment";
+/*Initializing Protection*/
 "Loading BaseBin TrustCache" = "Loading BaseBin TrustCache";
 "Applying Bind Mount" = "Applying Bind Mount";
 "Removing Jailbreak" = "Removing Jailbreak";

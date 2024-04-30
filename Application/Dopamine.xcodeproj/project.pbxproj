@@ -48,6 +48,7 @@
 		04DD0B442B7CBE2E0055DE4F /* DOThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DD0B432B7CBE2E0055DE4F /* DOThemeManager.m */; };
 		04DD0B472B7CBEEA0055DE4F /* DOTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DD0B462B7CBEEA0055DE4F /* DOTheme.m */; };
 		04DD0B592B7D19E60055DE4F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 04DD0B5B2B7D19E60055DE4F /* Localizable.strings */; };
+		51F19D052BBF456200896361 /* libpartial.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51AB98D92BBF44390042EA7B /* libpartial.a */; };
 		8C029F432B4DFD5D0071DE58 /* DOExploitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C029F422B4DFD5D0071DE58 /* DOExploitManager.m */; };
 		8C029F462B4DFD910071DE58 /* DOBootstrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C029F452B4DFD910071DE58 /* DOBootstrapper.m */; };
 		8C029F4E2B4E1FF30071DE58 /* DOExploit.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C029F4D2B4E1FF30071DE58 /* DOExploit.m */; };
@@ -80,6 +81,9 @@
 		8C2131A12B50CA4B008E682C /* perf.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C21318E2B50CA4B008E682C /* perf.h */; };
 		8C2131A22B50CA4B008E682C /* info.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C21318F2B50CA4B008E682C /* info.h */; };
 		8C2131A32B50CA4B008E682C /* libkfd.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C2131902B50CA4B008E682C /* libkfd.h */; };
+		8C2875212BD850B4008B24DA /* LICENSE_libgrabkernel2.md in Resources */ = {isa = PBXBuildFile; fileRef = 8C2875202BD850B4008B24DA /* LICENSE_libgrabkernel2.md */; };
+		8C296BAC2BE049E4007C2AD1 /* DOPSExploitListItemsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C296BAB2BE049E4007C2AD1 /* DOPSExploitListItemsController.m */; };
+		8C296BAE2BE05914007C2AD1 /* LICENSE_plooshinit.md in Resources */ = {isa = PBXBuildFile; fileRef = 8C296BAD2BE05914007C2AD1 /* LICENSE_plooshinit.md */; };
 		8C2B1FEA2B53238D009BA166 /* libjailbreak.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDD08422B4F6DD800A32B61 /* libjailbreak.dylib */; platformFilter = ios; };
 		8C2B1FF02B5324DE009BA166 /* dmaFail.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C2B1FEF2B5324DE009BA166 /* dmaFail.h */; };
 		8C2B1FF42B53492B009BA166 /* dmaFail.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8C2B1FDF2B532374009BA166 /* dmaFail.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -102,6 +106,73 @@
 		8C56D4CB2B7C102B001C03D3 /* LICENSE_Zebra.md in Resources */ = {isa = PBXBuildFile; fileRef = 8C56D4C82B7C102B001C03D3 /* LICENSE_Zebra.md */; };
 		8C56D4CD2B7C118B001C03D3 /* LICENSE_kfd.md in Resources */ = {isa = PBXBuildFile; fileRef = 8C56D4CC2B7C118B001C03D3 /* LICENSE_kfd.md */; };
 		8C58E5592B7EAF8000E3ADAA /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C58E5582B7EAF8000E3ADAA /* CoreServices.framework */; };
+		8C5FA8D72BDD36B6008C246F /* weightBufs.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA8D62BDD36B6008C246F /* weightBufs.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8C5FA8DB2BDD36B6008C246F /* weightBufs.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5FA8D42BDD36B6008C246F /* weightBufs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8C5FA8E72BDD36BF008C246F /* multicast_bytecopy.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA8E62BDD36BF008C246F /* multicast_bytecopy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8C5FA8EB2BDD36BF008C246F /* multicast_bytecopy.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5FA8E42BDD36BF008C246F /* multicast_bytecopy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8C5FA8F22BDD439A008C246F /* weightBufs.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C5FA8F12BDD439A008C246F /* weightBufs.m */; };
+		8C5FA8F62BDD4480008C246F /* multicast_bytecopy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C5FA8F32BDD43A9008C246F /* multicast_bytecopy.m */; };
+		8C5FA91A2BDD47D5008C246F /* iokit.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA8F82BDD47D4008C246F /* iokit.h */; };
+		8C5FA91B2BDD47D5008C246F /* model_tmp.hwx in Resources */ = {isa = PBXBuildFile; fileRef = 8C5FA8F92BDD47D4008C246F /* model_tmp.hwx */; };
+		8C5FA91C2BDD47D5008C246F /* _ANEClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA8FA2BDD47D4008C246F /* _ANEClient.h */; };
+		8C5FA91D2BDD47D5008C246F /* _ANECloneHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA8FB2BDD47D4008C246F /* _ANECloneHelper.h */; };
+		8C5FA91E2BDD47D5008C246F /* _ANEDaemonConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA8FC2BDD47D4008C246F /* _ANEDaemonConnection.h */; };
+		8C5FA91F2BDD47D5008C246F /* _ANEDaemonProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA8FD2BDD47D4008C246F /* _ANEDaemonProtocol.h */; };
+		8C5FA9202BDD47D5008C246F /* _ANEDataReporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA8FE2BDD47D4008C246F /* _ANEDataReporter.h */; };
+		8C5FA9212BDD47D5008C246F /* _ANEDeviceController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA8FF2BDD47D4008C246F /* _ANEDeviceController.h */; };
+		8C5FA9222BDD47D5008C246F /* _ANEDeviceInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9002BDD47D4008C246F /* _ANEDeviceInfo.h */; };
+		8C5FA9232BDD47D5008C246F /* _ANEErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9012BDD47D4008C246F /* _ANEErrors.h */; };
+		8C5FA9242BDD47D5008C246F /* _ANEHashEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9022BDD47D4008C246F /* _ANEHashEncoding.h */; };
+		8C5FA9252BDD47D5008C246F /* _ANEIOSurfaceObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9032BDD47D4008C246F /* _ANEIOSurfaceObject.h */; };
+		8C5FA9262BDD47D5008C246F /* _ANELog.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9042BDD47D4008C246F /* _ANELog.h */; };
+		8C5FA9272BDD47D5008C246F /* _ANEModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9052BDD47D4008C246F /* _ANEModel.h */; };
+		8C5FA9282BDD47D5008C246F /* _ANEPerformanceStats.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9062BDD47D4008C246F /* _ANEPerformanceStats.h */; };
+		8C5FA9292BDD47D5008C246F /* _ANEProgramForEvaluation.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9072BDD47D4008C246F /* _ANEProgramForEvaluation.h */; };
+		8C5FA92A2BDD47D5008C246F /* _ANEQoSMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9082BDD47D4008C246F /* _ANEQoSMapper.h */; };
+		8C5FA92B2BDD47D5008C246F /* _ANERequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9092BDD47D4008C246F /* _ANERequest.h */; };
+		8C5FA92C2BDD47D5008C246F /* _ANEStrings.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA90A2BDD47D4008C246F /* _ANEStrings.h */; };
+		8C5FA92D2BDD47D5008C246F /* AppleNeuralEngine-Structs.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA90B2BDD47D4008C246F /* AppleNeuralEngine-Structs.h */; };
+		8C5FA92E2BDD47D5008C246F /* AppleNeuralEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA90C2BDD47D4008C246F /* AppleNeuralEngine.h */; };
+		8C5FA92F2BDD47D5008C246F /* NSCopying.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA90D2BDD47D4008C246F /* NSCopying.h */; };
+		8C5FA9302BDD47D5008C246F /* NSSecureCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA90E2BDD47D4008C246F /* NSSecureCoding.h */; };
+		8C5FA9312BDD47D5008C246F /* aneProgram.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9102BDD47D4008C246F /* aneProgram.h */; };
+		8C5FA9322BDD47D5008C246F /* IOSurface.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C5FA9112BDD47D4008C246F /* IOSurface.c */; };
+		8C5FA9332BDD47D5008C246F /* exploit.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9122BDD47D4008C246F /* exploit.h */; };
+		8C5FA9342BDD47D5008C246F /* ANEDirectIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9132BDD47D4008C246F /* ANEDirectIn.h */; };
+		8C5FA9352BDD47D5008C246F /* exploit.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C5FA9142BDD47D4008C246F /* exploit.m */; };
+		8C5FA9362BDD47D5008C246F /* ANEDirectIn.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C5FA9152BDD47D4008C246F /* ANEDirectIn.c */; };
+		8C5FA9372BDD47D5008C246F /* IOGPU.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C5FA9162BDD47D4008C246F /* IOGPU.c */; };
+		8C5FA9382BDD47D5008C246F /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C5FA9172BDD47D5008C246F /* utils.c */; };
+		8C5FA9392BDD47D5008C246F /* IOSurface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9182BDD47D5008C246F /* IOSurface.h */; };
+		8C5FA93A2BDD47D5008C246F /* IOGPU.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9192BDD47D5008C246F /* IOGPU.h */; };
+		8C5FA93B2BDD4F98008C246F /* libjailbreak.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDD08422B4F6DD800A32B61 /* libjailbreak.dylib */; platformFilter = ios; };
+		8C5FA93C2BDD4F9D008C246F /* libjailbreak.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDD08422B4F6DD800A32B61 /* libjailbreak.dylib */; platformFilter = ios; };
+		8C5FA9402BDD5039008C246F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5FA93F2BDD5039008C246F /* IOKit.framework */; };
+		8C5FA9422BDD503D008C246F /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5FA9412BDD503D008C246F /* IOSurface.framework */; };
+		8C5FA9442BDD5062008C246F /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5FA9432BDD5062008C246F /* CoreML.framework */; };
+		8C5FA95A2BDD6C0C008C246F /* IOSurfaceRoot.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C5FA9462BDD6C0B008C246F /* IOSurfaceRoot.c */; };
+		8C5FA95B2BDD6C0C008C246F /* mcast.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9472BDD6C0B008C246F /* mcast.h */; };
+		8C5FA95C2BDD6C0C008C246F /* necp.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9482BDD6C0B008C246F /* necp.h */; };
+		8C5FA95D2BDD6C0C008C246F /* port_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C5FA9492BDD6C0B008C246F /* port_utils.c */; };
+		8C5FA95E2BDD6C0C008C246F /* IOSurfaceRoot.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA94A2BDD6C0B008C246F /* IOSurfaceRoot.h */; };
+		8C5FA95F2BDD6C0C008C246F /* necp.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C5FA94B2BDD6C0B008C246F /* necp.c */; };
+		8C5FA9602BDD6C0C008C246F /* port_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA94C2BDD6C0B008C246F /* port_utils.h */; };
+		8C5FA9612BDD6C0C008C246F /* kernel_base.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C5FA94D2BDD6C0B008C246F /* kernel_base.c */; };
+		8C5FA9622BDD6C0C008C246F /* IOGPU.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA94E2BDD6C0B008C246F /* IOGPU.h */; };
+		8C5FA9632BDD6C0C008C246F /* iokit.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA94F2BDD6C0B008C246F /* iokit.h */; };
+		8C5FA9642BDD6C0C008C246F /* spray.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9502BDD6C0B008C246F /* spray.h */; };
+		8C5FA9652BDD6C0C008C246F /* exploit.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C5FA9512BDD6C0B008C246F /* exploit.c */; };
+		8C5FA9662BDD6C0C008C246F /* mcast.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C5FA9522BDD6C0C008C246F /* mcast.c */; };
+		8C5FA9672BDD6C0C008C246F /* kernel_rw.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C5FA9532BDD6C0C008C246F /* kernel_rw.c */; };
+		8C5FA9682BDD6C0C008C246F /* IOGPU.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C5FA9542BDD6C0C008C246F /* IOGPU.c */; };
+		8C5FA9692BDD6C0C008C246F /* spray.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C5FA9552BDD6C0C008C246F /* spray.c */; };
+		8C5FA96A2BDD6C0C008C246F /* xpaci.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9562BDD6C0C008C246F /* xpaci.h */; };
+		8C5FA96B2BDD6C0C008C246F /* kernel_base.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9572BDD6C0C008C246F /* kernel_base.h */; };
+		8C5FA96C2BDD6C0C008C246F /* kernel_rw.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9582BDD6C0C008C246F /* kernel_rw.h */; };
+		8C5FA96D2BDD6C0C008C246F /* exploit.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C5FA9592BDD6C0C008C246F /* exploit.h */; };
+		8C5FA96E2BDD7898008C246F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5FA93F2BDD5039008C246F /* IOKit.framework */; };
+		8C5FA96F2BDD789C008C246F /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5FA9412BDD503D008C246F /* IOSurface.framework */; };
+		8C5FA9712BDD81EF008C246F /* LICENSE_weightBufs.md in Resources */ = {isa = PBXBuildFile; fileRef = 8C5FA9702BDD81EF008C246F /* LICENSE_weightBufs.md */; };
 		8C71981A2ABF0E82003C6658 /* DOAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C7198192ABF0E82003C6658 /* DOAppDelegate.m */; };
 		8C71981D2ABF0E82003C6658 /* DOSceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C71981C2ABF0E82003C6658 /* DOSceneDelegate.m */; };
 		8C7198252ABF0E84003C6658 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C7198242ABF0E84003C6658 /* Assets.xcassets */; };
@@ -120,9 +191,7 @@
 		8CDD08342B4F63E100A32B61 /* kfd.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CDD07B32B4F639100A32B61 /* kfd.m */; };
 		8CDD08362B4F682000A32B61 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDD08352B4F682000A32B61 /* IOSurface.framework */; };
 		8CDD08382B4F682500A32B61 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDD08372B4F682500A32B61 /* IOKit.framework */; };
-		8CDD083F2B4F6D8700A32B61 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDD08392B4F6D8200A32B61 /* libcurl.a */; };
-		8CDD08402B4F6D8700A32B61 /* libfragmentzip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDD083A2B4F6D8200A32B61 /* libfragmentzip.a */; };
-		8CDD08412B4F6D8700A32B61 /* libgrabkernel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDD083B2B4F6D8200A32B61 /* libgrabkernel.a */; };
+		8CDD08412B4F6D8700A32B61 /* libgrabkernel2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDD083B2B4F6D8200A32B61 /* libgrabkernel2.a */; };
 		8CDD08462B4F6DD800A32B61 /* libchoma.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDD08432B4F6DD800A32B61 /* libchoma.dylib */; };
 		8CDD08472B4F6DD800A32B61 /* libxpf.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDD08442B4F6DD800A32B61 /* libxpf.dylib */; };
 		8CDD08482B4F6DF100A32B61 /* libxpf.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 8CDD08442B4F6DD800A32B61 /* libxpf.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -144,6 +213,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8C2B1FDE2B532374009BA166;
 			remoteInfo = dmaFail;
+		};
+		8C5FA8D82BDD36B6008C246F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8C71980D2ABF0E82003C6658 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8C5FA8D32BDD36B6008C246F;
+			remoteInfo = weightBufs;
+		};
+		8C5FA8E82BDD36BF008C246F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8C71980D2ABF0E82003C6658 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8C5FA8E32BDD36BF008C246F;
+			remoteInfo = multicast_bytecopy;
 		};
 		8CDD07AB2B4F619000A32B61 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -174,8 +257,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				8C5FA8DB2BDD36B6008C246F /* weightBufs.framework in Embed Frameworks */,
 				8CDD07AF2B4F619000A32B61 /* kfd.framework in Embed Frameworks */,
 				8C2B1FF42B53492B009BA166 /* dmaFail.framework in Embed Frameworks */,
+				8C5FA8EB2BDD36BF008C246F /* multicast_bytecopy.framework in Embed Frameworks */,
 				8C05B0152B631738001A7CF3 /* badRecovery.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -286,6 +371,7 @@
 		04DD0B5D2B7D1A210055DE4F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		04DD0B5C2B7D1A210055DE4F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		04DD0B5D2B7D1A210055DE4F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		51AB98D92BBF44390042EA7B /* libpartial.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpartial.a; path = Dopamine/Dependencies/libpartial.a; sourceTree = "<group>"; };
 		8C029F412B4DFD5D0071DE58 /* DOExploitManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOExploitManager.h; sourceTree = "<group>"; };
 		8C029F422B4DFD5D0071DE58 /* DOExploitManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOExploitManager.m; sourceTree = "<group>"; };
 		8C029F442B4DFD910071DE58 /* DOBootstrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOBootstrapper.h; sourceTree = "<group>"; };
@@ -324,6 +410,10 @@
 		8C21318E2B50CA4B008E682C /* perf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = perf.h; sourceTree = "<group>"; };
 		8C21318F2B50CA4B008E682C /* info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = info.h; sourceTree = "<group>"; };
 		8C2131902B50CA4B008E682C /* libkfd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libkfd.h; sourceTree = "<group>"; };
+		8C2875202BD850B4008B24DA /* LICENSE_libgrabkernel2.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE_libgrabkernel2.md; sourceTree = "<group>"; };
+		8C296BAA2BE049E4007C2AD1 /* DOPSExploitListItemsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOPSExploitListItemsController.h; sourceTree = "<group>"; };
+		8C296BAB2BE049E4007C2AD1 /* DOPSExploitListItemsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOPSExploitListItemsController.m; sourceTree = "<group>"; };
+		8C296BAD2BE05914007C2AD1 /* LICENSE_plooshinit.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE_plooshinit.md; sourceTree = "<group>"; };
 		8C2B1FC72B52FB56009BA166 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C2B1FDF2B532374009BA166 /* dmaFail.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = dmaFail.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C2B1FEF2B5324DE009BA166 /* dmaFail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dmaFail.h; sourceTree = "<group>"; };
@@ -348,6 +438,71 @@
 		8C56D4C82B7C102B001C03D3 /* LICENSE_Zebra.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE_Zebra.md; sourceTree = "<group>"; };
 		8C56D4CC2B7C118B001C03D3 /* LICENSE_kfd.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE_kfd.md; sourceTree = "<group>"; };
 		8C58E5582B7EAF8000E3ADAA /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		8C5FA8D42BDD36B6008C246F /* weightBufs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = weightBufs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C5FA8D62BDD36B6008C246F /* weightBufs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = weightBufs.h; sourceTree = "<group>"; };
+		8C5FA8E42BDD36BF008C246F /* multicast_bytecopy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = multicast_bytecopy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C5FA8E62BDD36BF008C246F /* multicast_bytecopy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = multicast_bytecopy.h; sourceTree = "<group>"; };
+		8C5FA8EF2BDD36F9008C246F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8C5FA8F02BDD3700008C246F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8C5FA8F12BDD439A008C246F /* weightBufs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = weightBufs.m; sourceTree = "<group>"; };
+		8C5FA8F32BDD43A9008C246F /* multicast_bytecopy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = multicast_bytecopy.m; sourceTree = "<group>"; };
+		8C5FA8F82BDD47D4008C246F /* iokit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iokit.h; sourceTree = "<group>"; };
+		8C5FA8F92BDD47D4008C246F /* model_tmp.hwx */ = {isa = PBXFileReference; lastKnownFileType = file; path = model_tmp.hwx; sourceTree = "<group>"; };
+		8C5FA8FA2BDD47D4008C246F /* _ANEClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANEClient.h; sourceTree = "<group>"; };
+		8C5FA8FB2BDD47D4008C246F /* _ANECloneHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANECloneHelper.h; sourceTree = "<group>"; };
+		8C5FA8FC2BDD47D4008C246F /* _ANEDaemonConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANEDaemonConnection.h; sourceTree = "<group>"; };
+		8C5FA8FD2BDD47D4008C246F /* _ANEDaemonProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANEDaemonProtocol.h; sourceTree = "<group>"; };
+		8C5FA8FE2BDD47D4008C246F /* _ANEDataReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANEDataReporter.h; sourceTree = "<group>"; };
+		8C5FA8FF2BDD47D4008C246F /* _ANEDeviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANEDeviceController.h; sourceTree = "<group>"; };
+		8C5FA9002BDD47D4008C246F /* _ANEDeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANEDeviceInfo.h; sourceTree = "<group>"; };
+		8C5FA9012BDD47D4008C246F /* _ANEErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANEErrors.h; sourceTree = "<group>"; };
+		8C5FA9022BDD47D4008C246F /* _ANEHashEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANEHashEncoding.h; sourceTree = "<group>"; };
+		8C5FA9032BDD47D4008C246F /* _ANEIOSurfaceObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANEIOSurfaceObject.h; sourceTree = "<group>"; };
+		8C5FA9042BDD47D4008C246F /* _ANELog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANELog.h; sourceTree = "<group>"; };
+		8C5FA9052BDD47D4008C246F /* _ANEModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANEModel.h; sourceTree = "<group>"; };
+		8C5FA9062BDD47D4008C246F /* _ANEPerformanceStats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANEPerformanceStats.h; sourceTree = "<group>"; };
+		8C5FA9072BDD47D4008C246F /* _ANEProgramForEvaluation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANEProgramForEvaluation.h; sourceTree = "<group>"; };
+		8C5FA9082BDD47D4008C246F /* _ANEQoSMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANEQoSMapper.h; sourceTree = "<group>"; };
+		8C5FA9092BDD47D4008C246F /* _ANERequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANERequest.h; sourceTree = "<group>"; };
+		8C5FA90A2BDD47D4008C246F /* _ANEStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ANEStrings.h; sourceTree = "<group>"; };
+		8C5FA90B2BDD47D4008C246F /* AppleNeuralEngine-Structs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppleNeuralEngine-Structs.h"; sourceTree = "<group>"; };
+		8C5FA90C2BDD47D4008C246F /* AppleNeuralEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppleNeuralEngine.h; sourceTree = "<group>"; };
+		8C5FA90D2BDD47D4008C246F /* NSCopying.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCopying.h; sourceTree = "<group>"; };
+		8C5FA90E2BDD47D4008C246F /* NSSecureCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSSecureCoding.h; sourceTree = "<group>"; };
+		8C5FA9102BDD47D4008C246F /* aneProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aneProgram.h; sourceTree = "<group>"; };
+		8C5FA9112BDD47D4008C246F /* IOSurface.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IOSurface.c; sourceTree = "<group>"; };
+		8C5FA9122BDD47D4008C246F /* exploit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = exploit.h; sourceTree = "<group>"; };
+		8C5FA9132BDD47D4008C246F /* ANEDirectIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANEDirectIn.h; sourceTree = "<group>"; };
+		8C5FA9142BDD47D4008C246F /* exploit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = exploit.m; sourceTree = "<group>"; };
+		8C5FA9152BDD47D4008C246F /* ANEDirectIn.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ANEDirectIn.c; sourceTree = "<group>"; };
+		8C5FA9162BDD47D4008C246F /* IOGPU.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IOGPU.c; sourceTree = "<group>"; };
+		8C5FA9172BDD47D5008C246F /* utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils.c; sourceTree = "<group>"; };
+		8C5FA9182BDD47D5008C246F /* IOSurface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSurface.h; sourceTree = "<group>"; };
+		8C5FA9192BDD47D5008C246F /* IOGPU.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOGPU.h; sourceTree = "<group>"; };
+		8C5FA93F2BDD5039008C246F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
+		8C5FA9412BDD503D008C246F /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/System/Library/Frameworks/IOSurface.framework; sourceTree = DEVELOPER_DIR; };
+		8C5FA9432BDD5062008C246F /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/System/Library/Frameworks/CoreML.framework; sourceTree = DEVELOPER_DIR; };
+		8C5FA9462BDD6C0B008C246F /* IOSurfaceRoot.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IOSurfaceRoot.c; sourceTree = "<group>"; };
+		8C5FA9472BDD6C0B008C246F /* mcast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcast.h; sourceTree = "<group>"; };
+		8C5FA9482BDD6C0B008C246F /* necp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = necp.h; sourceTree = "<group>"; };
+		8C5FA9492BDD6C0B008C246F /* port_utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = port_utils.c; sourceTree = "<group>"; };
+		8C5FA94A2BDD6C0B008C246F /* IOSurfaceRoot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSurfaceRoot.h; sourceTree = "<group>"; };
+		8C5FA94B2BDD6C0B008C246F /* necp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = necp.c; sourceTree = "<group>"; };
+		8C5FA94C2BDD6C0B008C246F /* port_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = port_utils.h; sourceTree = "<group>"; };
+		8C5FA94D2BDD6C0B008C246F /* kernel_base.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kernel_base.c; sourceTree = "<group>"; };
+		8C5FA94E2BDD6C0B008C246F /* IOGPU.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOGPU.h; sourceTree = "<group>"; };
+		8C5FA94F2BDD6C0B008C246F /* iokit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iokit.h; sourceTree = "<group>"; };
+		8C5FA9502BDD6C0B008C246F /* spray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spray.h; sourceTree = "<group>"; };
+		8C5FA9512BDD6C0B008C246F /* exploit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = exploit.c; sourceTree = "<group>"; };
+		8C5FA9522BDD6C0C008C246F /* mcast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mcast.c; sourceTree = "<group>"; };
+		8C5FA9532BDD6C0C008C246F /* kernel_rw.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kernel_rw.c; sourceTree = "<group>"; };
+		8C5FA9542BDD6C0C008C246F /* IOGPU.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IOGPU.c; sourceTree = "<group>"; };
+		8C5FA9552BDD6C0C008C246F /* spray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = spray.c; sourceTree = "<group>"; };
+		8C5FA9562BDD6C0C008C246F /* xpaci.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xpaci.h; sourceTree = "<group>"; };
+		8C5FA9572BDD6C0C008C246F /* kernel_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kernel_base.h; sourceTree = "<group>"; };
+		8C5FA9582BDD6C0C008C246F /* kernel_rw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kernel_rw.h; sourceTree = "<group>"; };
+		8C5FA9592BDD6C0C008C246F /* exploit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = exploit.h; sourceTree = "<group>"; };
+		8C5FA9702BDD81EF008C246F /* LICENSE_weightBufs.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE_weightBufs.md; sourceTree = "<group>"; };
 		8C7198152ABF0E82003C6658 /* Dopamine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dopamine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C7198182ABF0E82003C6658 /* DOAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOAppDelegate.h; sourceTree = "<group>"; };
 		8C7198192ABF0E82003C6658 /* DOAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOAppDelegate.m; sourceTree = "<group>"; };
@@ -371,9 +526,7 @@
 		8CDD07B32B4F639100A32B61 /* kfd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = kfd.m; sourceTree = "<group>"; };
 		8CDD08352B4F682000A32B61 /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk/System/Library/Frameworks/IOSurface.framework; sourceTree = DEVELOPER_DIR; };
 		8CDD08372B4F682500A32B61 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
-		8CDD08392B4F6D8200A32B61 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = Dopamine/Dependencies/libcurl.a; sourceTree = "<group>"; };
-		8CDD083A2B4F6D8200A32B61 /* libfragmentzip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfragmentzip.a; path = Dopamine/Dependencies/libfragmentzip.a; sourceTree = "<group>"; };
-		8CDD083B2B4F6D8200A32B61 /* libgrabkernel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgrabkernel.a; path = Dopamine/Dependencies/libgrabkernel.a; sourceTree = "<group>"; };
+		8CDD083B2B4F6D8200A32B61 /* libgrabkernel2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgrabkernel2.a; path = Dopamine/Dependencies/libgrabkernel2.a; sourceTree = "<group>"; };
 		8CDD08422B4F6DD800A32B61 /* libjailbreak.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjailbreak.dylib; path = ../BaseBin/.build/libjailbreak.dylib; sourceTree = "<group>"; };
 		8CDD08432B4F6DD800A32B61 /* libchoma.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libchoma.dylib; path = ../BaseBin/.build/libchoma.dylib; sourceTree = "<group>"; };
 		8CDD08442B4F6DD800A32B61 /* libxpf.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxpf.dylib; path = ../BaseBin/.build/libxpf.dylib; sourceTree = "<group>"; };
@@ -397,6 +550,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8C5FA8D12BDD36B6008C246F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C5FA9422BDD503D008C246F /* IOSurface.framework in Frameworks */,
+				8C5FA93B2BDD4F98008C246F /* libjailbreak.dylib in Frameworks */,
+				8C5FA9442BDD5062008C246F /* CoreML.framework in Frameworks */,
+				8C5FA9402BDD5039008C246F /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C5FA8E12BDD36BF008C246F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C5FA96F2BDD789C008C246F /* IOSurface.framework in Frameworks */,
+				8C5FA96E2BDD7898008C246F /* IOKit.framework in Frameworks */,
+				8C5FA93C2BDD4F9D008C246F /* libjailbreak.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8C7198122ABF0E82003C6658 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -407,11 +581,10 @@
 				8CC139832B53E05300230143 /* IOKit.framework in Frameworks */,
 				8C029F682B4E31D50071DE58 /* libMobileGestalt.tbd in Frameworks */,
 				8C46D7252B588973002899DB /* libzstd in Frameworks */,
-				8CDD08412B4F6D8700A32B61 /* libgrabkernel.a in Frameworks */,
+				8CDD08412B4F6D8700A32B61 /* libgrabkernel2.a in Frameworks */,
+				51F19D052BBF456200896361 /* libpartial.a in Frameworks */,
 				042479E52B66B0DD0082581B /* Preferences.framework in Frameworks */,
-				8CDD08402B4F6D8700A32B61 /* libfragmentzip.a in Frameworks */,
 				8C029F662B4E2E970071DE58 /* libcompression.tbd in Frameworks */,
-				8CDD083F2B4F6D8700A32B61 /* libcurl.a in Frameworks */,
 				8C58E5592B7EAF8000E3ADAA /* CoreServices.framework in Frameworks */,
 				8C4ABEB62B52094100B43C9B /* libjailbreak.dylib in Frameworks */,
 			);
@@ -547,6 +720,8 @@
 				042479782B66916B0082581B /* DOPSListController.m */,
 				0443A9B02B79D9C10014C933 /* DOPSListItemsController.h */,
 				0443A9AF2B79D9C10014C933 /* DOPSListItemsController.m */,
+				8C296BAA2BE049E4007C2AD1 /* DOPSExploitListItemsController.h */,
+				8C296BAB2BE049E4007C2AD1 /* DOPSExploitListItemsController.m */,
 			);
 			path = PSLists;
 			sourceTree = "<group>";
@@ -613,6 +788,10 @@
 		8C029F642B4E2E7D0071DE58 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8C5FA9432BDD5062008C246F /* CoreML.framework */,
+				8C5FA9412BDD503D008C246F /* IOSurface.framework */,
+				8C5FA93F2BDD5039008C246F /* IOKit.framework */,
+				51AB98D92BBF44390042EA7B /* libpartial.a */,
 				8C58E5582B7EAF8000E3ADAA /* CoreServices.framework */,
 				042479E42B66B0DD0082581B /* Preferences.framework */,
 				8CDD08372B4F682500A32B61 /* IOKit.framework */,
@@ -622,9 +801,7 @@
 				8CDD08442B4F6DD800A32B61 /* libxpf.dylib */,
 				8C029F672B4E31D50071DE58 /* libMobileGestalt.tbd */,
 				8C029F652B4E2E7D0071DE58 /* libcompression.tbd */,
-				8CDD08392B4F6D8200A32B61 /* libcurl.a */,
-				8CDD083A2B4F6D8200A32B61 /* libfragmentzip.a */,
-				8CDD083B2B4F6D8200A32B61 /* libgrabkernel.a */,
+				8CDD083B2B4F6D8200A32B61 /* libgrabkernel2.a */,
 				8C029F6A2B4E320E0071DE58 /* libz.tbd */,
 			);
 			name = Frameworks;
@@ -735,6 +912,103 @@
 			path = Headers;
 			sourceTree = "<group>";
 		};
+		8C5FA8D52BDD36B6008C246F /* weightBufs */ = {
+			isa = PBXGroup;
+			children = (
+				8C5FA8F72BDD47A5008C246F /* exploit */,
+				8C5FA8EF2BDD36F9008C246F /* Info.plist */,
+				8C5FA8D62BDD36B6008C246F /* weightBufs.h */,
+				8C5FA8F12BDD439A008C246F /* weightBufs.m */,
+			);
+			path = weightBufs;
+			sourceTree = "<group>";
+		};
+		8C5FA8E52BDD36BF008C246F /* multicast_bytecopy */ = {
+			isa = PBXGroup;
+			children = (
+				8C5FA9452BDD693D008C246F /* exploit */,
+				8C5FA8F02BDD3700008C246F /* Info.plist */,
+				8C5FA8E62BDD36BF008C246F /* multicast_bytecopy.h */,
+				8C5FA8F32BDD43A9008C246F /* multicast_bytecopy.m */,
+			);
+			path = multicast_bytecopy;
+			sourceTree = "<group>";
+		};
+		8C5FA8F72BDD47A5008C246F /* exploit */ = {
+			isa = PBXGroup;
+			children = (
+				8C5FA9152BDD47D4008C246F /* ANEDirectIn.c */,
+				8C5FA9132BDD47D4008C246F /* ANEDirectIn.h */,
+				8C5FA9102BDD47D4008C246F /* aneProgram.h */,
+				8C5FA90F2BDD47D4008C246F /* AppleNeuralEngine */,
+				8C5FA9122BDD47D4008C246F /* exploit.h */,
+				8C5FA9142BDD47D4008C246F /* exploit.m */,
+				8C5FA9162BDD47D4008C246F /* IOGPU.c */,
+				8C5FA9192BDD47D5008C246F /* IOGPU.h */,
+				8C5FA8F82BDD47D4008C246F /* iokit.h */,
+				8C5FA9112BDD47D4008C246F /* IOSurface.c */,
+				8C5FA9182BDD47D5008C246F /* IOSurface.h */,
+				8C5FA8F92BDD47D4008C246F /* model_tmp.hwx */,
+				8C5FA9172BDD47D5008C246F /* utils.c */,
+			);
+			path = exploit;
+			sourceTree = "<group>";
+		};
+		8C5FA90F2BDD47D4008C246F /* AppleNeuralEngine */ = {
+			isa = PBXGroup;
+			children = (
+				8C5FA8FA2BDD47D4008C246F /* _ANEClient.h */,
+				8C5FA8FB2BDD47D4008C246F /* _ANECloneHelper.h */,
+				8C5FA8FC2BDD47D4008C246F /* _ANEDaemonConnection.h */,
+				8C5FA8FD2BDD47D4008C246F /* _ANEDaemonProtocol.h */,
+				8C5FA8FE2BDD47D4008C246F /* _ANEDataReporter.h */,
+				8C5FA8FF2BDD47D4008C246F /* _ANEDeviceController.h */,
+				8C5FA9002BDD47D4008C246F /* _ANEDeviceInfo.h */,
+				8C5FA9012BDD47D4008C246F /* _ANEErrors.h */,
+				8C5FA9022BDD47D4008C246F /* _ANEHashEncoding.h */,
+				8C5FA9032BDD47D4008C246F /* _ANEIOSurfaceObject.h */,
+				8C5FA9042BDD47D4008C246F /* _ANELog.h */,
+				8C5FA9052BDD47D4008C246F /* _ANEModel.h */,
+				8C5FA9062BDD47D4008C246F /* _ANEPerformanceStats.h */,
+				8C5FA9072BDD47D4008C246F /* _ANEProgramForEvaluation.h */,
+				8C5FA9082BDD47D4008C246F /* _ANEQoSMapper.h */,
+				8C5FA9092BDD47D4008C246F /* _ANERequest.h */,
+				8C5FA90A2BDD47D4008C246F /* _ANEStrings.h */,
+				8C5FA90B2BDD47D4008C246F /* AppleNeuralEngine-Structs.h */,
+				8C5FA90C2BDD47D4008C246F /* AppleNeuralEngine.h */,
+				8C5FA90D2BDD47D4008C246F /* NSCopying.h */,
+				8C5FA90E2BDD47D4008C246F /* NSSecureCoding.h */,
+			);
+			path = AppleNeuralEngine;
+			sourceTree = "<group>";
+		};
+		8C5FA9452BDD693D008C246F /* exploit */ = {
+			isa = PBXGroup;
+			children = (
+				8C5FA9512BDD6C0B008C246F /* exploit.c */,
+				8C5FA9592BDD6C0C008C246F /* exploit.h */,
+				8C5FA9542BDD6C0C008C246F /* IOGPU.c */,
+				8C5FA94E2BDD6C0B008C246F /* IOGPU.h */,
+				8C5FA94F2BDD6C0B008C246F /* iokit.h */,
+				8C5FA9462BDD6C0B008C246F /* IOSurfaceRoot.c */,
+				8C5FA94A2BDD6C0B008C246F /* IOSurfaceRoot.h */,
+				8C5FA94D2BDD6C0B008C246F /* kernel_base.c */,
+				8C5FA9572BDD6C0C008C246F /* kernel_base.h */,
+				8C5FA9532BDD6C0C008C246F /* kernel_rw.c */,
+				8C5FA9582BDD6C0C008C246F /* kernel_rw.h */,
+				8C5FA9522BDD6C0C008C246F /* mcast.c */,
+				8C5FA9472BDD6C0B008C246F /* mcast.h */,
+				8C5FA94B2BDD6C0B008C246F /* necp.c */,
+				8C5FA9482BDD6C0B008C246F /* necp.h */,
+				8C5FA9492BDD6C0B008C246F /* port_utils.c */,
+				8C5FA94C2BDD6C0B008C246F /* port_utils.h */,
+				8C5FA9552BDD6C0C008C246F /* spray.c */,
+				8C5FA9502BDD6C0B008C246F /* spray.h */,
+				8C5FA9562BDD6C0C008C246F /* xpaci.h */,
+			);
+			path = exploit;
+			sourceTree = "<group>";
+		};
 		8C71980C2ABF0E82003C6658 = {
 			isa = PBXGroup;
 			children = (
@@ -751,6 +1025,8 @@
 				8CDD07A72B4F619000A32B61 /* kfd.framework */,
 				8C2B1FDF2B532374009BA166 /* dmaFail.framework */,
 				8C05B0032B63152B001A7CF3 /* badRecovery.framework */,
+				8C5FA8D42BDD36B6008C246F /* weightBufs.framework */,
+				8C5FA8E42BDD36BF008C246F /* multicast_bytecopy.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -780,6 +1056,8 @@
 				8C05AFFD2B631443001A7CF3 /* badRecovery */,
 				8CDD07A82B4F619000A32B61 /* kfd */,
 				8C2B1FEE2B5324DE009BA166 /* dmaFail */,
+				8C5FA8D52BDD36B6008C246F /* weightBufs */,
+				8C5FA8E52BDD36BF008C246F /* multicast_bytecopy */,
 			);
 			path = Exploits;
 			sourceTree = "<group>";
@@ -823,6 +1101,7 @@
 				8C56D4B82B7C0DF2001C03D3 /* LICENSE_ChOma.md */,
 				8C56D4BA2B7C0DF2001C03D3 /* LICENSE_dimentio.md */,
 				8C56D4BC2B7C0DF2001C03D3 /* LICENSE_ElleKit.md */,
+				8C2875202BD850B4008B24DA /* LICENSE_libgrabkernel2.md */,
 				8C56D4B92B7C0DF2001C03D3 /* LICENSE_Fugu15_Rootful.md */,
 				8C56D4BB2B7C0DF2001C03D3 /* LICENSE_Fugu15.md */,
 				8C56D4BE2B7C0DF2001C03D3 /* LICENSE_opainject.md */,
@@ -831,6 +1110,8 @@
 				8C56D4C62B7C102B001C03D3 /* LICENSE_Sileo.md */,
 				8C56D4C82B7C102B001C03D3 /* LICENSE_Zebra.md */,
 				8C56D4CC2B7C118B001C03D3 /* LICENSE_kfd.md */,
+				8C5FA9702BDD81EF008C246F /* LICENSE_weightBufs.md */,
+				8C296BAD2BE05914007C2AD1 /* LICENSE_plooshinit.md */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -861,6 +1142,60 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C2B1FF02B5324DE009BA166 /* dmaFail.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C5FA8CF2BDD36B6008C246F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C5FA92C2BDD47D5008C246F /* _ANEStrings.h in Headers */,
+				8C5FA8D72BDD36B6008C246F /* weightBufs.h in Headers */,
+				8C5FA9242BDD47D5008C246F /* _ANEHashEncoding.h in Headers */,
+				8C5FA91A2BDD47D5008C246F /* iokit.h in Headers */,
+				8C5FA9232BDD47D5008C246F /* _ANEErrors.h in Headers */,
+				8C5FA92F2BDD47D5008C246F /* NSCopying.h in Headers */,
+				8C5FA91C2BDD47D5008C246F /* _ANEClient.h in Headers */,
+				8C5FA9212BDD47D5008C246F /* _ANEDeviceController.h in Headers */,
+				8C5FA9252BDD47D5008C246F /* _ANEIOSurfaceObject.h in Headers */,
+				8C5FA93A2BDD47D5008C246F /* IOGPU.h in Headers */,
+				8C5FA9332BDD47D5008C246F /* exploit.h in Headers */,
+				8C5FA91F2BDD47D5008C246F /* _ANEDaemonProtocol.h in Headers */,
+				8C5FA92D2BDD47D5008C246F /* AppleNeuralEngine-Structs.h in Headers */,
+				8C5FA9202BDD47D5008C246F /* _ANEDataReporter.h in Headers */,
+				8C5FA9342BDD47D5008C246F /* ANEDirectIn.h in Headers */,
+				8C5FA9272BDD47D5008C246F /* _ANEModel.h in Headers */,
+				8C5FA9292BDD47D5008C246F /* _ANEProgramForEvaluation.h in Headers */,
+				8C5FA9312BDD47D5008C246F /* aneProgram.h in Headers */,
+				8C5FA9302BDD47D5008C246F /* NSSecureCoding.h in Headers */,
+				8C5FA9282BDD47D5008C246F /* _ANEPerformanceStats.h in Headers */,
+				8C5FA92E2BDD47D5008C246F /* AppleNeuralEngine.h in Headers */,
+				8C5FA9392BDD47D5008C246F /* IOSurface.h in Headers */,
+				8C5FA92A2BDD47D5008C246F /* _ANEQoSMapper.h in Headers */,
+				8C5FA92B2BDD47D5008C246F /* _ANERequest.h in Headers */,
+				8C5FA91E2BDD47D5008C246F /* _ANEDaemonConnection.h in Headers */,
+				8C5FA91D2BDD47D5008C246F /* _ANECloneHelper.h in Headers */,
+				8C5FA9222BDD47D5008C246F /* _ANEDeviceInfo.h in Headers */,
+				8C5FA9262BDD47D5008C246F /* _ANELog.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C5FA8DF2BDD36BF008C246F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C5FA8E72BDD36BF008C246F /* multicast_bytecopy.h in Headers */,
+				8C5FA95C2BDD6C0C008C246F /* necp.h in Headers */,
+				8C5FA95E2BDD6C0C008C246F /* IOSurfaceRoot.h in Headers */,
+				8C5FA96A2BDD6C0C008C246F /* xpaci.h in Headers */,
+				8C5FA96D2BDD6C0C008C246F /* exploit.h in Headers */,
+				8C5FA9632BDD6C0C008C246F /* iokit.h in Headers */,
+				8C5FA9642BDD6C0C008C246F /* spray.h in Headers */,
+				8C5FA96B2BDD6C0C008C246F /* kernel_base.h in Headers */,
+				8C5FA9622BDD6C0C008C246F /* IOGPU.h in Headers */,
+				8C5FA95B2BDD6C0C008C246F /* mcast.h in Headers */,
+				8C5FA9602BDD6C0C008C246F /* port_utils.h in Headers */,
+				8C5FA96C2BDD6C0C008C246F /* kernel_rw.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -931,6 +1266,44 @@
 			productReference = 8C2B1FDF2B532374009BA166 /* dmaFail.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		8C5FA8D32BDD36B6008C246F /* weightBufs */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8C5FA8DE2BDD36B6008C246F /* Build configuration list for PBXNativeTarget "weightBufs" */;
+			buildPhases = (
+				8C5FA8CF2BDD36B6008C246F /* Headers */,
+				8C5FA8D02BDD36B6008C246F /* Sources */,
+				8C5FA8D12BDD36B6008C246F /* Frameworks */,
+				8C5FA8D22BDD36B6008C246F /* Resources */,
+				8C5FA93D2BDD4FFF008C246F /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = weightBufs;
+			productName = weightBufs;
+			productReference = 8C5FA8D42BDD36B6008C246F /* weightBufs.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		8C5FA8E32BDD36BF008C246F /* multicast_bytecopy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8C5FA8EC2BDD36BF008C246F /* Build configuration list for PBXNativeTarget "multicast_bytecopy" */;
+			buildPhases = (
+				8C5FA8DF2BDD36BF008C246F /* Headers */,
+				8C5FA8E02BDD36BF008C246F /* Sources */,
+				8C5FA8E12BDD36BF008C246F /* Frameworks */,
+				8C5FA8E22BDD36BF008C246F /* Resources */,
+				8C5FA93E2BDD501C008C246F /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = multicast_bytecopy;
+			productName = multicast_bytecopy;
+			productReference = 8C5FA8E42BDD36BF008C246F /* multicast_bytecopy.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		8C7198142ABF0E82003C6658 /* Dopamine */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8C71982E2ABF0E84003C6658 /* Build configuration list for PBXNativeTarget "Dopamine" */;
@@ -947,6 +1320,8 @@
 				8CDD07AC2B4F619000A32B61 /* PBXTargetDependency */,
 				8C2B1FE42B532374009BA166 /* PBXTargetDependency */,
 				8C05B0082B63152B001A7CF3 /* PBXTargetDependency */,
+				8C5FA8D92BDD36B6008C246F /* PBXTargetDependency */,
+				8C5FA8E92BDD36BF008C246F /* PBXTargetDependency */,
 			);
 			name = Dopamine;
 			packageProductDependencies = (
@@ -989,6 +1364,12 @@
 					};
 					8C2B1FDE2B532374009BA166 = {
 						CreatedOnToolsVersion = 15.1;
+					};
+					8C5FA8D32BDD36B6008C246F = {
+						CreatedOnToolsVersion = 15.3;
+					};
+					8C5FA8E32BDD36BF008C246F = {
+						CreatedOnToolsVersion = 15.3;
 					};
 					8C7198142ABF0E82003C6658 = {
 						CreatedOnToolsVersion = 15.0;
@@ -1043,6 +1424,8 @@
 				8CDD07A62B4F619000A32B61 /* kfd */,
 				8C2B1FDE2B532374009BA166 /* dmaFail */,
 				8C05B0022B63152B001A7CF3 /* badRecovery */,
+				8C5FA8D32BDD36B6008C246F /* weightBufs */,
+				8C5FA8E32BDD36BF008C246F /* multicast_bytecopy */,
 			);
 		};
 /* End PBXProject section */
@@ -1063,6 +1446,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8C2B1FDD2B532374009BA166 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C5FA8D22BDD36B6008C246F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C5FA91B2BDD47D5008C246F /* model_tmp.hwx in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C5FA8E22BDD36BF008C246F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1090,10 +1488,13 @@
 				8C05C5A02B75A17A0097A931 /* bootstrap_1900.tar.zst in Resources */,
 				8C05C59F2B75A1770097A931 /* bootstrap_1800.tar.zst in Resources */,
 				042479A42B66916B0082581B /* Credits.plist in Resources */,
+				8C2875212BD850B4008B24DA /* LICENSE_libgrabkernel2.md in Resources */,
 				8C512B912B5C9F9100C6F14A /* sileo.deb in Resources */,
 				8C512B922B5C9F9400C6F14A /* zebra.deb in Resources */,
 				8CCD8A872B6F16CC004B72B0 /* libkrw-plugin.deb in Resources */,
 				8CCD8A882B6F16D0004B72B0 /* libroot.deb in Resources */,
+				8C296BAE2BE05914007C2AD1 /* LICENSE_plooshinit.md in Resources */,
+				8C5FA9712BDD81EF008C246F /* LICENSE_weightBufs.md in Resources */,
 				8CB94F052B59E17A0098BAFD /* basebin.tar in Resources */,
 				04DD0B592B7D19E60055DE4F /* Localizable.strings in Resources */,
 				04C246B32B74B65900E17924 /* PkgManagers.plist in Resources */,
@@ -1163,6 +1564,42 @@
 			shellPath = /bin/sh;
 			shellScript = "install_name_tool -change \"@loader_path/libjailbreak.dylib\" \"@executable_path/libjailbreak.dylib\" \"$BUILT_PRODUCTS_DIR/$EXECUTABLE_PATH\"\n";
 		};
+		8C5FA93D2BDD4FFF008C246F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "install_name_tool -change \"@loader_path/libjailbreak.dylib\" \"@executable_path/libjailbreak.dylib\" \"$BUILT_PRODUCTS_DIR/$EXECUTABLE_PATH\"\n";
+		};
+		8C5FA93E2BDD501C008C246F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "install_name_tool -change \"@loader_path/libjailbreak.dylib\" \"@executable_path/libjailbreak.dylib\" \"$BUILT_PRODUCTS_DIR/$EXECUTABLE_PATH\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1183,6 +1620,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8C5FA8D02BDD36B6008C246F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C5FA9362BDD47D5008C246F /* ANEDirectIn.c in Sources */,
+				8C5FA8F22BDD439A008C246F /* weightBufs.m in Sources */,
+				8C5FA9352BDD47D5008C246F /* exploit.m in Sources */,
+				8C5FA9382BDD47D5008C246F /* utils.c in Sources */,
+				8C5FA9372BDD47D5008C246F /* IOGPU.c in Sources */,
+				8C5FA9322BDD47D5008C246F /* IOSurface.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C5FA8E02BDD36BF008C246F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C5FA9682BDD6C0C008C246F /* IOGPU.c in Sources */,
+				8C5FA9692BDD6C0C008C246F /* spray.c in Sources */,
+				8C5FA8F62BDD4480008C246F /* multicast_bytecopy.m in Sources */,
+				8C5FA9652BDD6C0C008C246F /* exploit.c in Sources */,
+				8C5FA9612BDD6C0C008C246F /* kernel_base.c in Sources */,
+				8C5FA95F2BDD6C0C008C246F /* necp.c in Sources */,
+				8C5FA95D2BDD6C0C008C246F /* port_utils.c in Sources */,
+				8C5FA9672BDD6C0C008C246F /* kernel_rw.c in Sources */,
+				8C5FA9662BDD6C0C008C246F /* mcast.c in Sources */,
+				8C5FA95A2BDD6C0C008C246F /* IOSurfaceRoot.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8C7198112ABF0E82003C6658 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1194,6 +1661,7 @@
 				04C246AE2B74ACA200E17924 /* DOAppSwitch.m in Sources */,
 				042479B22B66916B0082581B /* DOLyricsLogView.m in Sources */,
 				042479A52B66916B0082581B /* DOCreditsCell.m in Sources */,
+				8C296BAC2BE049E4007C2AD1 /* DOPSExploitListItemsController.m in Sources */,
 				042479B82B66916B0082581B /* DOMainViewController.m in Sources */,
 				8C029F432B4DFD5D0071DE58 /* DOExploitManager.m in Sources */,
 				042479B02B66916B0082581B /* DOLoadingIndicator.m in Sources */,
@@ -1255,6 +1723,16 @@
 			isa = PBXTargetDependency;
 			target = 8C2B1FDE2B532374009BA166 /* dmaFail */;
 			targetProxy = 8C2B1FE32B532374009BA166 /* PBXContainerItemProxy */;
+		};
+		8C5FA8D92BDD36B6008C246F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8C5FA8D32BDD36B6008C246F /* weightBufs */;
+			targetProxy = 8C5FA8D82BDD36B6008C246F /* PBXContainerItemProxy */;
+		};
+		8C5FA8E92BDD36BF008C246F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8C5FA8E32BDD36BF008C246F /* multicast_bytecopy */;
+			targetProxy = 8C5FA8E82BDD36BF008C246F /* PBXContainerItemProxy */;
 		};
 		8CDD07AC2B4F619000A32B61 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1448,6 +1926,150 @@
 			};
 			name = Release;
 		};
+		8C5FA8DC2BDD36B6008C246F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 3Z56NQJ65R;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Dopamine/Exploits/weightBufs/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = weightBufs;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.opa334.weightBufs;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		8C5FA8DD2BDD36B6008C246F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 3Z56NQJ65R;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Dopamine/Exploits/weightBufs/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = weightBufs;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.opa334.weightBufs;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		8C5FA8ED2BDD36BF008C246F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 3Z56NQJ65R;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Dopamine/Exploits/multicast_bytecopy/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = multicast_bytecopy;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.opa334.multicast-bytecopy";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		8C5FA8EE2BDD36BF008C246F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 3Z56NQJ65R;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Dopamine/Exploits/multicast_bytecopy/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = multicast_bytecopy;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.opa334.multicast-bytecopy";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		8C71982C2ABF0E84003C6658 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1607,7 +2229,7 @@
 					"$(PROJECT_DIR)/Dopamine/Dependencies",
 					"$(PROJECT_DIR)/Dopamine/Resources",
 				);
-				MARKETING_VERSION = 2.0.11;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.opa334.Dopamine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1644,7 +2266,7 @@
 					"$(PROJECT_DIR)/Dopamine/Dependencies",
 					"$(PROJECT_DIR)/Dopamine/Resources",
 				);
-				MARKETING_VERSION = 2.0.11;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.opa334.Dopamine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1665,6 +2287,7 @@
 				ENABLE_MODULE_VERIFIER = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Dopamine/Exploits/kfd/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = kfd;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1699,6 +2322,7 @@
 				ENABLE_MODULE_VERIFIER = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Dopamine/Exploits/kfd/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = kfd;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1737,6 +2361,24 @@
 			buildConfigurations = (
 				8C2B1FE82B532374009BA166 /* Debug */,
 				8C2B1FE92B532374009BA166 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8C5FA8DE2BDD36B6008C246F /* Build configuration list for PBXNativeTarget "weightBufs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C5FA8DC2BDD36B6008C246F /* Debug */,
+				8C5FA8DD2BDD36B6008C246F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8C5FA8EC2BDD36BF008C246F /* Build configuration list for PBXNativeTarget "multicast_bytecopy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C5FA8ED2BDD36BF008C246F /* Debug */,
+				8C5FA8EE2BDD36BF008C246F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

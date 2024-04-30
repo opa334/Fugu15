@@ -209,7 +209,7 @@ void smith_free(struct kfd* kfd)
  */
 void smith_helper_init(struct kfd* kfd)
 {
-    const u64 target_hole_size = pages(0);
+    const u64 target_hole_size = pages(10000);
     bool found_target_hole = false;
 
     struct smith_data* smith = (struct smith_data*)(kfd->puaf.puaf_method_data);

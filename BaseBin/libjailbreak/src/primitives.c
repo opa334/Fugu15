@@ -6,6 +6,7 @@
 #include "util.h"
 #include <errno.h>
 #include <string.h>
+#include <sys/sysctl.h>
 
 struct kernel_primitives gPrimitives = { 0 };
 
@@ -30,7 +31,7 @@ int _kreadbuf_phys(uint64_t kaddr, void* output, size_t size)
 	memset(output, 0, size);
 
 	__block int pr = 0;
-	enumerate_pages(kaddr, size, P_PAGE_SIZE, ^bool(uint64_t curKaddr, size_t curSize){
+	enumerate_pages(kaddr, size, vm_real_kernel_page_size, ^bool(uint64_t curKaddr, size_t curSize){
 		uint64_t curPhys = kvtophys(curKaddr);
 		if (curPhys == 0 && errno != 0) {
 			pr = errno;
@@ -48,7 +49,7 @@ int _kreadbuf_phys(uint64_t kaddr, void* output, size_t size)
 int _kwritebuf_phys(uint64_t kaddr, const void* input, size_t size)
 {
 	__block int pr = 0;
-	enumerate_pages(kaddr, size, P_PAGE_SIZE, ^bool(uint64_t curKaddr, size_t curSize){
+	enumerate_pages(kaddr, size, vm_real_kernel_page_size, ^bool(uint64_t curKaddr, size_t curSize){
 		uint64_t curPhys = kvtophys(curKaddr);
 		if (curPhys == 0 && errno != 0) {
 			pr = errno;
@@ -68,7 +69,7 @@ int _physreadbuf_virt(uint64_t physaddr, void* output, size_t size)
 	memset(output, 0, size);
 
 	__block int pr = 0;
-	enumerate_pages(physaddr, size, P_PAGE_SIZE, ^bool(uint64_t curPhys, size_t curSize){
+	enumerate_pages(physaddr, size, vm_real_kernel_page_size, ^bool(uint64_t curPhys, size_t curSize){
 		uint64_t curKaddr = phystokv(curPhys);
 		if (curKaddr == 0 && errno != 0) {
 			pr = errno;
@@ -86,7 +87,7 @@ int _physreadbuf_virt(uint64_t physaddr, void* output, size_t size)
 int _physwritebuf_virt(uint64_t physaddr, const void* input, size_t size)
 {
 	__block int pr = 0;
-	enumerate_pages(physaddr, size, P_PAGE_SIZE, ^bool(uint64_t curPhys, size_t curSize){
+	enumerate_pages(physaddr, size, vm_real_kernel_page_size, ^bool(uint64_t curPhys, size_t curSize){
 		uint64_t curKaddr = phystokv(curPhys);
 		if (curKaddr == 0 && errno != 0) {
 			pr = errno;
@@ -338,4 +339,16 @@ int kfree(uint64_t addr, uint64_t size)
 		return gPrimitives.kfree_global(addr, size);
 	}
 	return -1;
+}
+
+bool is_kcall_available(void)
+{
+#ifdef __arm64e__
+	return jbinfo(usesPACBypass);
+#else
+	if (__builtin_available(iOS 16.0, *)) {
+		return false;
+	}
+	return true;
+#endif
 }

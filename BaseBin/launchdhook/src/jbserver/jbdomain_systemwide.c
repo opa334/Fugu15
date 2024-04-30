@@ -11,6 +11,7 @@
 #include <libjailbreak/primitives.h>
 #include <libjailbreak/codesign.h>
 
+extern bool stringStartsWith(const char *str, const char* prefix);
 extern bool stringEndsWith(const char* str, const char* suffix);
 
 static bool systemwide_domain_allowed(audit_token_t clientToken)
@@ -72,7 +73,7 @@ static int systemwide_trust_library(audit_token_t *processToken, const char *lib
 	return trust_file(libraryPath, callerLibraryPath, callerPath);
 }
 
-static int systemwide_process_checkin(audit_token_t *processToken, char **rootPathOut, char **bootUUIDOut, char **sandboxExtensionsOut)
+static int systemwide_process_checkin(audit_token_t *processToken, char **rootPathOut, char **bootUUIDOut, char **sandboxExtensionsOut, bool *fullyDebuggedOut)
 {
 	// Fetch process info
 	pid_t pid = audit_token_to_pid(*processToken);
@@ -99,8 +100,18 @@ static int systemwide_process_checkin(audit_token_t *processToken, char **rootPa
 	if (readExtension) free(readExtension);
 	if (execExtension) free(execExtension);
 
+	bool fullyDebugged = false;
+	if (stringStartsWith(procPath, "/private/var/containers/Bundle/Application") || stringStartsWith(procPath, JBRootPath("/Applications"))) {
+		// This is an app
+		// Enable CS_DEBUGGED based on user preference
+		if (jbsetting(markAppsAsDebugged)) {
+			fullyDebugged = true;
+		}
+	}
+	*fullyDebuggedOut = fullyDebugged;
+
 	// Allow invalid pages
-	cs_allow_invalid(proc, false);
+	cs_allow_invalid(proc, fullyDebugged);
 
 	// Fix setuid
 	struct stat sb;
@@ -290,6 +301,7 @@ struct jbserver_domain gSystemwideDomain = {
 				{ .name = "root-path", .type = JBS_TYPE_STRING, .out = true },
 				{ .name = "boot-uuid", .type = JBS_TYPE_STRING, .out = true },
 				{ .name = "sandbox-extensions", .type = JBS_TYPE_STRING, .out = true },
+				{ .name = "fully-debugged", .type = JBS_TYPE_BOOL, .out = true },
 				{ 0 },
 			},
 		},
