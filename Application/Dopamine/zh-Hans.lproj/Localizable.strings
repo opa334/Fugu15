@@ -41,7 +41,7 @@
 "Settings_Tweak_Injection" = "插件注入";
 "Settings_iDownload" = "iDownload (开发者终端)";
 "Settings_Verbose_Logs" = "详细日志";
-/*Settings_Apps_JIT*/
+"Settings_Apps_JIT" = "允许在应用程序中使用JIT";
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "移除越狱";
@@ -49,7 +49,7 @@
 "Button_Unhide_Jailbreak" = "取消隐藏越狱";
 "Button_Refresh_Jailbreak_Apps" = "刷新越狱应用";
 "Button_Reinstall_Package_Managers" = "重新安装包管理器";
-/*Button_Change_Mobile_Password*/
+"Button_Change_Mobile_Password" = "修改\"mobile\"密码";
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "“隐藏越狱”将在下次越狱前移除部分可能导致越狱检测的文件。";
@@ -67,10 +67,10 @@
 "Alert_Remove_Jailbreak_Title" = "移除越狱";
 "Alert_Remove_Jailbreak_Pressed_Body" = "“移除越狱”将移除所有和越狱相关的文件，而常规的 App、文档及数据不会受到任何影响。请注意，此操作无法撤销。确认要移除越狱吗？";
 "Alert_Remove_Jailbreak_Enabled_Body" = "“移除越狱”将在下次越狱时移除所有和越狱相关的文件，而常规的 App、文档及数据不会受到任何影响。请注意，此操作无法撤销。确认要移除越狱吗？";
-/*Alert_Change_Mobile_Password_Body*/
-/*Password_Placeholder*/
-/*Repeat_Password_Placeholder*/
-/*Button_Change*/
+"Alert_Change_Mobile_Password_Body" = "这将会在您的设备上设置“mobile”用户的密码，该密码可以用于使用sudo命令。如果要设置root密码，请在shell中使用命令“sudo passwd root”。";
+"Password_Placeholder" = "密码";
+"Repeat_Password_Placeholder" = "重复密码";
+"Button_Change" = "修改";
 "Button_Cancel" = "取消";
 "Button_Continue" = "继续";
 
@@ -84,8 +84,8 @@
 "Kernel Exploit" = "内核漏洞";
 "PPL Bypass" = "PPL 绕过";
 "PAC Bypass" = "PAC 绕过";
-/*None*/
-/*Recommended*/
+"None" = "无";
+"Recommended" = "推荐";
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -94,7 +94,7 @@
 
 // Logs
 "Initializing Environment" = "初始化环境";
-/*Initializing Protection*/
+"Initializing Protection" = "初始化保护";
 "Loading BaseBin TrustCache" = "将基础套件加载至信任缓存（TrustCache）";
 "Applying Bind Mount" = "应用绑定挂载";
 "Removing Jailbreak" = "移除越狱";
