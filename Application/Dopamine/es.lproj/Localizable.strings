@@ -49,7 +49,7 @@
 "Button_Unhide_Jailbreak" = "Desocultar Jailbreak";
 "Button_Refresh_Jailbreak_Apps" = "Actualizar aplicaciones Jailbreak";
 "Button_Reinstall_Package_Managers" = "Reinstalar los gestores de paquetes";
-"Button_Change_Mobile_Password" = "Cambiar contraseña de \"móvil\"";
+"Button_Change_Mobile_Password" = "Cambiar contraseña de \"mobile\"";
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "\"Ocultar Jailbreak\" elimina temporalmente los archivos relacionados con el jailbreak hasta el próximo rejailbreak";
@@ -75,8 +75,8 @@
 "Button_Continue" = "Continuar";
 
 // Duplicate Apps Errors
-"Duplicate_Apps_Error_Dopamine_App" = "Existen múltiples aplicaciones con el identificador \"%@\" dentro del directorio de aplicaciones Dopamines (\"%@\"). No se puede continuar.";
-"Duplicate_Apps_Error_User_App" = "Las apps con los identificadores %@ existen en el directorio de aplicaciones de Dopamines (\"%@\") pero también están instaladas por separado en el sistema. No se puede continuar";
+"Duplicate_Apps_Error_Dopamine_App" = "Existen múltiples aplicaciones con el identificador \"%@\" dentro del directorio de aplicaciones Dopamine (\"%@\"). No se puede continuar.";
+"Duplicate_Apps_Error_User_App" = "Las apps con los identificadores %@ existen en el directorio de aplicaciones de Dopamine (\"%@\") pero también están instaladas por separado en el sistema. No se puede continuar";
 "Duplicate_Apps_Error_Icon_Cache" = "La app con el identificador \"%@\" existe en el directorio de aplicaciones de Dopamine (\"%@\") pero también está registrada en la caché de iconos bajo una ruta diferente (\"%@\"). No se puede continuar";
 
 // Settings Lists
