@@ -155,7 +155,7 @@ bool can_skip_trusting_file(const char *filePath, bool isLibrary, bool isClient)
 		// Same goes for our /usr/lib bind mount (which is guaranteed to be in dynamic trust cache)
 		// We can't do this in the client because of protobox bullshit where calling statfs crashes some processes
 		struct statfs fs;
-		int sfsret = statfs(filePath, &fs); // XXX: same protobox bullshit as below, just with statfs
+		int sfsret = statfs(filePath, &fs);
 		if (sfsret == 0) {
 			if (!strcmp(fs.f_mntonname, "/") || !strcmp(fs.f_mntonname, "/usr/lib")) {
 				return true;
@@ -231,7 +231,7 @@ int jbclient_trust_library(const char *libraryPath, void *addressInCaller)
 	return -1;
 }
 
-int jbclient_process_checkin(char **rootPathOut, char **bootUUIDOut, char **sandboxExtensionsOut)
+int jbclient_process_checkin(char **rootPathOut, char **bootUUIDOut, char **sandboxExtensionsOut, bool *fullyDebuggedOut)
 {
 	xpc_object_t xreply = jbserver_xpc_send(JBS_DOMAIN_SYSTEMWIDE, JBS_SYSTEMWIDE_PROCESS_CHECKIN, NULL);
 	if (xreply) {
@@ -242,6 +242,7 @@ int jbclient_process_checkin(char **rootPathOut, char **bootUUIDOut, char **sand
 		if (rootPathOut) *rootPathOut = rootPath ? strdup(rootPath) : NULL;
 		if (bootUUIDOut) *bootUUIDOut = bootUUID ? strdup(bootUUID) : NULL;
 		if (sandboxExtensionsOut) *sandboxExtensionsOut = sandboxExtensions ? strdup(sandboxExtensions) : NULL;
+		if (fullyDebuggedOut) *fullyDebuggedOut = xpc_dictionary_get_bool(xreply, "fully-debugged");
 		xpc_release(xreply);
 		return result;
 	}
@@ -305,6 +306,80 @@ int jbclient_platform_stage_jailbreak_update(const char *updateTar)
 	return -1;
 }
 
+
+int jbclient_platform_jbsettings_get(const char *key, xpc_object_t *valueOut)
+{
+	xpc_object_t xargs = xpc_dictionary_create_empty();
+	xpc_dictionary_set_string(xargs, "key", key);
+	xpc_object_t xreply = jbserver_xpc_send(JBS_DOMAIN_PLATFORM, JBS_PLATFORM_JBSETTINGS_GET, xargs);
+	xpc_release(xargs);
+	if (xreply) {
+		int result = xpc_dictionary_get_int64(xreply, "result");
+		xpc_object_t value = xpc_dictionary_get_value(xreply, "value");
+		if (value && valueOut) *valueOut = xpc_copy(value);
+		xpc_release(xreply);
+		return result;
+	}
+	return -1;
+}
+
+bool jbclient_platform_jbsettings_get_bool(const char *key)
+{
+	xpc_object_t value;
+	if (jbclient_platform_jbsettings_get(key, &value) == 0) {
+		if (value) {
+			bool valueBool = xpc_bool_get_value(value);
+			xpc_release(value);
+			return valueBool;
+		}
+	}
+	return false;
+}
+
+uint64_t jbclient_platform_jbsettings_get_uint64(const char *key)
+{
+	xpc_object_t value;
+	if (jbclient_platform_jbsettings_get(key, &value) == 0) {
+		if (value) {
+			uint64_t valueU64 = xpc_uint64_get_value(value);
+			xpc_release(value);
+			return valueU64;
+		}
+	}
+	return 0;
+}
+
+int jbclient_platform_jbsettings_set(const char *key, xpc_object_t value)
+{
+	xpc_object_t xargs = xpc_dictionary_create_empty();
+	xpc_dictionary_set_string(xargs, "key", key);
+	xpc_dictionary_set_value(xargs, "value", value);
+	xpc_object_t xreply = jbserver_xpc_send(JBS_DOMAIN_PLATFORM, JBS_PLATFORM_JBSETTINGS_SET, xargs);
+	xpc_release(xargs);
+	if (xreply) {
+		int result = xpc_dictionary_get_int64(xreply, "result");
+		xpc_release(xreply);
+		return result;
+	}
+	return -1;
+}
+
+int jbclient_platform_jbsettings_set_bool(const char *key, bool boolValue)
+{
+	xpc_object_t value = xpc_bool_create(boolValue);
+	int r = jbclient_platform_jbsettings_set(key, value);
+	xpc_release(value);
+	return r;
+}
+
+int jbclient_platform_jbsettings_set_uint64(const char *key, uint64_t uint64Value)
+{
+	xpc_object_t value = xpc_uint64_create(uint64Value);
+	int r = jbclient_platform_jbsettings_set(key, value);
+	xpc_release(value);
+	return r;
+}
+
 int jbclient_watchdog_intercept_userspace_panic(const char *panicMessage)
 {
 	xpc_object_t xargs = xpc_dictionary_create_empty();
@@ -334,13 +409,16 @@ int jbclient_watchdog_get_last_userspace_panic(char **panicMessage)
 	return -1;
 }
 
-int jbclient_root_get_physrw(bool singlePTE)
+int jbclient_root_get_physrw(bool singlePTE, uint64_t *singlePTEAsidPtr)
 {
 	xpc_object_t xargs = xpc_dictionary_create_empty();
 	xpc_dictionary_set_bool(xargs, "single-pte", singlePTE);
 	xpc_object_t xreply = jbserver_xpc_send(JBS_DOMAIN_ROOT, JBS_ROOT_GET_PHYSRW, xargs);
 	xpc_release(xargs);
 	if (xreply) {
+		if (singlePTEAsidPtr) {
+			*singlePTEAsidPtr = xpc_dictionary_get_uint64(xreply, "single-pte-asid-ptr");
+		}
 		int64_t result = xpc_dictionary_get_int64(xreply, "result");
 		xpc_release(xreply);
 		return result;
@@ -375,20 +453,6 @@ int jbclient_root_get_sysinfo(xpc_object_t *sysInfoOut)
 	return -1;
 }
 
-int jbclient_root_add_cdhash(uint8_t *cdhashData, size_t cdhashLen)
-{
-	xpc_object_t xargs = xpc_dictionary_create_empty();
-	xpc_dictionary_set_data(xargs, "cdhash", cdhashData, cdhashLen);
-	xpc_object_t xreply = jbserver_xpc_send(JBS_DOMAIN_ROOT, JBS_ROOT_ADD_CDHASH, xargs);
-	xpc_release(xargs);
-	if (xreply) {
-		int64_t result = xpc_dictionary_get_int64(xreply, "result");
-		xpc_release(xreply);
-		return result;
-	}
-	return -1;
-}
-
 int jbclient_root_steal_ucred(uint64_t ucredToSteal, uint64_t *orgUcred)
 {
 	xpc_object_t xargs = xpc_dictionary_create_empty();
@@ -414,6 +478,44 @@ int jbclient_root_set_mac_label(uint64_t slot, uint64_t label, uint64_t *orgLabe
 	if (xreply) {
 		int64_t result = xpc_dictionary_get_int64(xreply, "result");
 		if (orgLabel) *orgLabel = xpc_dictionary_get_uint64(xreply, "org-label");
+		xpc_release(xreply);
+		return result;
+	}
+	return -1;
+}
+
+int jbclient_root_trustcache_info(xpc_object_t *infoOut)
+{
+	xpc_object_t xreply = jbserver_xpc_send(JBS_DOMAIN_ROOT, JBS_ROOT_TRUSTCACHE_INFO, NULL);
+	if (xreply) {
+		int64_t result = xpc_dictionary_get_int64(xreply, "result");
+		xpc_object_t info = xpc_dictionary_get_array(xreply, "tc-info");
+		if (infoOut && info) *infoOut = xpc_copy(info);
+		xpc_release(xreply);
+		return result;
+	}
+	return -1;
+}
+
+int jbclient_root_trustcache_add_cdhash(uint8_t *cdhashData, size_t cdhashLen)
+{
+	xpc_object_t xargs = xpc_dictionary_create_empty();
+	xpc_dictionary_set_data(xargs, "cdhash", cdhashData, cdhashLen);
+	xpc_object_t xreply = jbserver_xpc_send(JBS_DOMAIN_ROOT, JBS_ROOT_TRUSTCACHE_ADD_CDHASH, xargs);
+	xpc_release(xargs);
+	if (xreply) {
+		int64_t result = xpc_dictionary_get_int64(xreply, "result");
+		xpc_release(xreply);
+		return result;
+	}
+	return -1;
+}
+
+int jbclient_root_trustcache_clear(void)
+{
+	xpc_object_t xreply = jbserver_xpc_send(JBS_DOMAIN_ROOT, JBS_ROOT_TRUSTCACHE_CLEAR, NULL);
+	if (xreply) {
+		int64_t result = xpc_dictionary_get_int64(xreply, "result");
 		xpc_release(xreply);
 		return result;
 	}

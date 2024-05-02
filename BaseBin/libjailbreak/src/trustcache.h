@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include "trustcache_structs.h"
+#include <xpc/xpc.h>
 
 #define BASEBIN_TRUSTCACHE_UUID (uuid_t){'B','A','S','E','B','I','N','\0','\0','\0','\0','\0','\0','\0','\0','\0'}
 #define DYLD_TRUSTCACHE_UUID (uuid_t){'D','Y','L','D','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'}
@@ -15,6 +16,9 @@ int trustcache_list_insert(uint64_t tcKaddr);
 int jb_trustcache_add_entries(struct trustcache_entry_v1 *entries, uint32_t entryCount);
 int jb_trustcache_add_entry(trustcache_entry_v1 entry);
 int jb_trustcache_add_cdhashes(cdhash_t *hashes, uint32_t hashCount);
+xpc_object_t jb_trustcache_info(void);
+void jb_trustcache_clear(void);
+
 //int jb_trustcache_add_file(const char *filePath);
 //int jb_trustcache_add_directory(const char *directoryPath);
 //void jb_trustcache_rebuild(void);

@@ -41,6 +41,7 @@
 "Settings_Tweak_Injection" = "Tweaks laden";
 "Settings_iDownload" = "iDownload (Entwickler-Terminal)";
 "Settings_Verbose_Logs" = "Detaillierte Logs";
+"Settings_Apps_JIT" = "Erlaube JIT in Apps";
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "Jailbreak entfernen";
@@ -48,6 +49,7 @@
 "Button_Unhide_Jailbreak" = "Jailbreak wieder anzeigen";
 "Button_Refresh_Jailbreak_Apps" = "Jailbreak Apps erneuern";
 "Button_Reinstall_Package_Managers" = "Packet-Manager neuinstallieren";
+"Button_Change_Mobile_Password" = "\"mobile\" Passwort ändern";
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "\"Jailbreak verstecken\" entfernt die Jailbreak Dateien temporär bis zum nächsten Jailbreak";
@@ -65,6 +67,10 @@
 "Alert_Remove_Jailbreak_Title" = "Jailbreak entfernen";
 "Alert_Remove_Jailbreak_Pressed_Body" = "Das Entfernen des Jailbreaks wird alle mit dem Jailbreak zusammenhängenden Dateien löschen, alle regulären Apps, Dateien und Daten bleiben erhalten. Diese Aktion kann nicht rückgangig gemacht werden, bist du sicher?";
 "Alert_Remove_Jailbreak_Enabled_Body" = "Das Aktivieren von \"Jailbreak entfernen\" wird beim nächsten Jailbreak alle mit dem Jailbreak zusammenhängenden Dateien löschen, alle regulären Apps, Dateien und Daten bleiben erhalten. Diese Aktion kann nicht rückgangig gemacht werden, bist du sicher?";
+"Alert_Change_Mobile_Password_Body" = "Setzte das Passwort des \"mobile\" Benutzers von deinem Gerät, dieses Passwort kann ebenfalls für Root-Zugriff via sudo verwendet werden. Um das Root-Passwort zu setzen kann der Befehl \"sudo passwd root\" innerhalb einer mobile-Shell verwendet werden.";
+"Password_Placeholder" = "Passwort";
+"Repeat_Password_Placeholder" = "Passwort wiederholen";
+"Button_Change" = "Ändern";
 "Button_Cancel" = "Abbrechen";
 "Button_Continue" = "Weiter";
 
@@ -78,6 +84,8 @@
 "Kernel Exploit" = "Kernel Exploit";
 "PPL Bypass" = "PPL Bypass";
 "PAC Bypass" = "PAC Bypass";
+"None" = "Keiner";
+"Recommended" = "Empfohlen";
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -86,6 +94,7 @@
 
 // Logs
 "Initializing Environment" = "Initialisiere Umgebung";
+"Initializing Protection" = "Initialisiere Schutz";
 "Loading BaseBin TrustCache" = "Lade BaseBin TrustCache";
 "Applying Bind Mount" = "Wende Bind Mount an";
 "Removing Jailbreak" = "Entferne Jailbreak";

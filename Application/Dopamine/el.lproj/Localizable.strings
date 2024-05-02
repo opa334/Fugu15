@@ -41,6 +41,7 @@
 "Settings_Tweak_Injection" = "Ενσωμάτωση Tweak";
 "Settings_iDownload" = "iDownload (Τερματικό προγραμματιστή)";
 "Settings_Verbose_Logs" = "Λεπτομερής καταγραφή";
+/*Settings_Apps_JIT*/
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "Αφαίρεση Jailbreak";
@@ -48,6 +49,7 @@
 "Button_Unhide_Jailbreak" = "Επανεμφάνιση Jailbreak";
 /*Button_Refresh_Jailbreak_Apps*/
 "Button_Reinstall_Package_Managers" = "Επανεγκατάσταση εφαρμοφών διαχείρισης πακέτων";
+/*Button_Change_Mobile_Password*/
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "\"Απόκρυψη Jailbreak\" Αφαιρεί προσωρινά τα αρχεία που σχετίζονται με το jailbreak μέχρι το απόμενο jailbreak";
@@ -65,6 +67,10 @@
 "Alert_Remove_Jailbreak_Title" = "Αφαίρεση Jailbreak";
 "Alert_Remove_Jailbreak_Pressed_Body" = "Η αφαίρεση του jailbreak θα διαγράψει όλα τα αρχεία που σχετίζονται με το jailbreak, αλλά όλες οι συνήθεις εφαρμογές, αρχεία και δεδομένα θα διατηρηθούν. Είστε σίγουροι πως θέλετε να συνεχίσετε; Δεν μπορείτε να αντιστρέψετε αυτή την ενέργεια.";
 /*Alert_Remove_Jailbreak_Enabled_Body*/
+/*Alert_Change_Mobile_Password_Body*/
+/*Password_Placeholder*/
+/*Repeat_Password_Placeholder*/
+/*Button_Change*/
 "Button_Cancel" = "Ακύρωση";
 "Button_Continue" = "Continue";
 
@@ -78,6 +84,8 @@
 /*Kernel Exploit*/
 /*PPL Bypass*/
 /*PAC Bypass*/
+/*None*/
+/*Recommended*/
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -86,6 +94,7 @@
 
 // Logs
 "Initializing Environment" = "Αρχικοποίηση Περιβάλλοντος";
+/*Initializing Protection*/
 /*Loading BaseBin TrustCache*/
 /*Applying Bind Mount*/
 /*Removing Jailbreak*/

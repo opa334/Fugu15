@@ -1,4 +1,5 @@
 #include "jbserver.h"
+#include "util.h"
 
 int jbserver_received_xpc_message(struct jbserver_impl *server, xpc_object_t xmsg)
 {
@@ -59,6 +60,9 @@ int jbserver_received_xpc_message(struct jbserver_impl *server, xpc_object_t xms
 				case JBS_TYPE_DICTIONARY:
 				args[i] = (void *)xpc_dictionary_get_dictionary(xmsg, argDesc->name);
 				break;
+				case JBS_TYPE_XPC_GENERIC:
+				args[i] = (void *)xpc_dictionary_get_value(xmsg, argDesc->name);
+				break;
 				case JBS_TYPE_CALLER_TOKEN:
 				args[i] = (void *)&clientToken;
 				break;
@@ -99,7 +103,8 @@ int jbserver_received_xpc_message(struct jbserver_impl *server, xpc_object_t xms
 					break;
 				}
 				case JBS_TYPE_ARRAY:
-				case JBS_TYPE_DICTIONARY: {
+				case JBS_TYPE_DICTIONARY:
+				case JBS_TYPE_XPC_GENERIC: {
 					if (argsOut[i]) {
 						xpc_dictionary_set_value(xreply, argDesc->name, (xpc_object_t)argsOut[i]);
 						xpc_release((xpc_object_t)argsOut[i]);
@@ -114,5 +119,6 @@ int jbserver_received_xpc_message(struct jbserver_impl *server, xpc_object_t xms
 	xpc_dictionary_set_int64(xreply, "result", result);
 	xpc_pipe_routine_reply(xreply);
 	xpc_release(xreply);
+
 	return 0;
 }

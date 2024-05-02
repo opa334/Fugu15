@@ -1,9 +1,9 @@
 TARGET = libjailbreak.dylib
 
-ADDITIONAL_FLAGS = -O3
+#ADDITIONAL_FLAGS = -O3
 
 # for debugging
-#ADDITIONAL_FLAGS = -g
+ADDITIONAL_FLAGS = -g
 
 CC = clang
 

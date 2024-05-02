@@ -41,6 +41,7 @@
 "Settings_Tweak_Injection" = "Tweak-injektion";
 "Settings_iDownload" = "iDownload (Udviklerterminal)";
 "Settings_Verbose_Logs" = "Detaljerede logfiler";
+/*Settings_Apps_JIT*/
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "Fjern Jailbreak";
@@ -48,6 +49,7 @@
 "Button_Unhide_Jailbreak" = "Vis Jailbreak";
 /*Button_Refresh_Jailbreak_Apps*/
 "Button_Reinstall_Package_Managers" = "Reinstall Package Managers";
+/*Button_Change_Mobile_Password*/
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "\"Skjul Jailbreak\" fjerner midlertidigt jailbreak-relaterede filer indtil næste jailbreak";
@@ -65,6 +67,10 @@
 "Alert_Remove_Jailbreak_Title" = "Fjern Jailbreak";
 "Alert_Remove_Jailbreak_Pressed_Body" = "Fjernelse af jailbreak vil slette alle jailbreak-relaterede filer, men alle almindelige apps, filer og data vil blive bevaret. Er du sikker på, at du vil fortsætte? Du kan ikke fortryde denne handling.";
 /*Alert_Remove_Jailbreak_Enabled_Body*/
+/*Alert_Change_Mobile_Password_Body*/
+/*Password_Placeholder*/
+/*Repeat_Password_Placeholder*/
+/*Button_Change*/
 "Button_Cancel" = "Annuller";
 /*Button_Continue*/
 
@@ -78,6 +84,8 @@
 /*Kernel Exploit*/
 /*PPL Bypass*/
 /*PAC Bypass*/
+/*None*/
+/*Recommended*/
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -86,6 +94,7 @@
 
 // Logs
 "Initializing Environment" = "Initialiserer miljø";
+/*Initializing Protection*/
 /*Loading BaseBin TrustCache*/
 /*Applying Bind Mount*/
 /*Removing Jailbreak*/

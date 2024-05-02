@@ -41,6 +41,7 @@
 "Settings_Tweak_Injection" = "Tweak Injection";
 "Settings_iDownload" = "iDownload (Developer Shell)";
 "Settings_Verbose_Logs" = "Verbose Logs";
+/*Settings_Apps_JIT*/
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "ลบเจลเบรค";
@@ -48,6 +49,7 @@
 "Button_Unhide_Jailbreak" = "เลิกซ่อนเจลเบรค";
 "Button_Refresh_Jailbreak_Apps" = "รีเฟรช Jailbreak Apps";
 "Button_Reinstall_Package_Managers" = "ติดตั้ง Package Managers ใหม่";
+/*Button_Change_Mobile_Password*/
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "\"ซ่อนเจลเบรค\" ซ่อนไฟล์ที่เกี่ยวกับเจลเบรคต่างๆจนกว่าจะทำการเจลเบรคใหม่";
@@ -65,6 +67,10 @@
 "Alert_Remove_Jailbreak_Title" = "ลบเจลเบรค";
 "Alert_Remove_Jailbreak_Pressed_Body" = "การลบเจลเบรคจะลบไฟล์ที่เกี่ยวข้องกับเจลเบรคเท่านั้น แอปพลิเคชั่น ไฟล์ และ ข้อมูลต่างๆที่ไม่เกี่ยวข้องกับเจลเบรคจะถูกเก็บไว้ ต้องการที่จะดำเนินการต่อหรือไม่ การกระทำนี้จะไม่สามารถย้อนกลับได้";
 "Alert_Remove_Jailbreak_Enabled_Body" = "การเปิดใช้งาน \"ลบเจลเบรค\" จะลบไฟล์ที่เกี่ยวข้องกับเจลเบรคเท่านั้น แอปพลิเคชั่น ไฟล์ และ ข้อมูลต่างๆที่ไม่เกี่ยวข้องกับเจลเบรคจะถูกเก็บไว้ ต้องการที่จะดำเนินการต่อหรือไม่ การกระทำนี้จะไม่สามารถย้อนกลับได้";
+/*Alert_Change_Mobile_Password_Body*/
+/*Password_Placeholder*/
+/*Repeat_Password_Placeholder*/
+/*Button_Change*/
 "Button_Cancel" = "ยกเลิก";
 "Button_Continue" = "ดำเนินการต่อ";
 
@@ -78,6 +84,8 @@
 "Kernel Exploit" = "Kernel Exploit";
 "PPL Bypass" = "PPL Bypass";
 "PAC Bypass" = "PAC Bypass";
+/*None*/
+/*Recommended*/
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -86,6 +94,7 @@
 
 // Logs
 "Initializing Environment" = "Initializing Jailbreak Environment";
+/*Initializing Protection*/
 "Loading BaseBin TrustCache" = "Loading BaseBin TrustCache";
 "Applying Bind Mount" = "Applying Bind Mount";
 "Removing Jailbreak" = "Removing Jailbreak";
@@ -102,3 +111,4 @@
 "Status_Title_Select_Package_Managers" = "เลือก Package Manager(s) ที่ต้องการ";
 "Select_Package_Managers_Install_Message" = "ถ้าไม่แน่ใจว่าจะเลือกอันไหน ให้เลือก Sileo";
 "Continue" = "ดำเนินการต่อ";
+

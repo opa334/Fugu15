@@ -263,3 +263,100 @@ xpc_object_t jbinfo_get_serialized(void)
 	SYSTEM_INFO_SERIALIZE(systemInfo);
 	return systemInfo;
 }
+
+uint64_t get_vm_real_kernel_page_size(void)
+{
+	static uint64_t real_kernel_page_size = 0;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		real_kernel_page_size = vm_kernel_page_size;
+
+		// vm_kernel_page_size is WRONG on A8X
+		// Screw Apple
+		cpu_subtype_t cpuFamily = 0;
+		size_t cpuFamilySize = sizeof(cpuFamily);
+		sysctlbyname("hw.cpufamily", &cpuFamily, &cpuFamilySize, NULL, 0);
+		if (cpuFamily == CPUFAMILY_ARM_TYPHOON) {
+			real_kernel_page_size = 0x1000;
+		}
+	});
+	return real_kernel_page_size;
+}
+
+
+uint64_t get_vm_real_kernel_page_shift(void)
+{
+	static uint64_t real_kernel_page_shift = 0;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		real_kernel_page_shift = vm_kernel_page_shift;
+
+		// vm_kernel_page_shift is WRONG on A8X
+		// Screw Apple
+		cpu_subtype_t cpuFamily = 0;
+		size_t cpuFamilySize = sizeof(cpuFamily);
+		sysctlbyname("hw.cpufamily", &cpuFamily, &cpuFamilySize, NULL, 0);
+		if (cpuFamily == CPUFAMILY_ARM_TYPHOON) {
+			real_kernel_page_shift = 14;
+		}
+	});
+	return real_kernel_page_shift;
+}
+
+uint64_t get_l1_block_size(void)
+{
+	switch (vm_real_kernel_page_size) {
+		case 0x4000:
+		return 0x1000000000;
+		case 0x1000:
+		return 0x40000000;
+		default:
+		return 0;
+	}
+}
+
+uint64_t get_l1_block_mask(void)
+{
+	return get_l1_block_size() - 1;
+}
+
+uint64_t get_l1_block_count(void)
+{
+	switch (vm_real_kernel_page_size) {
+		case 0x4000:
+		return 8;
+		case 0x1000:
+		return 256;
+		default:
+		return 0;
+	}
+}
+
+uint64_t get_l2_block_size(void)
+{
+	switch (vm_real_kernel_page_size) {
+		case 0x4000:
+		return 0x2000000;
+		case 0x1000:
+		return 0x200000;
+		default:
+		return 0;
+	}
+}
+
+uint64_t get_l2_block_mask(void)
+{
+	return get_l2_block_size() - 1;
+}
+
+uint64_t get_l2_block_count(void)
+{
+	switch (vm_real_kernel_page_size) {
+		case 0x4000:
+		return 2048;
+		case 0x1000:
+		return 512;
+		default:
+		return 0;
+	}
+}

@@ -14,6 +14,7 @@
 #import "DOEnvironmentManager.h"
 #import "DOExploitManager.h"
 #import "DOPSListItemsController.h"
+#import "DOPSExploitListItemsController.h"
 #import "DOThemeManager.h"
 #import "DOSceneDelegate.h"
 
@@ -48,7 +49,7 @@
 {
     NSMutableArray *identifiers = [NSMutableArray new];
     for (DOExploit *exploit in _availableKernelExploits) {
-        [identifiers addObject:exploit.identfier];
+        [identifiers addObject:exploit.identifier];
     }
     return identifiers;
 }
@@ -65,11 +66,11 @@
 - (NSArray *)availablePACBypassIdentifiers
 {
     NSMutableArray *identifiers = [NSMutableArray new];
-    for (DOExploit *exploit in _availablePACBypasses) {
-        [identifiers addObject:exploit.identfier];
-    }
     if (![DOEnvironmentManager sharedManager].isPACBypassRequired) {
         [identifiers addObject:@"none"];
+    }
+    for (DOExploit *exploit in _availablePACBypasses) {
+        [identifiers addObject:exploit.identifier];
     }
     return identifiers;
 }
@@ -77,11 +78,11 @@
 - (NSArray *)availablePACBypassNames
 {
     NSMutableArray *names = [NSMutableArray new];
+    if (![DOEnvironmentManager sharedManager].isPACBypassRequired) {
+        [names addObject:DOLocalizedString(@"None")];
+    }
     for (DOExploit *exploit in _availablePACBypasses) {
         [names addObject:exploit.name];
-    }
-    if (![DOEnvironmentManager sharedManager].isPACBypassRequired) {
-        [names addObject:@"None"];
     }
     return names;
 }
@@ -90,7 +91,7 @@
 {
     NSMutableArray *identifiers = [NSMutableArray new];
     for (DOExploit *exploit in _availablePPLBypasses) {
-        [identifiers addObject:exploit.identfier];
+        [identifiers addObject:exploit.identifier];
     }
     return identifiers;
 }
@@ -124,10 +125,12 @@
         SEL defGetter = @selector(readPreferenceValue:);
         SEL defSetter = @selector(setPreferenceValue:specifier:);
         
-        _availableKernelExploits = [exploitManager availableExploitsForType:EXPLOIT_TYPE_KERNEL].allObjects;
+        NSSortDescriptor *prioritySortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"priority" ascending:NO];
+        
+        _availableKernelExploits = [[exploitManager availableExploitsForType:EXPLOIT_TYPE_KERNEL] sortedArrayUsingDescriptors:@[prioritySortDescriptor]];
         if (envManager.isArm64e) {
-            _availablePACBypasses = [exploitManager availableExploitsForType:EXPLOIT_TYPE_PAC].allObjects;
-            _availablePPLBypasses = [exploitManager availableExploitsForType:EXPLOIT_TYPE_PPL].allObjects;
+            _availablePACBypasses = [[exploitManager availableExploitsForType:EXPLOIT_TYPE_PAC] sortedArrayUsingDescriptors:@[prioritySortDescriptor]];
+            _availablePPLBypasses = [[exploitManager availableExploitsForType:EXPLOIT_TYPE_PPL] sortedArrayUsingDescriptors:@[prioritySortDescriptor]];
         }
         
         PSSpecifier *headerSpecifier = [PSSpecifier emptyGroupSpecifier];
@@ -135,136 +138,155 @@
         [headerSpecifier setProperty:[NSString stringWithFormat:@"Settings"] forKey:@"title"];
         [specifiers addObject:headerSpecifier];
         
-        if (!envManager.isJailbroken) {
-            PSSpecifier *exploitGroupSpecifier = [PSSpecifier emptyGroupSpecifier];
-            exploitGroupSpecifier.name = DOLocalizedString(@"Section_Exploits");
-            [specifiers addObject:exploitGroupSpecifier];
-            
-            PSSpecifier *kernelExploitSpecifier = [PSSpecifier preferenceSpecifierNamed:DOLocalizedString(@"Kernel Exploit") target:self set:defSetter get:defGetter detail:nil cell:PSLinkListCell edit:nil];
-            [kernelExploitSpecifier setProperty:@YES forKey:@"enabled"];
-            [kernelExploitSpecifier setProperty:exploitManager.preferredKernelExploit.identfier forKey:@"default"];
-            kernelExploitSpecifier.detailControllerClass = [DOPSListItemsController class];
-            [kernelExploitSpecifier setProperty:@"availableKernelExploitIdentifiers" forKey:@"valuesDataSource"];
-            [kernelExploitSpecifier setProperty:@"availableKernelExploitNames" forKey:@"titlesDataSource"];
-            [kernelExploitSpecifier setProperty:@"selectedKernelExploit" forKey:@"key"];
-            [specifiers addObject:kernelExploitSpecifier];
-            
-            if (envManager.isArm64e) {
-                PSSpecifier *pacBypassSpecifier = [PSSpecifier preferenceSpecifierNamed:DOLocalizedString(@"PAC Bypass") target:self set:defSetter get:defGetter detail:nil cell:PSLinkListCell edit:nil];
-                [pacBypassSpecifier setProperty:@YES forKey:@"enabled"];
-                DOExploit *preferredPACBypass = exploitManager.preferredPACBypass;
-                if (!preferredPACBypass) {
-                    [pacBypassSpecifier setProperty:@"none" forKey:@"default"];
-                }
-                else {
-                    [pacBypassSpecifier setProperty:preferredPACBypass.identfier forKey:@"default"];
-                }
-                pacBypassSpecifier.detailControllerClass = [DOPSListItemsController class];
-                [pacBypassSpecifier setProperty:@"availablePACBypassIdentifiers" forKey:@"valuesDataSource"];
-                [pacBypassSpecifier setProperty:@"availablePACBypassNames" forKey:@"titlesDataSource"];
-                [pacBypassSpecifier setProperty:@"selectedPACBypass" forKey:@"key"];
-                [specifiers addObject:pacBypassSpecifier];
+        if (envManager.isSupported) {
+            if (!envManager.isJailbroken) {
+                PSSpecifier *exploitGroupSpecifier = [PSSpecifier emptyGroupSpecifier];
+                exploitGroupSpecifier.name = DOLocalizedString(@"Section_Exploits");
+                [specifiers addObject:exploitGroupSpecifier];
                 
-                PSSpecifier *pplBypassSpecifier = [PSSpecifier preferenceSpecifierNamed:DOLocalizedString(@"PPL Bypass") target:self set:defSetter get:defGetter detail:nil cell:PSLinkListCell edit:nil];
-                [pplBypassSpecifier setProperty:@YES forKey:@"enabled"];
-                [pplBypassSpecifier setProperty:exploitManager.preferredPPLBypass.identfier forKey:@"default"];
-                pplBypassSpecifier.detailControllerClass = [DOPSListItemsController class];
-                [pplBypassSpecifier setProperty:@"availablePPLBypassIdentifiers" forKey:@"valuesDataSource"];
-                [pplBypassSpecifier setProperty:@"availablePPLBypassNames" forKey:@"titlesDataSource"];
-                [pplBypassSpecifier setProperty:@"selectedPPLBypass" forKey:@"key"];
-                [specifiers addObject:pplBypassSpecifier];
-            }
-        }
-        
-        PSSpecifier *settingsGroupSpecifier = [PSSpecifier emptyGroupSpecifier];
-        settingsGroupSpecifier.name = DOLocalizedString(@"Section_Jailbreak_Settings");
-        [specifiers addObject:settingsGroupSpecifier];
-        
-        PSSpecifier *tweakInjectionSpecifier = [PSSpecifier preferenceSpecifierNamed:DOLocalizedString(@"Settings_Tweak_Injection") target:self set:@selector(setTweakInjectionEnabled:specifier:) get:@selector(readTweakInjectionEnabled:) detail:nil cell:PSSwitchCell edit:nil];
-        [tweakInjectionSpecifier setProperty:@YES forKey:@"enabled"];
-        [tweakInjectionSpecifier setProperty:@"tweakInjectionEnabled" forKey:@"key"];
-        [tweakInjectionSpecifier setProperty:@YES forKey:@"default"];
-        [specifiers addObject:tweakInjectionSpecifier];
-        
-        if (!envManager.isJailbroken) {
-            PSSpecifier *verboseLogSpecifier = [PSSpecifier preferenceSpecifierNamed:DOLocalizedString(@"Settings_Verbose_Logs") target:self set:defSetter get:defGetter detail:nil cell:PSSwitchCell edit:nil];
-            [verboseLogSpecifier setProperty:@YES forKey:@"enabled"];
-            [verboseLogSpecifier setProperty:@"verboseLogsEnabled" forKey:@"key"];
-            [verboseLogSpecifier setProperty:@NO forKey:@"default"];
-            [specifiers addObject:verboseLogSpecifier];
-        }
-        
-        PSSpecifier *idownloadSpecifier = [PSSpecifier preferenceSpecifierNamed:DOLocalizedString(@"Settings_iDownload") target:self set:@selector(setIDownloadEnabled:specifier:) get:@selector(readIDownloadEnabled:) detail:nil cell:PSSwitchCell edit:nil];
-        [idownloadSpecifier setProperty:@YES forKey:@"enabled"];
-        [idownloadSpecifier setProperty:@"idownloadEnabled" forKey:@"key"];
-        [idownloadSpecifier setProperty:@NO forKey:@"default"];
-        [specifiers addObject:idownloadSpecifier];
-        
-        if (!envManager.isJailbroken && !envManager.isInstalledThroughTrollStore) {
-            PSSpecifier *removeJailbreakSwitchSpecifier = [PSSpecifier preferenceSpecifierNamed:DOLocalizedString(@"Button_Remove_Jailbreak") target:self set:@selector(setRemoveJailbreakEnabled:specifier:) get:defGetter detail:nil cell:PSSwitchCell edit:nil];
-            [removeJailbreakSwitchSpecifier setProperty:@YES forKey:@"enabled"];
-            [removeJailbreakSwitchSpecifier setProperty:@"removeJailbreakEnabled" forKey:@"key"];
-            [specifiers addObject:removeJailbreakSwitchSpecifier];
-        }
-        
-        if (envManager.isJailbroken || (envManager.isInstalledThroughTrollStore && envManager.isBootstrapped)) {
-            PSSpecifier *actionsGroupSpecifier = [PSSpecifier emptyGroupSpecifier];
-            actionsGroupSpecifier.name = DOLocalizedString(@"Section_Actions");
-            [specifiers addObject:actionsGroupSpecifier];
-            
-            if (envManager.isJailbroken) {
-                PSSpecifier *reinstallPackageManagersSpecifier = [PSSpecifier emptyGroupSpecifier];
-                reinstallPackageManagersSpecifier.target = self;
-                [reinstallPackageManagersSpecifier setProperty:@"Button_Reinstall_Package_Managers" forKey:@"title"];
-                [reinstallPackageManagersSpecifier setProperty:@"DOButtonCell" forKey:@"headerCellClass"];
-                if (@available(iOS 16.0, *))
-                    [reinstallPackageManagersSpecifier setProperty:@"shippingbox.and.arrow.backward" forKey:@"image"];
-                else
-                    [reinstallPackageManagersSpecifier setProperty:@"shippingbox" forKey:@"image"];
-                [reinstallPackageManagersSpecifier setProperty:@"reinstallPackageManagersPressed" forKey:@"action"];
-                [specifiers addObject:reinstallPackageManagersSpecifier];
+                PSSpecifier *kernelExploitSpecifier = [PSSpecifier preferenceSpecifierNamed:DOLocalizedString(@"Kernel Exploit") target:self set:defSetter get:defGetter detail:nil cell:PSLinkListCell edit:nil];
+                [kernelExploitSpecifier setProperty:@YES forKey:@"enabled"];
+                [kernelExploitSpecifier setProperty:exploitManager.preferredKernelExploit.identifier forKey:@"default"];
+                kernelExploitSpecifier.detailControllerClass = [DOPSExploitListItemsController class];
+                [kernelExploitSpecifier setProperty:@"availableKernelExploitIdentifiers" forKey:@"valuesDataSource"];
+                [kernelExploitSpecifier setProperty:@"availableKernelExploitNames" forKey:@"titlesDataSource"];
+                [kernelExploitSpecifier setProperty:@"selectedKernelExploit" forKey:@"key"];
+                [kernelExploitSpecifier setProperty:(_availableKernelExploits.firstObject.identifier ?: @"none") forKey:@"recommendedExploitIdentifier"];
+                [specifiers addObject:kernelExploitSpecifier];
                 
-                PSSpecifier *refreshAppsSpecifier = [PSSpecifier emptyGroupSpecifier];
-                refreshAppsSpecifier.target = self;
-                [refreshAppsSpecifier setProperty:@"Button_Refresh_Jailbreak_Apps" forKey:@"title"];
-                [refreshAppsSpecifier setProperty:@"DOButtonCell" forKey:@"headerCellClass"];
-                [refreshAppsSpecifier setProperty:@"arrow.triangle.2.circlepath" forKey:@"image"];
-                [refreshAppsSpecifier setProperty:@"refreshJailbreakAppsPressed" forKey:@"action"];
-                [specifiers addObject:refreshAppsSpecifier];
-            }
-            if ((envManager.isJailbroken || envManager.isInstalledThroughTrollStore) && envManager.isBootstrapped) {
-                PSSpecifier *hideUnhideJailbreakSpecifier = [PSSpecifier emptyGroupSpecifier];
-                hideUnhideJailbreakSpecifier.target = self;
-                [hideUnhideJailbreakSpecifier setProperty:@"DOButtonCell" forKey:@"headerCellClass"];
-                if (envManager.isJailbreakHidden) {
-                    [hideUnhideJailbreakSpecifier setProperty:@"Button_Unhide_Jailbreak" forKey:@"title"];
-                    [hideUnhideJailbreakSpecifier setProperty:@"eye" forKey:@"image"];
-                }
-                else {
-                    [hideUnhideJailbreakSpecifier setProperty:@"Button_Hide_Jailbreak" forKey:@"title"];
-                    [hideUnhideJailbreakSpecifier setProperty:@"eye.slash" forKey:@"image"];
-                }
-                [hideUnhideJailbreakSpecifier setProperty:@"hideUnhideJailbreakPressed" forKey:@"action"];
-                BOOL hideJailbreakButtonShown = (envManager.isJailbroken || (envManager.isInstalledThroughTrollStore && envManager.isBootstrapped && !envManager.isJailbreakHidden));
-                if (hideJailbreakButtonShown) {
-                    [specifiers addObject:hideUnhideJailbreakSpecifier];
-                }
-                
-                PSSpecifier *removeJailbreakSpecifier = [PSSpecifier emptyGroupSpecifier];
-                removeJailbreakSpecifier.target = self;
-                [removeJailbreakSpecifier setProperty:@"Button_Remove_Jailbreak" forKey:@"title"];
-                [removeJailbreakSpecifier setProperty:@"DOButtonCell" forKey:@"headerCellClass"];
-                [removeJailbreakSpecifier setProperty:@"trash" forKey:@"image"];
-                [removeJailbreakSpecifier setProperty:@"removeJailbreakPressed" forKey:@"action"];
-                if (hideJailbreakButtonShown) {
-                    if (envManager.isJailbroken) {
-                        [removeJailbreakSpecifier setProperty:DOLocalizedString(@"Hint_Hide_Jailbreak_Jailbroken") forKey:@"footerText"];
+                if (envManager.isArm64e) {
+                    PSSpecifier *pacBypassSpecifier = [PSSpecifier preferenceSpecifierNamed:DOLocalizedString(@"PAC Bypass") target:self set:defSetter get:defGetter detail:nil cell:PSLinkListCell edit:nil];
+                    [pacBypassSpecifier setProperty:@YES forKey:@"enabled"];
+                    DOExploit *preferredPACBypass = exploitManager.preferredPACBypass;
+                    if (!preferredPACBypass) {
+                        [pacBypassSpecifier setProperty:@"none" forKey:@"default"];
                     }
                     else {
-                        [removeJailbreakSpecifier setProperty:DOLocalizedString(@"Hint_Hide_Jailbreak") forKey:@"footerText"];
+                        [pacBypassSpecifier setProperty:preferredPACBypass.identifier forKey:@"default"];
                     }
+                    pacBypassSpecifier.detailControllerClass = [DOPSExploitListItemsController class];
+                    [pacBypassSpecifier setProperty:@"availablePACBypassIdentifiers" forKey:@"valuesDataSource"];
+                    [pacBypassSpecifier setProperty:@"availablePACBypassNames" forKey:@"titlesDataSource"];
+                    [pacBypassSpecifier setProperty:@"selectedPACBypass" forKey:@"key"];
+                    [pacBypassSpecifier setProperty:([envManager isPACBypassRequired] ? _availablePACBypasses.firstObject.identifier : @"none") forKey:@"recommendedExploitIdentifier"];
+                    [specifiers addObject:pacBypassSpecifier];
+                    
+                    PSSpecifier *pplBypassSpecifier = [PSSpecifier preferenceSpecifierNamed:DOLocalizedString(@"PPL Bypass") target:self set:defSetter get:defGetter detail:nil cell:PSLinkListCell edit:nil];
+                    [pplBypassSpecifier setProperty:@YES forKey:@"enabled"];
+                    [pplBypassSpecifier setProperty:exploitManager.preferredPPLBypass.identifier forKey:@"default"];
+                    pplBypassSpecifier.detailControllerClass = [DOPSExploitListItemsController class];
+                    [pplBypassSpecifier setProperty:@"availablePPLBypassIdentifiers" forKey:@"valuesDataSource"];
+                    [pplBypassSpecifier setProperty:@"availablePPLBypassNames" forKey:@"titlesDataSource"];
+                    [pplBypassSpecifier setProperty:@"selectedPPLBypass" forKey:@"key"];
+                    [pplBypassSpecifier setProperty:(_availablePPLBypasses.firstObject.identifier ?: @"none") forKey:@"recommendedExploitIdentifier"];
+                    [specifiers addObject:pplBypassSpecifier];
                 }
-                [specifiers addObject:removeJailbreakSpecifier];
+            }
+            
+            PSSpecifier *settingsGroupSpecifier = [PSSpecifier emptyGroupSpecifier];
+            settingsGroupSpecifier.name = DOLocalizedString(@"Section_Jailbreak_Settings");
+            [specifiers addObject:settingsGroupSpecifier];
+            
+            PSSpecifier *tweakInjectionSpecifier = [PSSpecifier preferenceSpecifierNamed:DOLocalizedString(@"Settings_Tweak_Injection") target:self set:@selector(setTweakInjectionEnabled:specifier:) get:@selector(readTweakInjectionEnabled:) detail:nil cell:PSSwitchCell edit:nil];
+            [tweakInjectionSpecifier setProperty:@YES forKey:@"enabled"];
+            [tweakInjectionSpecifier setProperty:@"tweakInjectionEnabled" forKey:@"key"];
+            [tweakInjectionSpecifier setProperty:@YES forKey:@"default"];
+            [specifiers addObject:tweakInjectionSpecifier];
+            
+            if (!envManager.isJailbroken) {
+                PSSpecifier *verboseLogSpecifier = [PSSpecifier preferenceSpecifierNamed:DOLocalizedString(@"Settings_Verbose_Logs") target:self set:defSetter get:defGetter detail:nil cell:PSSwitchCell edit:nil];
+                [verboseLogSpecifier setProperty:@YES forKey:@"enabled"];
+                [verboseLogSpecifier setProperty:@"verboseLogsEnabled" forKey:@"key"];
+                [verboseLogSpecifier setProperty:@NO forKey:@"default"];
+                [specifiers addObject:verboseLogSpecifier];
+            }
+            
+            PSSpecifier *idownloadSpecifier = [PSSpecifier preferenceSpecifierNamed:DOLocalizedString(@"Settings_iDownload") target:self set:@selector(setIDownloadEnabled:specifier:) get:@selector(readIDownloadEnabled:) detail:nil cell:PSSwitchCell edit:nil];
+            [idownloadSpecifier setProperty:@YES forKey:@"enabled"];
+            [idownloadSpecifier setProperty:@"idownloadEnabled" forKey:@"key"];
+            [idownloadSpecifier setProperty:@NO forKey:@"default"];
+            [specifiers addObject:idownloadSpecifier];
+            
+            PSSpecifier *appJitSpecifier = [PSSpecifier preferenceSpecifierNamed:DOLocalizedString(@"Settings_Apps_JIT") target:self set:@selector(setAppJITEnabled:specifier:) get:@selector(readAppJITEnabled:) detail:nil cell:PSSwitchCell edit:nil];
+            [appJitSpecifier setProperty:@YES forKey:@"enabled"];
+            [appJitSpecifier setProperty:@"appJITEnabled" forKey:@"key"];
+            [appJitSpecifier setProperty:@YES forKey:@"default"];
+            [specifiers addObject:appJitSpecifier];
+            
+            if (!envManager.isJailbroken && !envManager.isInstalledThroughTrollStore) {
+                PSSpecifier *removeJailbreakSwitchSpecifier = [PSSpecifier preferenceSpecifierNamed:DOLocalizedString(@"Button_Remove_Jailbreak") target:self set:@selector(setRemoveJailbreakEnabled:specifier:) get:defGetter detail:nil cell:PSSwitchCell edit:nil];
+                [removeJailbreakSwitchSpecifier setProperty:@YES forKey:@"enabled"];
+                [removeJailbreakSwitchSpecifier setProperty:@"removeJailbreakEnabled" forKey:@"key"];
+                [specifiers addObject:removeJailbreakSwitchSpecifier];
+            }
+            
+            if (envManager.isJailbroken || (envManager.isInstalledThroughTrollStore && envManager.isBootstrapped)) {
+                PSSpecifier *actionsGroupSpecifier = [PSSpecifier emptyGroupSpecifier];
+                actionsGroupSpecifier.name = DOLocalizedString(@"Section_Actions");
+                [specifiers addObject:actionsGroupSpecifier];
+                
+                if (envManager.isJailbroken) {
+                    PSSpecifier *refreshAppsSpecifier = [PSSpecifier emptyGroupSpecifier];
+                    refreshAppsSpecifier.target = self;
+                    [refreshAppsSpecifier setProperty:@"Button_Refresh_Jailbreak_Apps" forKey:@"title"];
+                    [refreshAppsSpecifier setProperty:@"DOButtonCell" forKey:@"headerCellClass"];
+                    [refreshAppsSpecifier setProperty:@"arrow.triangle.2.circlepath" forKey:@"image"];
+                    [refreshAppsSpecifier setProperty:@"refreshJailbreakAppsPressed" forKey:@"action"];
+                    [specifiers addObject:refreshAppsSpecifier];
+                    
+                    PSSpecifier *changeMobilePasswordSpecifier = [PSSpecifier emptyGroupSpecifier];
+                    changeMobilePasswordSpecifier.target = self;
+                    [changeMobilePasswordSpecifier setProperty:@"Button_Change_Mobile_Password" forKey:@"title"];
+                    [changeMobilePasswordSpecifier setProperty:@"DOButtonCell" forKey:@"headerCellClass"];
+                    [changeMobilePasswordSpecifier setProperty:@"key" forKey:@"image"];
+                    [changeMobilePasswordSpecifier setProperty:@"changeMobilePasswordPressed" forKey:@"action"];
+                    [specifiers addObject:changeMobilePasswordSpecifier];
+                    
+                    PSSpecifier *reinstallPackageManagersSpecifier = [PSSpecifier emptyGroupSpecifier];
+                    reinstallPackageManagersSpecifier.target = self;
+                    [reinstallPackageManagersSpecifier setProperty:@"Button_Reinstall_Package_Managers" forKey:@"title"];
+                    [reinstallPackageManagersSpecifier setProperty:@"DOButtonCell" forKey:@"headerCellClass"];
+                    if (@available(iOS 16.0, *))
+                        [reinstallPackageManagersSpecifier setProperty:@"shippingbox.and.arrow.backward" forKey:@"image"];
+                    else
+                        [reinstallPackageManagersSpecifier setProperty:@"shippingbox" forKey:@"image"];
+                    [reinstallPackageManagersSpecifier setProperty:@"reinstallPackageManagersPressed" forKey:@"action"];
+                    [specifiers addObject:reinstallPackageManagersSpecifier];
+                }
+                if ((envManager.isJailbroken || envManager.isInstalledThroughTrollStore) && envManager.isBootstrapped) {
+                    PSSpecifier *hideUnhideJailbreakSpecifier = [PSSpecifier emptyGroupSpecifier];
+                    hideUnhideJailbreakSpecifier.target = self;
+                    [hideUnhideJailbreakSpecifier setProperty:@"DOButtonCell" forKey:@"headerCellClass"];
+                    if (envManager.isJailbreakHidden) {
+                        [hideUnhideJailbreakSpecifier setProperty:@"Button_Unhide_Jailbreak" forKey:@"title"];
+                        [hideUnhideJailbreakSpecifier setProperty:@"eye" forKey:@"image"];
+                    }
+                    else {
+                        [hideUnhideJailbreakSpecifier setProperty:@"Button_Hide_Jailbreak" forKey:@"title"];
+                        [hideUnhideJailbreakSpecifier setProperty:@"eye.slash" forKey:@"image"];
+                    }
+                    [hideUnhideJailbreakSpecifier setProperty:@"hideUnhideJailbreakPressed" forKey:@"action"];
+                    BOOL hideJailbreakButtonShown = (envManager.isJailbroken || (envManager.isInstalledThroughTrollStore && envManager.isBootstrapped && !envManager.isJailbreakHidden));
+                    if (hideJailbreakButtonShown) {
+                        [specifiers addObject:hideUnhideJailbreakSpecifier];
+                    }
+                    
+                    PSSpecifier *removeJailbreakSpecifier = [PSSpecifier emptyGroupSpecifier];
+                    removeJailbreakSpecifier.target = self;
+                    [removeJailbreakSpecifier setProperty:@"Button_Remove_Jailbreak" forKey:@"title"];
+                    [removeJailbreakSpecifier setProperty:@"DOButtonCell" forKey:@"headerCellClass"];
+                    [removeJailbreakSpecifier setProperty:@"trash" forKey:@"image"];
+                    [removeJailbreakSpecifier setProperty:@"removeJailbreakPressed" forKey:@"action"];
+                    if (hideJailbreakButtonShown) {
+                        if (envManager.isJailbroken) {
+                            [removeJailbreakSpecifier setProperty:DOLocalizedString(@"Hint_Hide_Jailbreak_Jailbroken") forKey:@"footerText"];
+                        }
+                        else {
+                            [removeJailbreakSpecifier setProperty:DOLocalizedString(@"Hint_Hide_Jailbreak") forKey:@"footerText"];
+                        }
+                    }
+                    [specifiers addObject:removeJailbreakSpecifier];
+                }
             }
         }
         
@@ -349,6 +371,25 @@
     }
 }
 
+- (id)readAppJITEnabled:(PSSpecifier *)specifier
+{
+    DOEnvironmentManager *envManager = [DOEnvironmentManager sharedManager];
+    if (envManager.isJailbroken) {
+        bool v = jbclient_platform_jbsettings_get_bool("markAppsAsDebugged");
+        return @(v);
+    }
+    return [self readPreferenceValue:specifier];
+}
+
+- (void)setAppJITEnabled:(id)value specifier:(PSSpecifier *)specifier
+{
+    [self setPreferenceValue:value specifier:specifier];
+    DOEnvironmentManager *envManager = [DOEnvironmentManager sharedManager];
+    if (envManager.isJailbroken) {
+        jbclient_platform_jbsettings_set_bool("markAppsAsDebugged", ((NSNumber *)value).boolValue);
+    }
+}
+
 - (void)setRemoveJailbreakEnabled:(id)value specifier:(PSSpecifier *)specifier
 {
     [self setPreferenceValue:value specifier:specifier];
@@ -367,14 +408,46 @@
 
 #pragma mark - Button Actions
 
+- (void)refreshJailbreakAppsPressed
+{
+    [[DOEnvironmentManager sharedManager] refreshJailbreakApps];
+}
+
 - (void)reinstallPackageManagersPressed
 {
     [self.navigationController pushViewController:[[DOPkgManagerPickerViewController alloc] init] animated:YES];
 }
 
-- (void)refreshJailbreakAppsPressed
+- (void)changeMobilePasswordPressed
 {
-    [[DOEnvironmentManager sharedManager] refreshJailbreakApps];
+    UIAlertController *changeMobilePasswordAlert = [UIAlertController alertControllerWithTitle:DOLocalizedString(@"Button_Change_Mobile_Password") message:DOLocalizedString(@"Alert_Change_Mobile_Password_Body") preferredStyle:UIAlertControllerStyleAlert];
+    
+    [changeMobilePasswordAlert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = DOLocalizedString(@"Password_Placeholder");
+        textField.secureTextEntry = YES;
+    }];
+    
+    [changeMobilePasswordAlert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = DOLocalizedString(@"Repeat_Password_Placeholder");
+        textField.secureTextEntry = YES;
+    }];
+    
+    UIAlertAction *changeButton = [UIAlertAction actionWithTitle:DOLocalizedString(@"Button_Change") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
+        NSString *password = changeMobilePasswordAlert.textFields[0].text;
+        NSString *repeatPassword = changeMobilePasswordAlert.textFields[1].text;
+        if (![password isEqualToString:repeatPassword]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self changeMobilePasswordPressed];
+            });
+        }
+        else {
+            [[DOEnvironmentManager sharedManager] changeMobilePassword:password];
+        }
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:DOLocalizedString(@"Button_Cancel") style:UIAlertActionStyleCancel handler:nil];
+    [changeMobilePasswordAlert addAction:changeButton];
+    [changeMobilePasswordAlert addAction:cancelAction];
+    [self presentViewController:changeMobilePasswordAlert animated:YES completion:nil];
 }
 
 - (void)hideUnhideJailbreakPressed

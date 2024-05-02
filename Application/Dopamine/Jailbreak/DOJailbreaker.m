@@ -27,6 +27,7 @@
 #import <libjailbreak/jbserver_boomerang.h>
 #import <libjailbreak/signatures.h>
 #import <libjailbreak/jbclient_xpc.h>
+#import <libjailbreak/kcall_arm64.h>
 #import <CoreServices/LSApplicationProxy.h>
 #import "spawn.h"
 int posix_spawnattr_set_registered_ports_np(posix_spawnattr_t * __restrict attr, mach_port_t portarray[], uint32_t count);
@@ -52,8 +53,9 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     JBErrorCodeFailedPlatformize             = -9,
     JBErrorCodeFailedBasebinTrustcache       = -10,
     JBErrorCodeFailedLaunchdInjection        = -11,
-    JBErrorCodeFailedInitFakeLib             = -12,
-    JBErrorCodeFailedDuplicateApps           = -13,
+    JBErrorCodeFailedInitProtection          = -12,
+    JBErrorCodeFailedInitFakeLib             = -13,
+    JBErrorCodeFailedDuplicateApps           = -14,
 };
 
 @implementation DOJailbreaker
@@ -79,6 +81,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
             NULL,
             NULL,
             NULL,
+            NULL,
         };
 
         uint32_t idx = 7;
@@ -87,6 +90,9 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
         }
         if (xpf_set_is_supported("badRecovery")) {
             sets[idx++] = "badRecovery"; 
+        }
+        if (xpf_set_is_supported("arm64kcall")) {
+            sets[idx++] = "arm64kcall"; 
         }
 
         _systemInfoXdict = xpf_construct_offset_dictionary((const char **)sets);
@@ -167,10 +173,13 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
         if ([pplBypass run] != 0) {[pacBypass cleanup]; [kernelExploit cleanup]; return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedExploitation userInfo:@{NSLocalizedDescriptionKey:@"Failed to bypass PPL"}];}
         // At this point we presume the PPL bypass gave us unrestricted phys write primitives
     }
-
-    if (@available(iOS 16.0, *)) {
-        // IOSurface kallocs don't work on iOS 16+, use these instead
+    if (!gPrimitives.kalloc_global) {
+        // IOSurface kallocs don't work on iOS 16+, use leaked page tables as allocations instead
         libjailbreak_kalloc_pt_init();
+    }
+    
+    if (![DOEnvironmentManager sharedManager].isArm64e) {
+        arm64_kcall_init();
     }
 
     return nil;
@@ -178,7 +187,13 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
 
 - (NSError *)buildPhysRWPrimitive
 {
-    int r = libjailbreak_physrw_pte_init(false);
+    int r = -1;
+    if (device_supports_physrw_pte()) {
+        r = libjailbreak_physrw_pte_init(false, 0);
+    }
+    else {
+        r = libjailbreak_physrw_init(false);
+    }
     if (r != 0) {
         return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedBuildingPhysRW userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"Failed to build phys r/w primitive: %d", r]}];
     }
@@ -351,6 +366,15 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     return nil;
 }
 
+- (NSError *)applyProtection
+{
+    int r = exec_cmd(JBRootPath("/basebin/jbctl"), "internal", "protection_init", NULL);
+    if (r != 0) {
+        return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedInitProtection userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Failed initializing protection with error: %d", r]}];
+    }
+    return nil;
+}
+
 - (NSError *)createFakeLib
 {
     int r = exec_cmd(JBRootPath("/basebin/jbctl"), "internal", "fakelib_init", NULL);
@@ -358,8 +382,8 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
         return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedInitFakeLib userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Creating fakelib failed with error: %d", r]}];
     }
 
-    cdhash_t *cdhashes;
-    uint32_t cdhashesCount;
+    cdhash_t *cdhashes = NULL;
+    uint32_t cdhashesCount = 0;
     macho_collect_untrusted_cdhashes(JBRootPath("/basebin/.fakelib/dyld"), NULL, NULL, &cdhashes, &cdhashesCount);
     if (cdhashesCount != 1) return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedInitFakeLib userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Got unexpected number of cdhashes for dyld???: %d", cdhashesCount]}];
     
@@ -460,11 +484,15 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     BOOL removeJailbreakEnabled = [[DOPreferenceManager sharedManager] boolPreferenceValueForKey:@"removeJailbreakEnabled" fallback:NO];
     BOOL tweaksEnabled = [[DOPreferenceManager sharedManager] boolPreferenceValueForKey:@"tweakInjectionEnabled" fallback:YES];
     BOOL idownloadEnabled = [[DOPreferenceManager sharedManager] boolPreferenceValueForKey:@"idownloadEnabled" fallback:NO];
+    BOOL appJITEnabled = [[DOPreferenceManager sharedManager] boolPreferenceValueForKey:@"appJITEnabled" fallback:YES];
     
     *errOut = [self gatherSystemInformation];
     if (*errOut) return;
     *errOut = [self doExploitation];
     if (*errOut) return;
+    
+    gSystemInfo.jailbreakSettings.markAppsAsDebugged = appJITEnabled;
+    
     [[DOUIManager sharedInstance] sendLog:DOLocalizedString(@"Building Phys R/W Primitive") debug:NO];
     *errOut = [self buildPhysRWPrimitive];
     if (*errOut) return;
@@ -509,6 +537,13 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     
     [[DOUIManager sharedInstance] sendLog:DOLocalizedString(@"Initializing Environment") debug:NO];
     *errOut = [self injectLaunchdHook];
+    if (*errOut) return;
+    
+    // Now that we can, protect important system files by bind mounting on top of them
+    // This will be always be done during the userspace reboot
+    // We also do it now though in case there is a failure between the now step and the userspace reboot
+    [[DOUIManager sharedInstance] sendLog:DOLocalizedString(@"Initializing Protection") debug:NO];
+    *errOut = [self applyProtection];
     if (*errOut) return;
     
     [[DOUIManager sharedInstance] sendLog:DOLocalizedString(@"Applying Bind Mount") debug:NO];

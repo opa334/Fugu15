@@ -6,10 +6,8 @@ xcshareddata/
 DerivedData/
 .swiftpm/xcode/
 /Package.resolved
-/Server/orig.ipa
-/Server/serverCert/fullchain.cer
-/Server/serverCert/server.key
 Dopamine/Dopamine/bootstrap/tmp/
+Application/Payload
 .idea
 Tools/fastPathSign/.build_*
 Exploits/kfd/kfd.framework/kfd

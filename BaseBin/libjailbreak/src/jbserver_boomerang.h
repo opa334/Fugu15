@@ -11,7 +11,7 @@
 
 #include "jbserver.h"
 
-int boomerang_get_physrw(audit_token_t *clientToken, bool singlePTE);
+int boomerang_get_physrw(audit_token_t *clientToken, bool singlePTE, uint64_t *singlePTEAsidPtr);
 int boomerang_sign_thread(audit_token_t *clientToken, mach_port_t threadPort);
 int boomerang_get_sysinfo(xpc_object_t *sysInfoOut);
 

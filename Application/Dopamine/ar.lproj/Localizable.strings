@@ -41,6 +41,7 @@
 "Settings_Tweak_Injection" = "تشغيل الأدوات";
 "Settings_iDownload" = "iDownload (محطة المطور)";
 "Settings_Verbose_Logs" = "السجلات المطولة";
+/*Settings_Apps_JIT*/
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "إزالة الجيلبريك";
@@ -48,6 +49,7 @@
 "Button_Unhide_Jailbreak" = "عدم إخفاء الجيلبريك";
 "Button_Refresh_Jailbreak_Apps" = "تحديث تطبيقات الجيلبريك";
 "Button_Reinstall_Package_Managers" = "إعادة تثبيت مديري الحزم";
+/*Button_Change_Mobile_Password*/
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "\"إخفاء الجيلبريك\" يقوم بإزالة الملفات المتعلقة بالجيلبريك مؤقتًا حتى تفعيل الجيلبريك القادم.";
@@ -65,6 +67,10 @@
 "Alert_Remove_Jailbreak_Title" = "إزالة الجيلبريك";
 "Alert_Remove_Jailbreak_Pressed_Body" = "ستؤدي إزالة الجيلبريك إلى حذف جميع الملفات المتعلقة به، ولكن سيتم الاحتفاظ بجميع التطبيقات والملفات والبيانات العادية. هل أنت متأكد من أنك تريد الاستمرار؟ لا يمكنك التراجع عن هذا الإجراء.";
 "Alert_Remove_Jailbreak_Enabled_Body" = "إن تفعيل \"إزالة الجيلبريك\" سيؤدي إلى إزالة كل الملفات المتعلقة بالجيلبريك عند التفعيل القادم للجيلبريك، ولكن سيتم الاحتفاظ بكل التطبيقات العادية والملفات والبيانات. هل أنت متأكد من أنك تريد الاستمرار؟ لا يمكن التراجع عن هذا الإجراء.";
+/*Alert_Change_Mobile_Password_Body*/
+/*Password_Placeholder*/
+/*Repeat_Password_Placeholder*/
+/*Button_Change*/
 "Button_Cancel" = "إلغاء";
 "Button_Continue" = "استمرار";
 
@@ -78,6 +84,8 @@
 "Kernel Exploit" = "ثغرة الـ Kernel";
 "PPL Bypass" = "تجاوز PPL";
 "PAC Bypass" = "تجاوز PAC";
+/*None*/
+/*Recommended*/
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -86,6 +94,7 @@
 
 // Logs
 "Initializing Environment" = "تحسين بيئة الجيلبريك";
+/*Initializing Protection*/
 "Loading BaseBin TrustCache" = "تحميل BaseBin TrustCache";
 "Applying Bind Mount" = "تطبيق Bind Mount";
 "Removing Jailbreak" = "إزالة الجيلبريك";
@@ -102,3 +111,4 @@
 "Status_Title_Select_Package_Managers" = "اختر مدير الحزمة";
 "Select_Package_Managers_Install_Message" = "إذا كنت محتارًا في الاختيار، فاختر Sileo";
 "Continue" = "استمرار";
+

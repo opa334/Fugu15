@@ -11,7 +11,43 @@
 #include <libjailbreak/primitives.h>
 #include <libjailbreak/codesign.h>
 
+extern bool stringStartsWith(const char *str, const char* prefix);
 extern bool stringEndsWith(const char* str, const char* suffix);
+
+char *combine_strings(char separator, char **components, int count)
+{
+	if (count <= 0) return NULL;
+
+	bool isFirst = true;
+
+	size_t outLength = 1;
+	for (int i = 0; i < count; i++) {
+		if (components[i]) {
+			outLength += !isFirst + strlen(components[i]);
+			if (isFirst) isFirst = false;
+		}
+	}
+
+	isFirst = true;
+	char *outString = malloc(outLength * sizeof(char));
+	*outString = 0;
+
+	for (int i = 0; i < count; i++) {
+		if (components[i]) {
+			if (isFirst) {
+				strlcpy(outString, components[i], outLength);
+				isFirst = false;
+			}
+			else {
+				char separatorString[2] = { separator, 0 };
+				strlcat(outString, (char *)separatorString, outLength);
+				strlcat(outString, components[i], outLength);
+			}
+		}
+	}
+
+	return outString;
+}
 
 static bool systemwide_domain_allowed(audit_token_t clientToken)
 {
@@ -72,7 +108,7 @@ static int systemwide_trust_library(audit_token_t *processToken, const char *lib
 	return trust_file(libraryPath, callerLibraryPath, callerPath);
 }
 
-static int systemwide_process_checkin(audit_token_t *processToken, char **rootPathOut, char **bootUUIDOut, char **sandboxExtensionsOut)
+static int systemwide_process_checkin(audit_token_t *processToken, char **rootPathOut, char **bootUUIDOut, char **sandboxExtensionsOut, bool *fullyDebuggedOut)
 {
 	// Fetch process info
 	pid_t pid = audit_token_to_pid(*processToken);
@@ -87,20 +123,31 @@ static int systemwide_process_checkin(audit_token_t *processToken, char **rootPa
 	systemwide_get_boot_uuid(bootUUIDOut);
 
 	// Generate sandbox extensions for the requesting process
-	char *readExtension = sandbox_extension_issue_file_to_process("com.apple.app-sandbox.read", JBRootPath(""), 0, *processToken);
-	char *execExtension = sandbox_extension_issue_file_to_process("com.apple.sandbox.executable", JBRootPath(""), 0, *processToken);
-	if (readExtension && execExtension) {
-		char extensionBuf[strlen(readExtension) + 1 + strlen(execExtension) + 1];
-		strcat(extensionBuf, readExtension);
-		strcat(extensionBuf, "|");
-		strcat(extensionBuf, execExtension);
-		*sandboxExtensionsOut = strdup(extensionBuf);
+
+	char *sandboxExtensionsArr[] = {
+		// Make /var/jb readable and executable
+		sandbox_extension_issue_file_to_process("com.apple.app-sandbox.read", JBRootPath(""), 0, *processToken),
+		sandbox_extension_issue_file_to_process("com.apple.sandbox.executable", JBRootPath(""), 0, *processToken),
+
+		// Make /var/jb/var/mobile writable
+		sandbox_extension_issue_file_to_process("com.apple.app-sandbox.read-write", JBRootPath("/var/mobile"), 0, *processToken),
+	};
+	int sandboxExtensionsCount = sizeof(sandboxExtensionsArr) / sizeof(char *);
+	*sandboxExtensionsOut = combine_strings('|', sandboxExtensionsArr, sandboxExtensionsCount);
+	for (int i = 0; i < sandboxExtensionsCount; i++) free(sandboxExtensionsArr[i]);
+
+	bool fullyDebugged = false;
+	if (stringStartsWith(procPath, "/private/var/containers/Bundle/Application") || stringStartsWith(procPath, JBRootPath("/Applications"))) {
+		// This is an app
+		// Enable CS_DEBUGGED based on user preference
+		if (jbsetting(markAppsAsDebugged)) {
+			fullyDebugged = true;
+		}
 	}
-	if (readExtension) free(readExtension);
-	if (execExtension) free(execExtension);
+	*fullyDebuggedOut = fullyDebugged;
 
 	// Allow invalid pages
-	cs_allow_invalid(proc, false);
+	cs_allow_invalid(proc, fullyDebugged);
 
 	// Fix setuid
 	struct stat sb;
@@ -290,6 +337,7 @@ struct jbserver_domain gSystemwideDomain = {
 				{ .name = "root-path", .type = JBS_TYPE_STRING, .out = true },
 				{ .name = "boot-uuid", .type = JBS_TYPE_STRING, .out = true },
 				{ .name = "sandbox-extensions", .type = JBS_TYPE_STRING, .out = true },
+				{ .name = "fully-debugged", .type = JBS_TYPE_BOOL, .out = true },
 				{ 0 },
 			},
 		},

@@ -10,9 +10,9 @@ static bool root_domain_allowed(audit_token_t clientToken)
 	return (audit_token_to_euid(clientToken) == 0);
 }
 
-static int root_get_physrw(audit_token_t *clientToken, bool singlePTE)
+static int root_get_physrw(audit_token_t *clientToken, bool singlePTE, uint64_t *singlePTEAsidPtr)
 {
-	return boomerang_get_physrw(clientToken, singlePTE);
+	return boomerang_get_physrw(clientToken, singlePTE, singlePTEAsidPtr);
 }
 
 static int root_sign_thread(audit_token_t *clientToken, mach_port_t threadPort)
@@ -79,10 +79,22 @@ static int root_set_mac_label(audit_token_t *clientToken, uint64_t slot, uint64_
 	return 0;
 }
 
-static int root_add_cdhash(uint8_t *cdhashData, size_t cdhashLen)
+static int root_trustcache_info(xpc_object_t *infoOut)
+{
+	*infoOut = jb_trustcache_info();
+	return 0;
+}
+
+static int root_trustcache_add_cdhash(uint8_t *cdhashData, size_t cdhashLen)
 {
 	if (cdhashLen != CS_CDHASH_LEN) return -1;
 	return jb_trustcache_add_cdhashes((cdhash_t *)cdhashData, 1);
+}
+
+static int root_trustcache_clear(void)
+{
+	jb_trustcache_clear();
+	return 0;
 }
 
 struct jbserver_domain gRootDomain = {
@@ -94,6 +106,7 @@ struct jbserver_domain gRootDomain = {
 			.args = (jbserver_arg[]){
 				{ .name = "caller-token", .type = JBS_TYPE_CALLER_TOKEN, .out = false },
 				{ .name = "single-pte", .type = JBS_TYPE_BOOL, .out = false },
+				{ .name = "single-pte-asid-ptr", .type = JBS_TYPE_UINT64, .out = true },
 				{ 0 },
 			},
 		},
@@ -111,14 +124,6 @@ struct jbserver_domain gRootDomain = {
 			.handler = root_get_sysinfo,
 			.args = (jbserver_arg[]){
 				{ .name = "sysinfo", .type = JBS_TYPE_DICTIONARY, .out = true },
-				{ 0 },
-			},
-		},
-		// JBS_ROOT_ADD_CDHASH
-		{
-			.handler = root_add_cdhash,
-			.args = (jbserver_arg[]){
-				{ .name = "cdhash", .type = JBS_TYPE_DATA, .out = false },
 				{ 0 },
 			},
 		},
@@ -140,6 +145,29 @@ struct jbserver_domain gRootDomain = {
 				{ .name = "slot", .type = JBS_TYPE_UINT64, .out = false },
 				{ .name = "label", .type = JBS_TYPE_UINT64, .out = false },
 				{ .name = "org-label", .type = JBS_TYPE_UINT64, .out = true },
+				{ 0 },
+			},
+		},
+		// JBS_ROOT_TRUSTCACHE_INFO
+		{
+			.handler = root_trustcache_info,
+			.args = (jbserver_arg[]){
+				{ .name = "tc-info", .type = JBS_TYPE_ARRAY, .out = true },
+				{ 0 },
+			},
+		},
+		// JBS_ROOT_ADD_CDHASH
+		{
+			.handler = root_trustcache_add_cdhash,
+			.args = (jbserver_arg[]){
+				{ .name = "cdhash", .type = JBS_TYPE_DATA, .out = false },
+				{ 0 },
+			},
+		},
+		// JBS_ROOT_TRUSTCACHE_CLEAR
+		{
+			.handler = root_trustcache_clear,
+			.args = (jbserver_arg[]){
 				{ 0 },
 			},
 		},

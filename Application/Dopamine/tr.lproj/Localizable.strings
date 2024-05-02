@@ -41,6 +41,7 @@
 "Settings_Tweak_Injection" = "Tweak Enjeksiyonu";
 "Settings_iDownload" = "iDownload (Geliştirici Terminali)";
 "Settings_Verbose_Logs" = "Sözlü Loglar";
+/*Settings_Apps_JIT*/
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "Jailbreak'i Sil";
@@ -48,6 +49,7 @@
 "Button_Unhide_Jailbreak" = "Jailbreak'i Göster";
 /*Button_Refresh_Jailbreak_Apps*/
 "Button_Reinstall_Package_Managers" = "Reinstall Package Managers";
+/*Button_Change_Mobile_Password*/
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "\"Jailbreak'i Sakla\" Geçici olarak jailbreak ile ilgili dosyaları sonraki jailbreak'e kadar saklar";
@@ -65,6 +67,10 @@
 "Alert_Remove_Jailbreak_Title" = "Remove Jailbreak";
 "Alert_Remove_Jailbreak_Pressed_Body" = "Removing jailbreak will delete all jailbreak-related files, but all regular apps, files and data will be kept. Are you sure you want to continue? You can't undo this action.";
 /*Alert_Remove_Jailbreak_Enabled_Body*/
+/*Alert_Change_Mobile_Password_Body*/
+/*Password_Placeholder*/
+/*Repeat_Password_Placeholder*/
+/*Button_Change*/
 "Button_Cancel" = "İptal";
 "Button_Continue" = "Continue";
 
@@ -78,6 +84,8 @@
 /*Kernel Exploit*/
 /*PPL Bypass*/
 /*PAC Bypass*/
+/*None*/
+/*Recommended*/
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -86,6 +94,7 @@
 
 // Logs
 "Initializing Environment" = "Ortam Başlatılıyor";
+/*Initializing Protection*/
 /*Loading BaseBin TrustCache*/
 /*Applying Bind Mount*/
 /*Removing Jailbreak*/

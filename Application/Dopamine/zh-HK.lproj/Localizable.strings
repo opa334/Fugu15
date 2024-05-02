@@ -41,6 +41,7 @@
 "Settings_Tweak_Injection" = "插件注入";
 "Settings_iDownload" = "iDownload (开发商终端)";
 "Settings_Verbose_Logs" = "詳細日誌";
+/*Settings_Apps_JIT*/
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "清除越獄";
@@ -48,6 +49,7 @@
 "Button_Unhide_Jailbreak" = "解除隱藏越獄";
 /*Button_Refresh_Jailbreak_Apps*/
 "Button_Reinstall_Package_Managers" = "重新安裝包管理器（越獄商店）";
+/*Button_Change_Mobile_Password*/
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "「隱藏越獄」將在下次越獄前臨時移除越獄相關的文件";
@@ -65,6 +67,10 @@
 "Alert_Remove_Jailbreak_Title" = "清除越獄";
 "Alert_Remove_Jailbreak_Pressed_Body" = "清除越獄將移除所有和越獄相關的文件，但將保留普通 App、文件、數據。請注意，此操作無法撤銷。確認清除越獄嗎？";
 /*Alert_Remove_Jailbreak_Enabled_Body*/
+/*Alert_Change_Mobile_Password_Body*/
+/*Password_Placeholder*/
+/*Repeat_Password_Placeholder*/
+/*Button_Change*/
 "Button_Cancel" = "取消";
 /*Button_Continue*/
 
@@ -78,6 +84,8 @@
 /*Kernel Exploit*/
 /*PPL Bypass*/
 /*PAC Bypass*/
+/*None*/
+/*Recommended*/
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -86,6 +94,7 @@
 
 // Logs
 "Initializing Environment" = "初始化環境";
+/*Initializing Protection*/
 /*Loading BaseBin TrustCache*/
 /*Applying Bind Mount*/
 /*Removing Jailbreak*/

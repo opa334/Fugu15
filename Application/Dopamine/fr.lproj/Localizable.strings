@@ -41,6 +41,7 @@
 "Settings_Tweak_Injection" = "Injection de tweaks";
 "Settings_iDownload" = "iDownload (Outil de dev)";
 "Settings_Verbose_Logs" = "Mode verbose";
+/*Settings_Apps_JIT*/
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "Supprimer le jailbreak";
@@ -48,6 +49,7 @@
 "Button_Unhide_Jailbreak" = "Retour au mode jailbreaké";
 "Button_Refresh_Jailbreak_Apps" = "Rafraîchir les apps jailbreakées";
 "Button_Reinstall_Package_Managers" = "Réinstaller les gestionnaires de paquets";
+/*Button_Change_Mobile_Password*/
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "Le mode \"Jailbreak masqué\" enlève temporairement les fichiers liés au jailbreak jusqu'au prochain jailbreak.";
@@ -65,6 +67,10 @@
 "Alert_Remove_Jailbreak_Title" = "Supprimer le jailbreak";
 "Alert_Remove_Jailbreak_Pressed_Body" = "La suppression du jailbreak effacera tous les fichiers liés au jailbreak, mais toutes les applications, fichiers et données habituels seront conservés. Êtes-vous sûr de vouloir continuer ? Vous ne pouvez pas annuler cette action.";
 "Alert_Remove_Jailbreak_Enabled_Body" = "L'activation de cette option supprimera tous les fichiers liés au jailbreak au prochain jailbreak. Toutes les applications, fichiers et données habituels seront conservés. Êtes-vous sûr de vouloir continuer ?";
+/*Alert_Change_Mobile_Password_Body*/
+/*Password_Placeholder*/
+/*Repeat_Password_Placeholder*/
+/*Button_Change*/
 "Button_Cancel" = "Annuler";
 "Button_Continue" = "Continuer";
 
@@ -78,6 +84,8 @@
 "Kernel Exploit" = "Exploit du noyau";
 "PPL Bypass" = "Contournement PPL";
 "PAC Bypass" = "Contournement PAC";
+/*None*/
+/*Recommended*/
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -86,6 +94,7 @@
 
 // Logs
 "Initializing Environment" = "Initialisation de l'environnement";
+/*Initializing Protection*/
 "Loading BaseBin TrustCache" = "Chargement des signatures";
 "Applying Bind Mount" = "Montage du disque virtuel";
 "Removing Jailbreak" = "Suppression du jailbreak";

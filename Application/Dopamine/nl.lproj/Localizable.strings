@@ -41,6 +41,7 @@
 "Settings_Tweak_Injection" = "Tweak Injection";
 "Settings_iDownload" = "iDownload (Ontwikkelaar Terminal)";
 "Settings_Verbose_Logs" = "Uitgebreide logs";
+/*Settings_Apps_JIT*/
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "Jailbreak verwijderen";
@@ -48,6 +49,7 @@
 "Button_Unhide_Jailbreak" = "Jailbreak tonen";
 /*Button_Refresh_Jailbreak_Apps*/
 "Button_Reinstall_Package_Managers" = "Reinstall Package Managers";
+/*Button_Change_Mobile_Password*/
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "\"Jailbreak verbergen\" verwijderd jailbreak-gerelateerde bestanden tot de volgende jailbreak";
@@ -65,6 +67,10 @@
 "Alert_Remove_Jailbreak_Title" = "Jailbreak verwijderen";
 "Alert_Remove_Jailbreak_Pressed_Body" = "Het verwijderen van jailbreak zal alle jailbreak-gerelateerde bestanden verwijderen, maar alle reguliere apps, bestanden en gegevens blijven behouden. Weet u zeker dat u wilt doorgaan? U kunt deze actie niet ongedaan maken.";
 /*Alert_Remove_Jailbreak_Enabled_Body*/
+/*Alert_Change_Mobile_Password_Body*/
+/*Password_Placeholder*/
+/*Repeat_Password_Placeholder*/
+/*Button_Change*/
 "Button_Cancel" = "Annuleren";
 /*Button_Continue*/
 
@@ -78,6 +84,8 @@
 /*Kernel Exploit*/
 /*PPL Bypass*/
 /*PAC Bypass*/
+/*None*/
+/*Recommended*/
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -86,6 +94,7 @@
 
 // Logs
 "Initializing Environment" = "Omgeving aan het initialiseren";
+/*Initializing Protection*/
 /*Loading BaseBin TrustCache*/
 /*Applying Bind Mount*/
 /*Removing Jailbreak*/

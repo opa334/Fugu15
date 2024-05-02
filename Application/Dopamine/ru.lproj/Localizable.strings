@@ -41,13 +41,15 @@
 "Settings_Tweak_Injection" = "Внедрение твиков";
 "Settings_iDownload" = "iDownload (Терминал разработчика)";
 "Settings_Verbose_Logs" = "Расширенные логи";
+"Settings_Apps_JIT" = "Разрешить JIT в приложениях";
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "Удалить джейлбрейк";
 "Button_Hide_Jailbreak" = "Скрыть джейлбрейк";
 "Button_Unhide_Jailbreak" = "Отобразить джейлбрейк";
-"Button_Refresh_Jailbreak_Apps" = "Освежить приложения джейлбрейка";
+"Button_Refresh_Jailbreak_Apps" = "Обновить приложения джейлбрейка";
 "Button_Reinstall_Package_Managers" = "Переустановить менеджеры пакетов";
+"Button_Change_Mobile_Password" = "Изменить пароль для \"mobile\"";
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "\"Скрыть джейлбрейк\" временно удаляет файлы, связанные с джейлбрейком, до следующего джейлбрейка";
@@ -65,6 +67,10 @@
 "Alert_Remove_Jailbreak_Title" = "Удаление джейлбрейка";
 "Alert_Remove_Jailbreak_Pressed_Body" = "Удаление джейлбрейка приведёт к удалению всех файлов, связанных с джейлбрейком, но все обычные приложения, файлы и данные будут сохранены. Вы уверены, что хотите продолжить? Вы не сможете отменить это действие.";
 "Alert_Remove_Jailbreak_Enabled_Body" = "Нажимая \"Удаление джейлбрейка\", все файлы, связанные с джейлбрейком, будут удалены до следующего джейлбрейка. Все обычные приложения, файлы и данные будут сохранены. Вы уверены, что хотите продолжить? Вы не сможете отменить это действие.";
+"Alert_Change_Mobile_Password_Body" = "Установите пароль \"mobile\" пользователя на вашем устройстве, который также можно использовать для доступа root с помощью sudo. Если вы хотите установить пароль root, вы можете сделать это из мобильной оболочки, используя команду \"sudo passwd root\"";
+"Password_Placeholder" = "Пароль";
+"Repeat_Password_Placeholder" = "Повторите пароль";
+"Button_Change" = "Изменить";
 "Button_Cancel" = "Отмена";
 "Button_Continue" = "Продолжить";
 
@@ -78,6 +84,8 @@
 "Kernel Exploit" = "Эксплоит Ядра";
 "PPL Bypass" = "Обход PPL";
 "PAC Bypass" = "Обход PAC";
+/*None*/
+/*Recommended*/
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -86,6 +94,7 @@
 
 // Logs
 "Initializing Environment" = "Инициализация среды";
+"Initializing Protection" = "Инициализация защиты";
 "Loading BaseBin TrustCache" = "Получение кэша доверия BaseBin";
 "Applying Bind Mount" = "Применение монтирования с привязкой";
 "Removing Jailbreak" = "Удаление джейлбрейка";

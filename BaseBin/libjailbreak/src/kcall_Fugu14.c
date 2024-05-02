@@ -340,9 +340,10 @@ void fugu14_kexec(kRegisterState *state)
 	fugu14_kexec_on_thread(&gFugu14KcallThread, state);
 }
 
-void jbclient_get_fugu14_kcall(void)
+int jbclient_get_fugu14_kcall(void)
 {
-	fugu14_kcall_init(^int(mach_port_t threadToSign) {
+	if (!gPrimitives.kalloc_local) return -1;
+	return fugu14_kcall_init(^int(mach_port_t threadToSign) {
 		return jbclient_root_sign_thread(threadToSign);
 	});
 }

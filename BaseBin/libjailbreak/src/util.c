@@ -11,7 +11,10 @@
 #include <archive.h>
 #include <archive_entry.h>
 #include <math.h>
+#include <IOKit/IOKitLib.h>
 extern char **environ;
+
+#define FAKE_PHYSPAGE_TO_MAP 0x13370000
 
 #define POSIX_SPAWN_PERSONA_FLAGS_OVERRIDE 1
 extern int posix_spawnattr_set_persona_np(const posix_spawnattr_t* __restrict, uid_t, uint32_t);
@@ -71,6 +74,26 @@ uint64_t pmap_self(void)
 	return gSelfPmap;
 }
 
+uint64_t ttep_self(void)
+{
+	static uint64_t gSelfTTEP = 0;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		gSelfTTEP = kread_ptr(pmap_self() + koffsetof(pmap, ttep));
+	});
+	return gSelfTTEP;
+}
+
+uint64_t tte_self(void)
+{
+	static uint64_t gSelfTTE = 0;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		gSelfTTE = kread_ptr(pmap_self() + koffsetof(pmap, tte));
+	});
+	return gSelfTTE;
+}
+
 uint64_t task_get_ipc_port_table_entry(uint64_t task, mach_port_t port)
 {
 	uint64_t itk_space = kread_ptr(task + koffsetof(task, itk_space));
@@ -89,8 +112,6 @@ uint64_t task_get_ipc_port_kobject(uint64_t task, mach_port_t port)
 
 uint64_t alloc_page_table_unassigned(void)
 {
-	thread_caffeinate_start();
-
 	uint64_t pmap = pmap_self();
 	uint64_t ttep = kread64(pmap + koffsetof(pmap, ttep));
 
@@ -113,7 +134,7 @@ uint64_t alloc_page_table_unassigned(void)
 
 		uint64_t pvh = pai_to_pvh(pa_index(allocatedPT));
 		uint64_t ptdp = pvh_ptd(pvh);
-		uint64_t pinfo = kread64(ptdp + koffsetof(pt_desc, ptd_info)); // TODO: Fake 16k devices (4 values)
+		uint64_t pinfo = kread64(ptdp + koffsetof(pt_desc, ptd_info));
 		pinfo_pa = kvtophys(pinfo);
 
 		uint16_t refCount = physread16(pinfo_pa);
@@ -122,7 +143,6 @@ uint64_t alloc_page_table_unassigned(void)
 			free(free_lvl2);
 			continue;
 		}
-
 		break;
 	}
 
@@ -179,8 +199,6 @@ uint64_t alloc_page_table_unassigned(void)
 	//int page_table_ledger = physread32(ledger_pa + koffsetof(_task_ledger_indices, page_table));
 	//physwrite32(ledger_pa + koffsetof(_task_ledger_indices, page_table), page_table_ledger - 1);
 
-	thread_caffeinate_stop();
-
 	return allocatedPT;
 }
 
@@ -205,64 +223,159 @@ uint64_t pmap_alloc_page_table(uint64_t pmap, uint64_t va)
 
 	// On A14+ PT_INDEX_MAX is 4, for whatever reason
 	// However in practice, only the first slot is used...
-	// TODO: On devices where kernel page size != userland page size, populate all 4 values
-	physwrite64(ptdp_pa + koffsetof(pt_desc, va), va);
+	for (uint64_t po = 0; po < vm_page_size; po += vm_real_kernel_page_size) {
+		physwrite64(ptdp_pa + koffsetof(pt_desc, va) + (po / vm_page_size), va + po);
+	}
 
 	return tt_p;
 }
 
+int pmap_expand_range(uint64_t pmap, uint64_t vaStart, uint64_t size)
+{
+	uint64_t ttep = kread_ptr(pmap + koffsetof(pmap, ttep));
+
+	if (is_kcall_available()) {
+		uint64_t unmappedStart = 0, unmappedSize = 0;
+
+		uint64_t l2Start = vaStart & ~L2_BLOCK_MASK;
+		uint64_t l2End = (vaStart + (size - 1)) & ~L2_BLOCK_MASK;
+		uint64_t l2Count = ((l2End - l2Start) / L2_BLOCK_SIZE) + 1;
+
+		for (uint64_t i = 0; i <= l2Count; i++) {
+			uint64_t curL2 = l2Start + (i * L2_BLOCK_SIZE);
+
+			uint64_t leafLevel = PMAP_TT_L3_LEVEL;
+			uint64_t pt3 = 0;
+			vtophys_lvl(ttep, curL2, &leafLevel, &pt3);
+			if (leafLevel == PMAP_TT_L3_LEVEL || i == l2Count) {
+				// i == l2Count: one extra cycle that this for loop takes
+				// We hit this block either if there was a mapping or at the end
+				// Alloc page tables for the current area (unmappedStart, unmappedSize) by running pmap_enter_options on every page
+				// And then running pmap_remove on the entire area while nested is true
+
+				for (uint64_t l2Off = 0; l2Off < unmappedSize; l2Off += L2_BLOCK_SIZE) {
+					kern_return_t kr = pmap_enter_options_addr(pmap, FAKE_PHYSPAGE_TO_MAP, unmappedStart + l2Off);
+					if (kr != KERN_SUCCESS) {
+						return -7;
+					}
+				}
+
+				// Set type to nested
+				physwrite8(kvtophys(pmap + koffsetof(pmap, type)), 3);
+
+				// Remove mapping (table will stay cause nested is set)
+				pmap_remove(pmap, unmappedStart, unmappedStart + unmappedSize);
+
+				// Change type back
+				physwrite8(kvtophys(pmap + koffsetof(pmap, type)), 0);
+				
+				unmappedStart = 0;
+				unmappedSize = 0;
+				continue;
+			}
+			else {
+				if (unmappedStart == 0) {
+					unmappedStart = curL2;
+				}
+				unmappedSize += L2_BLOCK_SIZE;
+			}
+		}
+	}
+	else {
+		uint64_t vaEnd = vaStart + size;
+		for (uint64_t va = vaStart; va < vaEnd; va += vm_real_kernel_page_size) {
+			uint64_t leafLevel;
+			do {
+				leafLevel = PMAP_TT_L3_LEVEL;
+				uint64_t pt = 0;
+				vtophys_lvl(ttep, va, &leafLevel, &pt);
+				if (leafLevel != PMAP_TT_L3_LEVEL) {
+					uint64_t pt_va = 0;
+					switch (leafLevel) {
+						case PMAP_TT_L1_LEVEL: {
+							pt_va = va & ~L1_BLOCK_MASK;
+							break;
+						}
+						case PMAP_TT_L2_LEVEL: {
+							pt_va = va & ~L2_BLOCK_MASK;
+							break;
+						}
+					}
+					uint64_t newTable = pmap_alloc_page_table(pmap, pt_va);
+					if (newTable) {
+						physwrite64(pt, newTable | ARM_TTE_VALID | ARM_TTE_TYPE_TABLE);
+					}
+					else {
+						return -2;
+					}
+				}
+			} while (leafLevel < PMAP_TT_L3_LEVEL);
+		}
+	}
+	return 0;
+}
+
 int pmap_map_in(uint64_t pmap, uint64_t uaStart, uint64_t paStart, uint64_t size)
 {
-	thread_caffeinate_start();
-
-	uint64_t uaEnd = uaStart + size;
 	uint64_t ttep = kread64(pmap + koffsetof(pmap, ttep));
 
+	uint64_t paEnd = paStart + size;
+	uint64_t uaEnd = uaStart + size;
+
+	uint64_t uaL2Start = uaStart & ~L2_BLOCK_MASK;
+	uint64_t uaL2End   = ((uaStart + size - 1) + L2_BLOCK_SIZE) & ~L2_BLOCK_MASK;
+
+	uint64_t paL2Start = paStart & ~L2_BLOCK_MASK;
+	uint64_t l2Count = (((uaL2End - uaL2Start) - 1) / L2_BLOCK_SIZE) + 1;
+
 	// Sanity check: Ensure the entire area to be mapped in is not mapped to anything yet
-	for(uint64_t ua = uaStart; ua < uaEnd; ua += PAGE_SIZE) {
-		if (vtophys(ttep, ua)) { thread_caffeinate_stop(); return -1; }
+	for(uint64_t ua = uaStart; ua < uaEnd; ua += vm_real_kernel_page_size) {
+		uint64_t leafLevel = PMAP_TT_L3_LEVEL;
+		if (vtophys_lvl(ttep, ua, &leafLevel, NULL) != 0) {
+			return -1;
+		}
+		else {
+			// Performance improvement
+			// If there is no L1 / L2 mapping we can skip a whole bunch of addresses
+			if (leafLevel == PMAP_TT_L1_LEVEL) {
+				ua = (((ua + L1_BLOCK_SIZE) & ~L1_BLOCK_MASK) - vm_real_kernel_page_size);
+			}
+			else if (leafLevel == PMAP_TT_L2_LEVEL) {
+				ua = (((ua + L2_BLOCK_SIZE) & ~L2_BLOCK_MASK) - vm_real_kernel_page_size);
+			}
+		}
+
+		if (vtophys(ttep, ua)) return -1;
 		// TODO: If all mappings match 1:1, maybe return 0 instead of -1?
 	}
 
 	// Allocate all page tables that need to be allocated
-	for(uint64_t ua = uaStart; ua < uaEnd; ua += PAGE_SIZE) {
-		uint64_t leafLevel;
-		do {
-			leafLevel = PMAP_TT_L3_LEVEL;
-			uint64_t pt = 0;
-			vtophys_lvl(ttep, ua, &leafLevel, &pt);
-			if (leafLevel != PMAP_TT_L3_LEVEL) {
-				uint64_t pt_va = 0;
-				switch (leafLevel) {
-					case PMAP_TT_L1_LEVEL: {
-						pt_va = ua & ~L1_BLOCK_MASK;
-						break;
-					}
-					case PMAP_TT_L2_LEVEL: {
-						pt_va = ua & ~L2_BLOCK_MASK;
-						break;
-					}
-				}
-				uint64_t newTable = pmap_alloc_page_table(pmap, pt_va);
-				if (newTable) {
-					physwrite64(pt, newTable | ARM_TTE_VALID | ARM_TTE_TYPE_TABLE);
-				}
-				else { thread_caffeinate_stop(); return -2; }
-			}
-		} while (leafLevel < PMAP_TT_L3_LEVEL);
-	}
-
+	if (pmap_expand_range(pmap, uaStart, size) != 0) return -1;
+	
 	// Insert entries into L3 pages
-	for(uint64_t ua = uaStart; ua < uaEnd; ua += PAGE_SIZE) {
-		uint64_t pa = (ua - uaStart) + paStart;
-		uint64_t leafLevel = PMAP_TT_L3_LEVEL;
-		uint64_t pt = 0;
+	for (uint64_t i = 0; i < l2Count; i++) {
+		uint64_t uaL2Cur = uaL2Start + (i * L2_BLOCK_SIZE);
+		uint64_t paL2Cur = paL2Start + (i * L2_BLOCK_SIZE);
 
-		vtophys_lvl(ttep, ua, &leafLevel, &pt);
-		physwrite64(pt, pa | PERM_TO_PTE(PERM_KRW_URW) | PTE_NON_GLOBAL | PTE_OUTER_SHAREABLE | PTE_LEVEL3_ENTRY);
+		// Create full table for this mapping
+		uint64_t tableToWrite[L2_BLOCK_COUNT];
+		for (int k = 0; k < L2_BLOCK_COUNT; k++) {
+			uint64_t curMappingPage = paL2Cur + (k * vm_real_kernel_page_size);
+			if (curMappingPage >= paStart && curMappingPage < paEnd) {
+				tableToWrite[k] = curMappingPage | PERM_TO_PTE(PERM_KRW_URW) | PTE_NON_GLOBAL | PTE_OUTER_SHAREABLE | PTE_LEVEL3_ENTRY;
+			}
+			else {
+				tableToWrite[k] = 0;
+			}
+		}
+
+		// Replace table with the entries we generated
+		uint64_t leafLevel = PMAP_TT_L2_LEVEL;
+		uint64_t level2Table = vtophys_lvl(ttep, uaL2Cur, &leafLevel, NULL);
+		if (!level2Table) return -2;
+		physwritebuf(level2Table, tableToWrite, vm_real_kernel_page_size);
 	}
 
-	thread_caffeinate_stop();
 	return 0;
 }
 
@@ -360,7 +473,7 @@ int cmd_wait_for_exit(pid_t pid)
 	return status;
 }
 
-int __exec_cmd_internal_va(bool suspended, bool root, pid_t *pidOut, const char *binary, int argc, va_list va_args)
+int __exec_cmd_internal_va(bool suspended, bool root, bool waitForExit, pid_t *pidOut, const char *binary, int argc, va_list va_args)
 {
 	const char *argv[argc+1];
 	argv[0] = binary;
@@ -385,7 +498,7 @@ int __exec_cmd_internal_va(bool suspended, bool root, pid_t *pidOut, const char 
 	if (attr) posix_spawnattr_destroy(&attr);
 	if (spawnError != 0) return spawnError;
 
-	if (!suspended) {
+	if (waitForExit && !suspended) {
 		return cmd_wait_for_exit(spawnedPid);
 	}
 	else if (pidOut) {
@@ -403,7 +516,21 @@ int exec_cmd(const char *binary, ...)
 	va_end(args);
 
 	va_start(args, binary);
-	int r = __exec_cmd_internal_va(false, false, NULL, binary, argc, args);
+	int r = __exec_cmd_internal_va(false, false, true, NULL, binary, argc, args);
+	va_end(args);
+	return r;
+}
+
+int exec_cmd_nowait(pid_t *pidOut, const char *binary, ...)
+{
+	int argc = 1;
+	va_list args;
+	va_start(args, binary);
+	while (va_arg(args, const char *)) argc++;
+	va_end(args);
+
+	va_start(args, binary);
+	int r = __exec_cmd_internal_va(false, false, false, pidOut, binary, argc, args);
 	va_end(args);
 	return r;
 }
@@ -417,7 +544,7 @@ int exec_cmd_suspended(pid_t *pidOut, const char *binary, ...)
 	va_end(args);
 
 	va_start(args, binary);
-	int r = __exec_cmd_internal_va(true, false, pidOut, binary, argc, args);
+	int r = __exec_cmd_internal_va(true, false, false, pidOut, binary, argc, args);
 	va_end(args);
 	return r;
 }
@@ -431,7 +558,7 @@ int exec_cmd_root(const char *binary, ...)
 	va_end(args);
 
 	va_start(args, binary);
-	int r = __exec_cmd_internal_va(false, true, NULL, binary, argc, args);
+	int r = __exec_cmd_internal_va(false, true, true, NULL, binary, argc, args);
 	va_end(args);
 	return r;
 }
@@ -632,4 +759,57 @@ void thread_caffeinate_stop(void)
 	if (gCaffeinateThreadRunCount == 0) {
 		pthread_join(gCaffeinateThread, NULL);
 	}
+}
+
+void convert_data_to_hex_string(const void *data, size_t size, char *outBuf)
+{
+	unsigned char *pin = (unsigned char *)data;
+	const char *hex = "0123456789ABCDEF";
+	char *pout = outBuf;
+	for(; pin < ((unsigned char *)data)+size; pout+=2, pin++){
+		pout[0] = hex[(*pin>>4) & 0xF];
+		pout[1] = hex[ *pin     & 0xF];
+	}
+	pout[0] = 0;
+}
+
+int convert_hex_string_to_data(const char *string, void *outBuf)
+{
+	size_t length = strlen(string);
+	const char *pin = string;
+	char *pout = outBuf;
+	for (; pin < string+length; pin++) {
+		char byte = *pin;
+		if (byte >= '0' && byte <= '9') byte = byte - '0';
+		else if (byte >= 'a' && byte <='f') byte = byte - 'a' + 10;
+		else if (byte >= 'A' && byte <='F') byte = byte - 'A' + 10;
+		else return -1;
+
+		int shift = ((pin - (string+length)) % 2) ? 0 : 4;
+		*pout = (*pout & ~(0xf << shift)) | (byte << shift);
+		if (shift == 0) pout++;
+	}
+	return 0;
+}
+
+char *boot_manifest_hash(void)
+{
+	static char *gBuf = NULL;
+	
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		io_registry_entry_t registryEntry = IORegistryEntryFromPath(kIOMainPortDefault, "IODeviceTree:/chosen");
+		if (registryEntry) {
+			CFDataRef bootManifestHashData = IORegistryEntryCreateCFProperty(registryEntry, CFSTR("boot-manifest-hash"), NULL, 0);
+			CFIndex bootManifestHashLength = CFDataGetLength(bootManifestHashData);
+
+			gBuf = malloc((bootManifestHashLength * 2 * sizeof(char)) + sizeof(char));
+			unsigned char *buf = (unsigned char *)CFDataGetBytePtr(bootManifestHashData);
+			convert_data_to_hex_string(buf, bootManifestHashLength, gBuf);
+
+			CFRelease(bootManifestHashData);
+		}
+	});
+
+	return gBuf;
 }

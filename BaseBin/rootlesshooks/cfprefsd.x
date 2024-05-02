@@ -37,7 +37,8 @@ BOOL preferencePlistNeedsRedirection(NSString *plistPath)
 	return ![additionalSystemPlistNames containsObject:plistName];
 }
 
-%hookf(BOOL, CFPrefsGetPathForTriplet, CFStringRef bundleIdentifier, CFStringRef user, BOOL byHost, CFStringRef path, UInt8 *buffer) {
+%hookf(BOOL, _CFPrefsGetPathForTriplet, CFStringRef bundleIdentifier, CFStringRef user, BOOL byHost, CFStringRef path, UInt8 *buffer)
+{
 	BOOL orig = %orig(bundleIdentifier, user, byHost, path, buffer);
 
 	if(orig && buffer && !access("/var/jb", F_OK))
@@ -56,8 +57,8 @@ BOOL preferencePlistNeedsRedirection(NSString *plistPath)
 
 void cfprefsdInit(void)
 {
-	MSImageRef cfImg = MSGetImageByName("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation");
-	if (cfImg) {
-		%init(CFPrefsGetPathForTriplet = MSFindSymbol(cfImg, "__CFPrefsGetPathForTriplet"));
+	MSImageRef coreFoundationImage = MSGetImageByName("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation");
+	if (coreFoundationImage) {
+		%init(_CFPrefsGetPathForTriplet = MSFindSymbol(coreFoundationImage, "__CFPrefsGetPathForTriplet"));
 	}
 }
