@@ -4,7 +4,7 @@ all: Dopamine.ipa
 
 Dopamine.ipa: build/Build/Products/Debug-iphoneos/Dopamine.app
 	@echo Ad-Hoc signing Dopamine
-	xattr -rc build/Build/Products/Debug-iphoneos/Dopamine.app
+	xattr -c build/Build/Products/Debug-iphoneos/Dopamine.app
 	ldid -SDopamine/Dopamine.entitlements build/Build/Products/Debug-iphoneos/Dopamine.app/Dopamine
 	ldid -s build/Build/Products/Debug-iphoneos/Dopamine.app
 	rm -rf Payload Dopamine.ipa
