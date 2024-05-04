@@ -53,7 +53,7 @@
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "Tùy chọn \"Ẩn Jailbreak\" sẽ tạm thời xóa các tệp liên quan đến jailbreak và khôi phục lại các tệp này khi bạn jailbreak vào lần tới.";
-"Hint_Hide_Jailbreak_Jailbroken" = "Tùy chọn \"Ẩn Jailbreak\" sẽ tắt một số tính năng nhằm tránh phát hiện jailbreak trong các ứng dụng. Tuy nhiên, tính năng này không phải là hoàn hảo và không thể hoàn toàn ẩn jailbreak khỏi mọi ứng dụng.";
+"Hint_Hide_Jailbreak_Jailbroken" = "Tùy chọn \"Ẩn Jailbreak\" sẽ tắt một số chức năng nhằm tránh phát hiện jailbreak trong các ứng dụng. Tuy nhiên, tính năng này không phải là hoàn hảo và không thể hoàn toàn ẩn jailbreak khỏi mọi ứng dụng.";
 "Section_Jailbreak_Settings" = "Thiết đặt Jailbreak";
 "Section_Actions" = "Tác vụ";
 "Section_Customization" = "Tùy biến";
