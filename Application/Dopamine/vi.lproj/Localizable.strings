@@ -41,7 +41,7 @@
 "Settings_Tweak_Injection" = "Cho phép chạy Tweak";
 "Settings_iDownload" = "iDownload (nhà phát triển)";
 "Settings_Verbose_Logs" = "Hiện Log dạng phức tạp";
-/*Settings_Apps_JIT*/
+"Settings_Apps_JIT" = "Bật JIT";
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "Gỡ Jailbreak";
@@ -49,11 +49,11 @@
 "Button_Unhide_Jailbreak" = "Bỏ ẩn Jailbreak";
 "Button_Refresh_Jailbreak_Apps" = "Làm mới các app Jailbreak";
 "Button_Reinstall_Package_Managers" = "Cài lại các trình quản lý gói";
-/*Button_Change_Mobile_Password*/
+"Button_Change_Mobile_Password" = "Đổi mật khẩu \"mobile\"";
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "Tùy chọn \"Ẩn Jailbreak\" sẽ tạm thời xóa các tệp liên quan đến jailbreak và khôi phục lại các tệp này khi bạn jailbreak vào lần tới.";
-"Hint_Hide_Jailbreak_Jailbroken" = "Tùy chọn \"Ẩn Jailbreak\" sẽ tắt một số chức năng đặc biệt nhằm tránh phát hiện jailbreak trong các ứng dụng. Tuy nhiên, tính năng này không phải là hoàn hảo và không thể hoàn toàn ẩn jailbreak khỏi mọi ứng dụng.";
+"Hint_Hide_Jailbreak_Jailbroken" = "Tùy chọn \"Ẩn Jailbreak\" sẽ tắt một số tính năng nhằm tránh phát hiện jailbreak trong các ứng dụng. Tuy nhiên, tính năng này không phải là hoàn hảo và không thể hoàn toàn ẩn jailbreak khỏi mọi ứng dụng.";
 "Section_Jailbreak_Settings" = "Thiết đặt Jailbreak";
 "Section_Actions" = "Tác vụ";
 "Section_Customization" = "Tùy biến";
@@ -65,27 +65,27 @@
 "Alert_Tweak_Injection_Toggled_Reboot_Now" = "Khởi động lại ngay";
 "Alert_Tweak_Injection_Toggled_Reboot_Later" = "Để sau";
 "Alert_Remove_Jailbreak_Title" = "Gỡ bỏ Jailbreak";
-"Alert_Remove_Jailbreak_Pressed_Body" = "Việc gỡ bỏ jailbreak sẽ xóa toàn bộ các tệp liên quan đến jailbreak. Các ứng dụng, tệp và dữ liệu thông thường sẽ vẫn được giữ nguyên. Bạn sẽ không thể hoàn tác việc gỡ jailbreak sau khi nhấn \"Tiếp tục\".";
-"Alert_Remove_Jailbreak_Enabled_Body" = "Tùy chọn \"Gỡ Jailbreak\" sẽ xóa toàn bộ các tệp liên quan đến jailbreak khi bạn thực hiện jailbreak vào lần tới. Các ứng dụng, tệp và dữ liệu thông thường sẽ vẫn được giữ nguyên. Bạn sẽ không thể hoàn tác việc gỡ jailbreak sau khi nhấn \"Tiếp tục\".";
-/*Alert_Change_Mobile_Password_Body*/
-/*Password_Placeholder*/
-/*Repeat_Password_Placeholder*/
-/*Button_Change*/
+"Alert_Remove_Jailbreak_Pressed_Body" = "Việc này sẽ xóa toàn bộ các tệp liên quan đến jailbreak. Các ứng dụng, tệp và dữ liệu thông thường sẽ vẫn được giữ nguyên. Bạn sẽ không thể hoàn tác sau khi nhấn \"Tiếp tục\".";
+"Alert_Remove_Jailbreak_Enabled_Body" = "Tùy chọn này sẽ xóa toàn bộ các tệp liên quan đến jailbreak khi bạn thực hiện jailbreak vào lần tới. Các ứng dụng, tệp và dữ liệu thông thường sẽ vẫn được giữ nguyên. Bạn sẽ không thể hoàn tác sau khi nhấn \"Tiếp tục\".";
+"Alert_Change_Mobile_Password_Body" = "Thiết đặt mật khẩu của người dùng \"mobile\", có thể sử dụng để lấy quyền root thông qua sudo. Nếu muốn đặt mật khẩu root, bạn có thể thực hiện bằng lệnh \"sudo passwd root\" trong terminal.";
+"Password_Placeholder" = "Nhập mật khẩu";
+"Repeat_Password_Placeholder" = "Nhập lại mật khẩu";
+"Button_Change" = "Đổi";
 "Button_Cancel" = "Hủy bỏ";
 "Button_Continue" = "Tiếp tục";
 
 // Duplicate Apps Errors
-"Duplicate_Apps_Error_Dopamine_App" = "Có nhiều ứng dụng với tên định danh \"%@\" trùng nhau trong thư mục ứng dụng của Dopamine (\"%@\"). Không thể tiếp tục.";
-"Duplicate_Apps_Error_User_App" = "Ứng dụng với tên định danh \"%@\" đã tồn tại trong thư mục ứng dụng của Dopamine (\"%@\"), nhưng đồng thời cũng được cài đặt tách biệt trên hệ thống. Không thể tiếp tục.";
-"Duplicate_Apps_Error_Icon_Cache" = "Ứng dụng với tên định danh \"%@\" đã tồn tại trong thư mục ứng dụng của Dopamine (\"%@\"), nhưng lại được ghi bên trong icon cache với một tên đường dẫn khác (\"%@\"). Không thể tiếp tục.";
+"Duplicate_Apps_Error_Dopamine_App" = "Có nhiều ứng dụng với cùng một tên định danh \"%@\" được cài đặt trong thư mục ứng dụng của Dopamine (\"%@\"). Không thể tiếp tục.";
+"Duplicate_Apps_Error_User_App" = "Ứng dụng có tên định danh \"%@\" đã được cài đặt trong thư mục ứng dụng của Dopamine (\"%@\"), nhưng đồng thời cũng đã được cài đặt trên hệ thống. Không thể tiếp tục.";
+"Duplicate_Apps_Error_Icon_Cache" = "Ứng dụng có tên định danh \"%@\" đã được cài đặt trong thư mục ứng dụng của Dopamine (\"%@\"), nhưng lại được ghi bên trong icon cache với một đường dẫn khác (\"%@\"). Không thể tiếp tục.";
 
 // Settings Lists
 "Theme" = "Chủ đề";
 "Kernel Exploit" = "Lỗ hổng Kernel";
 "PPL Bypass" = "Lỗ hổng PPL";
 "PAC Bypass" = "Lỗ hổng PAC";
-/*None*/
-/*Recommended*/
+"None" = "Không có";
+"Recommended" = "Đề xuất";
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -94,7 +94,7 @@
 
 // Logs
 "Initializing Environment" = "Khởi tạo môi trường Jailbreak";
-/*Initializing Protection*/
+"Initializing Protection" = "Khởi tạo quy trình bảo vệ";
 "Loading BaseBin TrustCache" = "Đang tải TrustCache BaseBin";
 "Applying Bind Mount" = "Đang gắn Bind Mount";
 "Removing Jailbreak" = "Đang gỡ bỏ Jailbreak";
@@ -109,6 +109,5 @@
 
 // Package Manager selection
 "Status_Title_Select_Package_Managers" = "Chọn trình quản lý gói";
-"Select_Package_Managers_Install_Message" = "Nếu bạn không biết nên chọn trình quản lý gói nào, hãy chọn Sileo (sẽ không bao giờ có Cydia cho bạn chọn)";
+"Select_Package_Managers_Install_Message" = "Nếu bạn không biết nên nhấn vào lựa chọn nào, hãy chọn Sileo (sẽ không bao giờ có Cydia cho bạn chọn)";
 "Continue" = "Tiếp tục";
-
