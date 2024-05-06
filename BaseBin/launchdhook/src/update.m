@@ -202,4 +202,6 @@ void jbupdate_finalize_stage2(const char *prevVersion, const char *newVersion)
 		arm64_kcall_init();
 #endif
 	}
+
+	JBFixMobilePermissions();
 }
