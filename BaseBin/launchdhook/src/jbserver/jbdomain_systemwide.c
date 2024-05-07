@@ -112,9 +112,14 @@ static int systemwide_process_checkin(audit_token_t *processToken, char **rootPa
 {
 	// Fetch process info
 	pid_t pid = audit_token_to_pid(*processToken);
-	uint64_t proc = proc_find(pid);
 	char procPath[4*MAXPATHLEN];
-	if (proc_pidpath(pid, procPath, sizeof(procPath)) < 0) {
+	if (proc_pidpath(pid, procPath, sizeof(procPath)) <= 0) {
+		return -1;
+	}
+
+	// Find proc in kernelspace
+	uint64_t proc = proc_find(pid);
+	if (!proc) {
 		return -1;
 	}
 
@@ -123,7 +128,6 @@ static int systemwide_process_checkin(audit_token_t *processToken, char **rootPa
 	systemwide_get_boot_uuid(bootUUIDOut);
 
 	// Generate sandbox extensions for the requesting process
-
 	char *sandboxExtensionsArr[] = {
 		// Make /var/jb readable and executable
 		sandbox_extension_issue_file_to_process("com.apple.app-sandbox.read", JBRootPath(""), 0, *processToken),
@@ -134,12 +138,15 @@ static int systemwide_process_checkin(audit_token_t *processToken, char **rootPa
 	};
 	int sandboxExtensionsCount = sizeof(sandboxExtensionsArr) / sizeof(char *);
 	*sandboxExtensionsOut = combine_strings('|', sandboxExtensionsArr, sandboxExtensionsCount);
-	for (int i = 0; i < sandboxExtensionsCount; i++) free(sandboxExtensionsArr[i]);
+	for (int i = 0; i < sandboxExtensionsCount; i++) {
+		if (sandboxExtensionsArr[i]) {
+			free(sandboxExtensionsArr[i]);
+		}
+	}
 
 	bool fullyDebugged = false;
 	if (stringStartsWith(procPath, "/private/var/containers/Bundle/Application") || stringStartsWith(procPath, JBRootPath("/Applications"))) {
-		// This is an app
-		// Enable CS_DEBUGGED based on user preference
+		// This is an app, enable CS_DEBUGGED based on user preference
 		if (jbsetting(markAppsAsDebugged)) {
 			fullyDebugged = true;
 		}
