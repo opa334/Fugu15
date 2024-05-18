@@ -525,19 +525,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
             [[NSFileManager defaultManager] createDirectoryAtPath:mobilePreferencesPath withIntermediateDirectories:YES attributes:attributes error:nil];
         }
         
-        // Dopamine 2.0 - 2.0.4 would bootstrap with wrong permissions
-        // Try to detect and fix it
-        NSString *mobilePath = NSJBRootPath(@"/var/mobile");
-        struct stat s;
-        stat(mobilePath.fileSystemRepresentation, &s);
-        if (s.st_uid != 501 || s.st_gid != 501) {
-            chown(mobilePath.fileSystemRepresentation, 501, 501);
-            NSURL *mobileURL = [NSURL fileURLWithPath:mobilePath];
-            NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtURL:mobileURL includingPropertiesForKeys:nil options:0 errorHandler:nil];
-            for (NSURL *fileURL in enumerator) {
-                chown(fileURL.fileSystemRepresentation, 501, 501);
-            }
-        }
+        JBFixMobilePermissions();
 
         completion(nil);
     };
