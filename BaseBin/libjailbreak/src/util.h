@@ -25,6 +25,12 @@ uint64_t pmap_alloc_page_table(uint64_t pmap, uint64_t va);
 int pmap_expand_range(uint64_t pmap, uint64_t vaStart, uint64_t size);
 int pmap_map_in(uint64_t pmap, uint64_t uaStart, uint64_t paStart, uint64_t size);
 
+#ifdef __arm64e__
+uint64_t pmap_find_main_binary_code_dir(uint64_t pmap);
+uint64_t proc_find_main_binary_code_dir(uint64_t proc);
+uint32_t pmap_cs_trust_string_to_int(const char *trustString);
+#endif
+
 int sign_kernel_thread(uint64_t proc, mach_port_t threadPort);
 uint64_t kpacda(uint64_t pointer, uint64_t modifier);
 uint64_t kptr_sign(uint64_t kaddr, uint64_t pointer, uint16_t salt);
@@ -47,7 +53,7 @@ int exec_cmd_suspended(pid_t *pidOut, const char *binary, ...);
 int exec_cmd_root(const char *binary, ...);
 
 #define exec_cmd_trusted(x, args ...) ({ \
-    jbclient_trust_binary(x); \
+    jbclient_trust_binary(x, NULL); \
     int retval; \
     retval = exec_cmd(x, args); \
     retval; \

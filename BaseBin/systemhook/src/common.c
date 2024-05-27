@@ -233,7 +233,7 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 					   char *const argv[restrict],
 					   char *const envp[restrict],
 					   void *orig,
-					   int (*trust_binary)(const char *),
+					   int (*trust_binary)(const char *path, xpc_object_t preferredArchsArray),
 					   int (*set_process_debugged)(uint64_t pid, bool fullyDebugged))
 {
 	int (*pspawn_orig)(pid_t *restrict, const char *restrict, const posix_spawn_file_actions_t *restrict, const posix_spawnattr_t *restrict, char *const[restrict], char *const[restrict]) = orig;
@@ -244,8 +244,38 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 	kBinaryConfig binaryConfig = configForBinary(path, argv);
 
 	if (!(binaryConfig & kBinaryConfigDontProcess)) {
+
+		bool preferredArchsSet = false;
+		cpu_type_t preferredTypes[4];
+		cpu_subtype_t preferredSubtypes[4];
+		size_t sizeOut = 0;
+		if (posix_spawnattr_getarchpref_np(attrp, 4, preferredTypes, preferredSubtypes, &sizeOut) == 0) {
+			for (size_t i = 0; i < sizeOut; i++) {
+				if (preferredTypes[i] != 0 || preferredSubtypes[i] != UINT32_MAX) {
+					preferredArchsSet = true;
+					break;
+				}
+			}
+		}
+
+		xpc_object_t preferredArchsArray = NULL;
+		if (preferredArchsSet) {
+			preferredArchsArray = xpc_array_create_empty();
+			for (size_t i = 0; i < sizeOut; i++) {
+				xpc_object_t curArch = xpc_dictionary_create_empty();
+				xpc_dictionary_set_uint64(curArch, "type", preferredTypes[i]);
+				xpc_dictionary_set_uint64(curArch, "subtype", preferredSubtypes[i]);
+				xpc_array_set_value(preferredArchsArray, XPC_ARRAY_APPEND, curArch);
+				xpc_release(curArch);
+			}
+		}
+
 		// Upload binary to trustcache if needed
-		trust_binary(path);
+		trust_binary(path, preferredArchsArray);
+
+		if (preferredArchsArray) {
+			xpc_release(preferredArchsArray);
+		}
 	}
 
 	const char *existingLibraryInserts = envbuf_getenv((const char **)envp, "DYLD_INSERT_LIBRARIES");
@@ -256,7 +286,7 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 				systemHookAlreadyInserted = true;
 			}
 			else {
-				trust_binary(existingLibraryInsert);
+				trust_binary(existingLibraryInsert, NULL);
 			}
 		});
 	}
