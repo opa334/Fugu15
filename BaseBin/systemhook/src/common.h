@@ -16,5 +16,5 @@ int spawn_hook_common(pid_t *restrict pid, const char *restrict path,
 					   char *const argv[restrict],
 					   char *const envp[restrict],
 					   void *orig,
-					   int (*trust_binary)(const char *),
+					   int (*trust_binary)(const char *path, xpc_object_t preferredArchsArray),
 					   int (*set_process_debugged)(uint64_t pid, bool fullyDebugged));

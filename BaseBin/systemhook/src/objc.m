@@ -36,7 +36,7 @@ bool NSConcreteTask_launchWithDictionary_error__hook(id self, id sender, NSDicti
 		NSString *executablePath = __objc_msgSend_1(dictionary, @selector(objectForKey:), keyExecutablePath);
 		if (executablePath) {
 			const char *executablePathC = __objc_msgSend_0(executablePath, @selector(UTF8String));
-			jbclient_trust_binary(executablePathC);
+			jbclient_trust_binary(executablePathC, NULL);
 		}
 
 		NSDictionary *existingEnvironment = __objc_msgSend_1(dictionary, @selector(objectForKey:), keyEnvironmentDict);
