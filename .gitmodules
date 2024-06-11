@@ -3,7 +3,7 @@
 	url = https://github.com/opa334/ChOma
 [submodule "BaseBin/XPF"]
 	path = BaseBin/XPF
-	url = https://github.com/opa334/XPF
+	url = https://github.com/m1zole/XPF
 [submodule "Exploits/kfd/src/kfd"]
 	path = Application/Dopamine/Dopamine/Exploits/kfd/kfd
 	url = https://github.com/opa334/kfd
