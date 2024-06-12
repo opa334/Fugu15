@@ -6,6 +6,7 @@
 #import <Foundation/Foundation.h>
 #import <IOSurface/IOSurfaceRef.h>
 #import <CoreGraphics/CoreGraphics.h>
+#import <mach-o/dyld.h>
 
 uint64_t IOSurfaceRootUserClient_get_surfaceClientById(uint64_t rootUserClient, uint32_t surfaceId)
 {
@@ -202,7 +203,10 @@ void libjailbreak_IOSurface_primitives_init(void)
 		(__bridge NSString *)kIOSurfaceBytesPerElement : @4,
 	});
 	if (!surfaceRef) {
-		printf("Failed to initialize IOSurface primitives, add \"IOSurfaceRootUserClient\" to the \"com.apple.security.exception.iokit-user-client-class\" dictionary of the binaries entitlements to fix this.\n");
+		char execPath[PATH_MAX];
+		uint32_t execPathSize = PATH_MAX;
+		_NSGetExecutablePath(execPath, &execPathSize);
+		printf("Failed to initialize IOSurface primitives, add \"IOSurfaceRootUserClient\" to the \"com.apple.security.exception.iokit-user-client-class\" dictionary of the entitlements from \"%s\" to fix this. Due to this, the kalloc, kmap and kcall primitives will not work.\n", execPath);
 		return;
 	}
 	CFRelease(surfaceRef);
