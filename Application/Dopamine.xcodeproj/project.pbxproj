@@ -173,6 +173,8 @@
 		8C5FA96E2BDD7898008C246F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5FA93F2BDD5039008C246F /* IOKit.framework */; };
 		8C5FA96F2BDD789C008C246F /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5FA9412BDD503D008C246F /* IOSurface.framework */; };
 		8C5FA9712BDD81EF008C246F /* LICENSE_weightBufs.md in Resources */ = {isa = PBXBuildFile; fileRef = 8C5FA9702BDD81EF008C246F /* LICENSE_weightBufs.md */; };
+		8C609C9E2C19B4270023DD12 /* NSString+Version.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C609C9C2C19AECF0023DD12 /* NSString+Version.m */; };
+		8C609C9F2C19B6FA0023DD12 /* libkrw-dopamine.deb in Resources */ = {isa = PBXBuildFile; fileRef = 8C609C992C19AC250023DD12 /* libkrw-dopamine.deb */; };
 		8C71981A2ABF0E82003C6658 /* DOAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C7198192ABF0E82003C6658 /* DOAppDelegate.m */; };
 		8C71981D2ABF0E82003C6658 /* DOSceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C71981C2ABF0E82003C6658 /* DOSceneDelegate.m */; };
 		8C7198252ABF0E84003C6658 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C7198242ABF0E84003C6658 /* Assets.xcassets */; };
@@ -184,7 +186,6 @@
 		8CC139822B53DE6C00230143 /* NSData+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CC139812B53DE6C00230143 /* NSData+Hex.m */; };
 		8CC139832B53E05300230143 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDD08372B4F682500A32B61 /* IOKit.framework */; };
 		8CCD2FC42B77AAA000F9C5DA /* basebin-link.deb in Resources */ = {isa = PBXBuildFile; fileRef = 8CCD2FC32B77AA9200F9C5DA /* basebin-link.deb */; };
-		8CCD8A872B6F16CC004B72B0 /* libkrw-plugin.deb in Resources */ = {isa = PBXBuildFile; fileRef = 8CCD8A852B6F1662004B72B0 /* libkrw-plugin.deb */; };
 		8CCD8A882B6F16D0004B72B0 /* libroot.deb in Resources */ = {isa = PBXBuildFile; fileRef = 8CCD8A832B6F165A004B72B0 /* libroot.deb */; };
 		8CDD07AA2B4F619000A32B61 /* kfd.h in Headers */ = {isa = PBXBuildFile; fileRef = 8CDD07A92B4F619000A32B61 /* kfd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8CDD07AF2B4F619000A32B61 /* kfd.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDD07A72B4F619000A32B61 /* kfd.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -368,7 +369,6 @@
 		04DD0B452B7CBEEA0055DE4F /* DOTheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOTheme.h; sourceTree = "<group>"; };
 		04DD0B462B7CBEEA0055DE4F /* DOTheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOTheme.m; sourceTree = "<group>"; };
 		04DD0B5A2B7D19E60055DE4F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		04DD0B5D2B7D1A210055DE4F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		04DD0B5C2B7D1A210055DE4F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		04DD0B5D2B7D1A210055DE4F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		51AB98D92BBF44390042EA7B /* libpartial.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpartial.a; path = Dopamine/Dependencies/libpartial.a; sourceTree = "<group>"; };
@@ -503,6 +503,9 @@
 		8C5FA9582BDD6C0C008C246F /* kernel_rw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kernel_rw.h; sourceTree = "<group>"; };
 		8C5FA9592BDD6C0C008C246F /* exploit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = exploit.h; sourceTree = "<group>"; };
 		8C5FA9702BDD81EF008C246F /* LICENSE_weightBufs.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE_weightBufs.md; sourceTree = "<group>"; };
+		8C609C992C19AC250023DD12 /* libkrw-dopamine.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libkrw-dopamine.deb"; path = "../../../Packages/libkrw-provider/libkrw-dopamine.deb"; sourceTree = "<group>"; };
+		8C609C9C2C19AECF0023DD12 /* NSString+Version.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Version.m"; sourceTree = "<group>"; };
+		8C609C9D2C19AEE70023DD12 /* NSString+Version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Version.h"; sourceTree = "<group>"; };
 		8C7198152ABF0E82003C6658 /* Dopamine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dopamine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C7198182ABF0E82003C6658 /* DOAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOAppDelegate.h; sourceTree = "<group>"; };
 		8C7198192ABF0E82003C6658 /* DOAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOAppDelegate.m; sourceTree = "<group>"; };
@@ -520,7 +523,6 @@
 		8CC139812B53DE6C00230143 /* NSData+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Hex.m"; sourceTree = "<group>"; };
 		8CCD2FC32B77AA9200F9C5DA /* basebin-link.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "basebin-link.deb"; path = "../../../Packages/basebin-link/basebin-link.deb"; sourceTree = "<group>"; };
 		8CCD8A832B6F165A004B72B0 /* libroot.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libroot.deb; path = ../../../Packages/libroot/libroot.deb; sourceTree = "<group>"; };
-		8CCD8A852B6F1662004B72B0 /* libkrw-plugin.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libkrw-plugin.deb"; path = "../../../Packages/libkrw-provider/libkrw-plugin.deb"; sourceTree = "<group>"; };
 		8CDD07A72B4F619000A32B61 /* kfd.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = kfd.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CDD07A92B4F619000A32B61 /* kfd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kfd.h; sourceTree = "<group>"; };
 		8CDD07B32B4F639100A32B61 /* kfd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = kfd.m; sourceTree = "<group>"; };
@@ -1080,6 +1082,8 @@
 				8CC139812B53DE6C00230143 /* NSData+Hex.m */,
 				8C9E46272ACA1C8D00B5456A /* UIImage+Blur.h */,
 				8C9E46282ACA1CC700B5456A /* UIImage+Blur.m */,
+				8C609C9D2C19AEE70023DD12 /* NSString+Version.h */,
+				8C609C9C2C19AECF0023DD12 /* NSString+Version.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1093,7 +1097,7 @@
 				8CB94F022B59E17A0098BAFD /* basebin.tc */,
 				8C512B8B2B5C9DE800C6F14A /* sileo.deb */,
 				8C512B8C2B5C9DE800C6F14A /* zebra.deb */,
-				8CCD8A852B6F1662004B72B0 /* libkrw-plugin.deb */,
+				8C609C992C19AC250023DD12 /* libkrw-dopamine.deb */,
 				8CCD8A832B6F165A004B72B0 /* libroot.deb */,
 				8CCD2FC32B77AA9200F9C5DA /* basebin-link.deb */,
 				04DD0B362B7BA6180055DE4F /* LICENSE.md */,
@@ -1471,6 +1475,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C609C9F2C19B6FA0023DD12 /* libkrw-dopamine.deb in Resources */,
 				04DD0B372B7BA6180055DE4F /* LICENSE.md in Resources */,
 				04DD0B3A2B7BF3E80055DE4F /* LICENSE_libc.md in Resources */,
 				8C56D4CD2B7C118B001C03D3 /* LICENSE_kfd.md in Resources */,
@@ -1491,7 +1496,6 @@
 				8C2875212BD850B4008B24DA /* LICENSE_libgrabkernel2.md in Resources */,
 				8C512B912B5C9F9100C6F14A /* sileo.deb in Resources */,
 				8C512B922B5C9F9400C6F14A /* zebra.deb in Resources */,
-				8CCD8A872B6F16CC004B72B0 /* libkrw-plugin.deb in Resources */,
 				8CCD8A882B6F16D0004B72B0 /* libroot.deb in Resources */,
 				8C296BAE2BE05914007C2AD1 /* LICENSE_plooshinit.md in Resources */,
 				8C5FA9712BDD81EF008C246F /* LICENSE_weightBufs.md in Resources */,
@@ -1654,6 +1658,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C609C9E2C19B4270023DD12 /* NSString+Version.m in Sources */,
 				042479A62B66916B0082581B /* DOHeaderCell.m in Sources */,
 				042479A22B66916B0082581B /* DOCreditsViewController.m in Sources */,
 				042479B32B66916B0082581B /* DODebugLogView.m in Sources */,
@@ -2229,7 +2234,7 @@
 					"$(PROJECT_DIR)/Dopamine/Dependencies",
 					"$(PROJECT_DIR)/Dopamine/Resources",
 				);
-				MARKETING_VERSION = 2.1.5;
+				MARKETING_VERSION = 2.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.opa334.Dopamine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -2266,7 +2271,7 @@
 					"$(PROJECT_DIR)/Dopamine/Dependencies",
 					"$(PROJECT_DIR)/Dopamine/Resources",
 				);
-				MARKETING_VERSION = 2.1.5;
+				MARKETING_VERSION = 2.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.opa334.Dopamine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

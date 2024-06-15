@@ -284,17 +284,8 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
 - (NSError *)ensureDevModeEnabled
 {
     if (@available(iOS 16.0, *)) {
-        uint64_t developer_mode_state = kread64(ksymbol(developer_mode_enabled));
-        if ((developer_mode_state & 0xff) == 0 || (developer_mode_state & 0xff) == 1) {
-            // On iOS 16.0 - 16.3, developer_mode_state is a bool
-            if (developer_mode_state == 0) {
-                kwrite8(ksymbol(developer_mode_enabled), 1);
-            }
-        }
-        else if (kread8(developer_mode_state) == 0) {
-            // On iOS 16.4+, developer_mode_state is a pointer to a bool
-            kwrite8(developer_mode_state, 1);
-        }
+        uint64_t developer_mode_storage = kread64(ksymbol(developer_mode_enabled));
+        kwrite8(developer_mode_storage, 1);
     }
     return nil;
 }
