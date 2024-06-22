@@ -29,6 +29,7 @@
 #import <libjailbreak/jbclient_xpc.h>
 #import <libjailbreak/kcall_arm64.h>
 #import <CoreServices/LSApplicationProxy.h>
+#import <sys/utsname.h>
 #import "spawn.h"
 int posix_spawnattr_set_registered_ports_np(posix_spawnattr_t * __restrict attr, mach_port_t portarray[], uint32_t count);
 
@@ -477,6 +478,11 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     BOOL idownloadEnabled = [[DOPreferenceManager sharedManager] boolPreferenceValueForKey:@"idownloadEnabled" fallback:NO];
     BOOL appJITEnabled = [[DOPreferenceManager sharedManager] boolPreferenceValueForKey:@"appJITEnabled" fallback:YES];
     
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    NSString *startLog = [NSString stringWithFormat:@"Starting Jailbreak (Model: %s, %@, Configuration: {removeJailbreak=%d, tweakInjection=%d, idownload=%d, appJIT=%d})", systemInfo.machine, NSProcessInfo.processInfo.operatingSystemVersionString, removeJailbreakEnabled, tweaksEnabled, idownloadEnabled, appJITEnabled];
+    [[DOUIManager sharedInstance] sendLog:startLog debug:YES];
+    
     *errOut = [self gatherSystemInformation];
     if (*errOut) return;
     *errOut = [self doExploitation];
@@ -503,7 +509,8 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     if (*errOut) return;
 
     // Now that we are unsandboxed, populate the jailbreak root path
-    [[DOEnvironmentManager sharedManager] ensureJailbreakRootExists];
+    *errOut = [[DOEnvironmentManager sharedManager] ensureJailbreakRootExists];
+    if (*errOut) return;
     
     if (removeJailbreakEnabled) {
         [[DOUIManager sharedInstance] sendLog:DOLocalizedString(@"Removing Jailbreak") debug:NO];

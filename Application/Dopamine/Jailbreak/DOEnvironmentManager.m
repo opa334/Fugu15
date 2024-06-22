@@ -148,8 +148,10 @@ int reboot3(uint64_t flags, ...);
     }
 }
 
-- (void)ensureJailbreakRootExists
+- (NSError *)ensureJailbreakRootExists
 {
+    NSError *error = nil;
+
     [self locateJailbreakRoot];
     
     if (!gSystemInfo.jailbreakInfo.rootPath || _bootstrapNeedsMigration) {
@@ -172,16 +174,20 @@ int reboot3(uint64_t flags, ...);
         
         if (_bootstrapNeedsMigration) {
             NSString *oldRandomizedJailbreakPath = [[NSString stringWithUTF8String:gSystemInfo.jailbreakInfo.rootPath] stringByDeletingLastPathComponent];
-            [[NSFileManager defaultManager] moveItemAtPath:oldRandomizedJailbreakPath toPath:randomizedJailbreakPath error:nil];
+            [[NSFileManager defaultManager] moveItemAtPath:oldRandomizedJailbreakPath toPath:randomizedJailbreakPath error:&error];
         }
         else {
             if (![[NSFileManager defaultManager] fileExistsAtPath:jailbreakRootPath]) {
-                [[NSFileManager defaultManager] createDirectoryAtPath:jailbreakRootPath withIntermediateDirectories:YES attributes:nil error:nil];
+                [[NSFileManager defaultManager] createDirectoryAtPath:jailbreakRootPath withIntermediateDirectories:YES attributes:nil error:&error];
             }
         }
         
-        gSystemInfo.jailbreakInfo.rootPath = strdup(jailbreakRootPath.UTF8String);
+        if (!error) {
+            gSystemInfo.jailbreakInfo.rootPath = strdup(jailbreakRootPath.UTF8String);
+        }
     }
+    
+    return error;
 }
 
 - (BOOL)isArm64e
