@@ -41,7 +41,7 @@
 "Settings_Tweak_Injection" = "트윅 주입";
 "Settings_iDownload" = "iDownload (개발자 터미널)";
 "Settings_Verbose_Logs" = "로그";
-/*Settings_Apps_JIT*/
+"Settings_Apps_JIT" = "앱에서 JIT 사용 허용";
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "탈옥 제거";
@@ -49,13 +49,13 @@
 "Button_Unhide_Jailbreak" = "탈옥 숨기기 취소";
 "Button_Refresh_Jailbreak_Apps" = "탈옥 앱 새로고침";
 "Button_Reinstall_Package_Managers" = "패키지 매니저 재설치";
-/*Button_Change_Mobile_Password*/
+"Button_Change_Mobile_Password" = "\"mobile\" 비밀번호 변경";
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "\"탈옥 숨기기\"는 다음 탈옥까지 일시적으로 탈옥 관련 파일을 제거합니다.";
 "Hint_Hide_Jailbreak_Jailbroken" = "\"탈옥 숨기기\"는 탈옥기능을 부분적으로 비활성화해 탐지를 더 어렵게 만드는 것을 목표로 합니다. 그러나, 모두 우회가 되는건 아니며 모든 것을 숨기는 것은 아닙니다.";
 "Section_Jailbreak_Settings" = "탈옥 설정";
-"Section_Actions" = "동작";
+"Section_Actions" = "작업";
 "Section_Customization" = "커스텀";
 "Section_Exploits" = "익스플로잇";
 
@@ -67,10 +67,10 @@
 "Alert_Remove_Jailbreak_Title" = "탈옥 제거";
 "Alert_Remove_Jailbreak_Pressed_Body" = "탈옥을 제거하면 탈옥 관련 파일은 모두 삭제되지만 일반 앱, 파일 및 데이터는 모두 유지됩니다. 계속하시겠습니까? 이 작업은 돌이킬 수 없습니다.";
 "Alert_Remove_Jailbreak_Enabled_Body" = "\"탈옥 제거\"를 활성화하면 다음 탈옥 시 모든 탈옥 관련 파일이 삭제되지만, 모든 일반 앱, 파일 및 데이터는 유지됩니다. 계속하시겠습니까? 이 작업은 돌이킬 수 없습니다.";
-/*Alert_Change_Mobile_Password_Body*/
-/*Password_Placeholder*/
-/*Repeat_Password_Placeholder*/
-/*Button_Change*/
+"Alert_Change_Mobile_Password_Body" = "기기의 \"mobile\" 사용자의 비밀번호를 설정하세요. 이 비밀번호를 sudo에 사용하여 루트 권한에 접근할 수 있습니다. 루트 비밀번호를 설정하고 싶다면 모바일 셸(터미널)에서 \"sudo passwd root\" 명령어를 사용해 설정할 수 있습니다.";
+"Password_Placeholder" = "비밀번호";
+"Repeat_Password_Placeholder" = "비밀번호 확인";
+"Button_Change" = "변경";
 "Button_Cancel" = "취소";
 "Button_Continue" = "계속";
 
@@ -84,8 +84,8 @@
 "Kernel Exploit" = "커널 익스플로잇";
 "PPL Bypass" = "PPL 우회";
 "PAC Bypass" = "PAC 우회";
-/*None*/
-/*Recommended*/
+"None" = "없음";
+"Recommended" = "권장됨";
 
 // Credits
 "Credits_Button_Discord" = "Discord";
@@ -93,8 +93,8 @@
 "Credits_Button_Source_Code" = "소스코드";
 
 // Logs
-"Initializing Environment" = "환경 초기화 중";
-/*Initializing Protection*/
+"Initializing Environment" = "환경 초기화";
+"Initializing Protection" = "보안 초기화";
 "Loading BaseBin TrustCache" = "배이스 바이너리 신뢰 캐시 불러오기";
 "Applying Bind Mount" = "바인드 마운트 적용";
 "Removing Jailbreak" = "탈옥 제거";
@@ -109,6 +109,5 @@
 
 // Package Manager selection
 "Status_Title_Select_Package_Managers" = "패키지 매니저 선택";
-"Select_Package_Managers_Install_Message" = "어떤 것을 선택할지 확실하지 않은 경우 Sileo를 선택하세요.";
+"Select_Package_Managers_Install_Message" = "어떤 것을 선택할지 모르겠다면 Sileo를 선택하세요.";
 "Continue" = "계속";
-

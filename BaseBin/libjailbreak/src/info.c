@@ -80,13 +80,25 @@ void jbinfo_initialize_hardcoded_offsets(void)
 	gSystemInfo.kernelStruct.pmap.tte        = 0x0;
 	gSystemInfo.kernelStruct.pmap.ttep       = 0x8;
 #ifdef __arm64e__
-	gSystemInfo.kernelStruct.pmap.sw_asid    = 0xBE + pmapEl2Adjust;
-	gSystemInfo.kernelStruct.pmap.wx_allowed = 0xC2 + pmapEl2Adjust;
-	gSystemInfo.kernelStruct.pmap.type       = 0xC8 + pmapEl2Adjust;
+	gSystemInfo.kernelStruct.pmap.pmap_cs_main = 0x90;
+	gSystemInfo.kernelStruct.pmap.sw_asid      = 0xBE + pmapEl2Adjust;
+	gSystemInfo.kernelStruct.pmap.wx_allowed   = 0xC2 + pmapEl2Adjust;
+	gSystemInfo.kernelStruct.pmap.type         = 0xC8 + pmapEl2Adjust;
 #else
 	gSystemInfo.kernelStruct.pmap.sw_asid    = 0x96;
 	gSystemInfo.kernelStruct.pmap.wx_allowed = 0;
 	gSystemInfo.kernelStruct.pmap.type       = 0x9c + pmapA11Adjust;
+#endif
+
+#ifdef __arm64e__
+	// pmap_cs_region
+	gSystemInfo.kernelStruct.pmap_cs_region.pmap_cs_region_next = 0x0;
+	gSystemInfo.kernelStruct.pmap_cs_region.cd_entry            = 0x28;
+
+	// pmap_cs_code_directory
+	gSystemInfo.kernelStruct.pmap_cs_code_directory.pmap_cs_code_directory_next = 0x0;
+	gSystemInfo.kernelStruct.pmap_cs_code_directory.main_binary                 = 0x50;
+	gSystemInfo.kernelStruct.pmap_cs_code_directory.trust                       = 0x9C;
 #endif
 
 	// pt_desc
@@ -222,6 +234,12 @@ void jbinfo_initialize_hardcoded_offsets(void)
 					gSystemInfo.kernelStruct.pmap.type       = 0x94 + pmapA11Adjust;
 #endif
 
+#ifdef __arm64e__
+					// pmap_cs_code_directory
+					gSystemInfo.kernelStruct.pmap_cs_code_directory.main_binary = 0x190;
+					gSystemInfo.kernelStruct.pmap_cs_code_directory.trust       = 0x1DC;
+#endif
+
 					if (strcmp(xnuVersion, "22.1.0") >= 0) { // iOS 16.1+
 						gSystemInfo.kernelStruct.ipc_space.table_uses_smr = true;
 						if (strcmp(xnuVersion, "22.3.0") >= 0) { // iOS 16.3+
@@ -230,6 +248,11 @@ void jbinfo_initialize_hardcoded_offsets(void)
 								// proc
 								gSystemInfo.kernelStruct.proc.flag   = 0x454;
 								gSystemInfo.kernelStruct.proc.textvp = 0x548;
+
+#ifdef __arm64e__
+								// pmap_cs_code_directory
+								gSystemInfo.kernelStruct.pmap_cs_code_directory.trust = 0x1EC;
+#endif
 
 								if (strcmp(xnuVersion, "22.4.0") == 0) { // iOS 16.4 ONLY 
 									// iOS 16.4 beta 1-3 use the old proc struct, 16.4b4+ use new

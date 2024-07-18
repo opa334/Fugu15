@@ -379,6 +379,66 @@ int pmap_map_in(uint64_t pmap, uint64_t uaStart, uint64_t paStart, uint64_t size
 	return 0;
 }
 
+
+#ifdef __arm64e__
+uint64_t pmap_find_main_binary_code_dir(uint64_t pmap)
+{
+	uint64_t mainCodeDir = 0;
+	uint64_t pmap_cs_region = kread_ptr(pmap + koffsetof(pmap, pmap_cs_main));
+	while (pmap_cs_region && !mainCodeDir) {
+		uint64_t pmap_cs_code_dir = kread_ptr(pmap_cs_region + koffsetof(pmap_cs_region, cd_entry));
+		while (pmap_cs_code_dir) {
+			_Bool mainBinary = kread64(pmap_cs_code_dir + koffsetof(pmap_cs_code_directory, main_binary));
+			if (mainBinary) {
+				mainCodeDir = pmap_cs_code_dir;
+				break;
+			}
+			pmap_cs_code_dir = kread_ptr(pmap_cs_code_dir + koffsetof(pmap_cs_code_directory, pmap_cs_code_directory_next));
+		}
+		pmap_cs_region = kread_ptr(pmap_cs_region + koffsetof(pmap_cs_region, pmap_cs_region_next));
+	}
+	return mainCodeDir;
+}
+
+uint64_t proc_find_main_binary_code_dir(uint64_t proc)
+{
+	uint64_t task = proc_task(proc);
+	uint64_t map = kread_ptr(task + koffsetof(task, map));
+	uint64_t pmap = kread_ptr(map + koffsetof(vm_map, pmap));
+	return pmap_find_main_binary_code_dir(pmap);
+}
+
+uint32_t pmap_cs_trust_string_to_int(const char *trustString)
+{
+	int trustInt = 0;
+	if (__builtin_available(iOS 16.0, *)) {
+		if      (!strcmp(trustString, "PMAP_CS_UNTRUSTED"))             trustInt = 0;
+		else if (!strcmp(trustString, "PMAP_CS_RETIRED"))               trustInt = 1;
+		else if (!strcmp(trustString, "PMAP_CS_PROFILE_PREFLIGHT"))     trustInt = 2;
+		else if (!strcmp(trustString, "PMAP_CS_COMPILATION_SERVICE"))   trustInt = 3;
+		else if (!strcmp(trustString, "PMAP_CS_OOP_JIT"))               trustInt = 4;
+		else if (!strcmp(trustString, "PMAP_CS_LOCAL_SIGNING"))         trustInt = 5;
+		else if (!strcmp(trustString, "PMAP_CS_PROFILE_VALIDATED"))     trustInt = 6;
+		else if (!strcmp(trustString, "PMAP_CS_APP_STORE"))             trustInt = 7;
+		else if (!strcmp(trustString, "PMAP_CS_IN_LOADED_TRUST_CACHE")) trustInt = 8;
+		else if (!strcmp(trustString, "PMAP_CS_IN_STATIC_TRUST_CACHE")) trustInt = 9;
+	}
+	else {
+		if      (!strcmp(trustString, "PMAP_CS_UNTRUSTED"))             trustInt = 0;
+		else if (!strcmp(trustString, "PMAP_CS_RETIRED"))               trustInt = 1;
+		else if (!strcmp(trustString, "PMAP_CS_PROFILE_PREFLIGHT"))     trustInt = 2;
+		else if (!strcmp(trustString, "PMAP_CS_COMPILATION_SERVICE"))   trustInt = 3;
+		else if (!strcmp(trustString, "PMAP_CS_LOCAL_SIGNING"))         trustInt = 4;
+		else if (!strcmp(trustString, "PMAP_CS_PROFILE_VALIDATED"))     trustInt = 5;
+		else if (!strcmp(trustString, "PMAP_CS_APP_STORE"))             trustInt = 6;
+		else if (!strcmp(trustString, "PMAP_CS_IN_LOADED_TRUST_CACHE")) trustInt = 7;
+		else if (!strcmp(trustString, "PMAP_CS_IN_STATIC_TRUST_CACHE")) trustInt = 8;
+	}
+	return trustInt;
+}
+
+#endif
+
 int sign_kernel_thread(uint64_t proc, mach_port_t threadPort)
 {
 	uint64_t threadKobj = task_get_ipc_port_kobject(proc_task(proc), threadPort);

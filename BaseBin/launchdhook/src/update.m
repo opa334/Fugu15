@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <libjailbreak/util.h>
 #include <libjailbreak/trustcache.h>
+#include <libjailbreak/kcall_arm64.h>
 #include <xpc/xpc.h>
 #include <dlfcn.h>
 
@@ -195,5 +196,12 @@ void jbupdate_finalize_stage2(const char *prevVersion, const char *newVersion)
 		// Default value for this pref is true
 		// Set it during jbupdate if prev version is <2.1 and new version is >=2.1
 		gSystemInfo.jailbreakSettings.markAppsAsDebugged = true;
+
+#ifndef __arm64e__
+		// Initialize kcall only after we have the offsets required for it
+		arm64_kcall_init();
+#endif
 	}
+
+	JBFixMobilePermissions();
 }

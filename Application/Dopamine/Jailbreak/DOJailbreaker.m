@@ -29,6 +29,7 @@
 #import <libjailbreak/jbclient_xpc.h>
 #import <libjailbreak/kcall_arm64.h>
 #import <CoreServices/LSApplicationProxy.h>
+#import <sys/utsname.h>
 #import "spawn.h"
 int posix_spawnattr_set_registered_ports_np(posix_spawnattr_t * __restrict attr, mach_port_t portarray[], uint32_t count);
 
@@ -284,17 +285,8 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
 - (NSError *)ensureDevModeEnabled
 {
     if (@available(iOS 16.0, *)) {
-        uint64_t developer_mode_state = kread64(ksymbol(developer_mode_enabled));
-        if ((developer_mode_state & 0xff) == 0 || (developer_mode_state & 0xff) == 1) {
-            // On iOS 16.0 - 16.3, developer_mode_state is a bool
-            if (developer_mode_state == 0) {
-                kwrite8(ksymbol(developer_mode_enabled), 1);
-            }
-        }
-        else if (kread8(developer_mode_state) == 0) {
-            // On iOS 16.4+, developer_mode_state is a pointer to a bool
-            kwrite8(developer_mode_state, 1);
-        }
+        uint64_t developer_mode_storage = kread64(ksymbol(developer_mode_enabled));
+        kwrite8(developer_mode_storage, 1);
     }
     return nil;
 }
@@ -384,7 +376,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
 
     cdhash_t *cdhashes = NULL;
     uint32_t cdhashesCount = 0;
-    macho_collect_untrusted_cdhashes(JBRootPath("/basebin/.fakelib/dyld"), NULL, NULL, &cdhashes, &cdhashesCount);
+    macho_collect_untrusted_cdhashes(JBRootPath("/basebin/.fakelib/dyld"), NULL, NULL, NULL, NULL, 0, &cdhashes, &cdhashesCount);
     if (cdhashesCount != 1) return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedInitFakeLib userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Got unexpected number of cdhashes for dyld???: %d", cdhashesCount]}];
     
     trustcache_file_v1 *dyldTCFile = NULL;
@@ -486,6 +478,11 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     BOOL idownloadEnabled = [[DOPreferenceManager sharedManager] boolPreferenceValueForKey:@"idownloadEnabled" fallback:NO];
     BOOL appJITEnabled = [[DOPreferenceManager sharedManager] boolPreferenceValueForKey:@"appJITEnabled" fallback:YES];
     
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    NSString *startLog = [NSString stringWithFormat:@"Starting Jailbreak (Model: %s, %@, Configuration: {removeJailbreak=%d, tweakInjection=%d, idownload=%d, appJIT=%d})", systemInfo.machine, NSProcessInfo.processInfo.operatingSystemVersionString, removeJailbreakEnabled, tweaksEnabled, idownloadEnabled, appJITEnabled];
+    [[DOUIManager sharedInstance] sendLog:startLog debug:YES];
+    
     *errOut = [self gatherSystemInformation];
     if (*errOut) return;
     *errOut = [self doExploitation];
@@ -512,7 +509,8 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     if (*errOut) return;
 
     // Now that we are unsandboxed, populate the jailbreak root path
-    [[DOEnvironmentManager sharedManager] ensureJailbreakRootExists];
+    *errOut = [[DOEnvironmentManager sharedManager] ensureJailbreakRootExists];
+    if (*errOut) return;
     
     if (removeJailbreakEnabled) {
         [[DOUIManager sharedInstance] sendLog:DOLocalizedString(@"Removing Jailbreak") debug:NO];

@@ -14,6 +14,41 @@
 extern bool stringStartsWith(const char *str, const char* prefix);
 extern bool stringEndsWith(const char* str, const char* suffix);
 
+char *combine_strings(char separator, char **components, int count)
+{
+	if (count <= 0) return NULL;
+
+	bool isFirst = true;
+
+	size_t outLength = 1;
+	for (int i = 0; i < count; i++) {
+		if (components[i]) {
+			outLength += !isFirst + strlen(components[i]);
+			if (isFirst) isFirst = false;
+		}
+	}
+
+	isFirst = true;
+	char *outString = malloc(outLength * sizeof(char));
+	*outString = 0;
+
+	for (int i = 0; i < count; i++) {
+		if (components[i]) {
+			if (isFirst) {
+				strlcpy(outString, components[i], outLength);
+				isFirst = false;
+			}
+			else {
+				char separatorString[2] = { separator, 0 };
+				strlcat(outString, (char *)separatorString, outLength);
+				strlcat(outString, components[i], outLength);
+			}
+		}
+	}
+
+	return outString;
+}
+
 static bool systemwide_domain_allowed(audit_token_t clientToken)
 {
 	return true;
@@ -32,7 +67,7 @@ static int systemwide_get_boot_uuid(char **bootUUIDOut)
 	return 0;
 }
 
-static int trust_file(const char *filePath, const char *dlopenCallerImagePath, const char *dlopenCallerExecutablePath)
+static int trust_file(const char *filePath, const char *dlopenCallerImagePath, const char *dlopenCallerExecutablePath, xpc_object_t preferredArchsArray)
 {
 	// Shared logic between client and server, implemented in client
 	// This should essentially mean these files never reach us in the first place
@@ -41,9 +76,23 @@ static int trust_file(const char *filePath, const char *dlopenCallerImagePath, c
 
 	if (can_skip_trusting_file(filePath, (bool)dlopenCallerExecutablePath, false)) return -1;
 
+	size_t preferredArchCount = 0;
+	if (preferredArchsArray) preferredArchCount = xpc_array_get_count(preferredArchsArray);
+	uint32_t preferredArchTypes[preferredArchCount];
+	uint32_t preferredArchSubtypes[preferredArchCount];
+	for (size_t i = 0; i < preferredArchCount; i++) {
+		preferredArchTypes[i] = 0;
+		preferredArchSubtypes[i] = UINT32_MAX;
+		xpc_object_t arch = xpc_array_get_value(preferredArchsArray, i);
+		if (xpc_get_type(arch) == XPC_TYPE_DICTIONARY) {
+			preferredArchTypes[i] = xpc_dictionary_get_uint64(arch, "type");
+			preferredArchSubtypes[i] = xpc_dictionary_get_uint64(arch, "subtype");
+		}
+	}
+
 	cdhash_t *cdhashes = NULL;
 	uint32_t cdhashesCount = 0;
-	macho_collect_untrusted_cdhashes(filePath, dlopenCallerImagePath, dlopenCallerExecutablePath, &cdhashes, &cdhashesCount);
+	macho_collect_untrusted_cdhashes(filePath, dlopenCallerImagePath, dlopenCallerExecutablePath, preferredArchTypes, preferredArchSubtypes, preferredArchCount, &cdhashes, &cdhashesCount);
 	if (cdhashes && cdhashesCount > 0) {
 		jb_trustcache_add_cdhashes(cdhashes, cdhashesCount);
 		free(cdhashes);
@@ -52,9 +101,9 @@ static int trust_file(const char *filePath, const char *dlopenCallerImagePath, c
 }
 
 // Not static because launchd will directly call this from it's posix_spawn hook
-int systemwide_trust_binary(const char *binaryPath)
+int systemwide_trust_binary(const char *binaryPath, xpc_object_t preferredArchsArray)
 {
-	return trust_file(binaryPath, NULL, NULL);
+	return trust_file(binaryPath, NULL, NULL, preferredArchsArray);
 }
 
 static int systemwide_trust_library(audit_token_t *processToken, const char *libraryPath, const char *callerLibraryPath)
@@ -70,16 +119,21 @@ static int systemwide_trust_library(audit_token_t *processToken, const char *lib
 	// This is to support dlopen("@executable_path/whatever", RTLD_NOW) and stuff like that
 	// (Yes that is a thing >.<)
 	// Also we need to pass the path of the image that called dlopen due to @loader_path, sigh...
-	return trust_file(libraryPath, callerLibraryPath, callerPath);
+	return trust_file(libraryPath, callerLibraryPath, callerPath, NULL);
 }
 
 static int systemwide_process_checkin(audit_token_t *processToken, char **rootPathOut, char **bootUUIDOut, char **sandboxExtensionsOut, bool *fullyDebuggedOut)
 {
 	// Fetch process info
 	pid_t pid = audit_token_to_pid(*processToken);
-	uint64_t proc = proc_find(pid);
 	char procPath[4*MAXPATHLEN];
-	if (proc_pidpath(pid, procPath, sizeof(procPath)) < 0) {
+	if (proc_pidpath(pid, procPath, sizeof(procPath)) <= 0) {
+		return -1;
+	}
+
+	// Find proc in kernelspace
+	uint64_t proc = proc_find(pid);
+	if (!proc) {
 		return -1;
 	}
 
@@ -88,22 +142,25 @@ static int systemwide_process_checkin(audit_token_t *processToken, char **rootPa
 	systemwide_get_boot_uuid(bootUUIDOut);
 
 	// Generate sandbox extensions for the requesting process
-	char *readExtension = sandbox_extension_issue_file_to_process("com.apple.app-sandbox.read", JBRootPath(""), 0, *processToken);
-	char *execExtension = sandbox_extension_issue_file_to_process("com.apple.sandbox.executable", JBRootPath(""), 0, *processToken);
-	if (readExtension && execExtension) {
-		char extensionBuf[strlen(readExtension) + 1 + strlen(execExtension) + 1];
-		strcat(extensionBuf, readExtension);
-		strcat(extensionBuf, "|");
-		strcat(extensionBuf, execExtension);
-		*sandboxExtensionsOut = strdup(extensionBuf);
+	char *sandboxExtensionsArr[] = {
+		// Make /var/jb readable and executable
+		sandbox_extension_issue_file_to_process("com.apple.app-sandbox.read", JBRootPath(""), 0, *processToken),
+		sandbox_extension_issue_file_to_process("com.apple.sandbox.executable", JBRootPath(""), 0, *processToken),
+
+		// Make /var/jb/var/mobile writable
+		sandbox_extension_issue_file_to_process("com.apple.app-sandbox.read-write", JBRootPath("/var/mobile"), 0, *processToken),
+	};
+	int sandboxExtensionsCount = sizeof(sandboxExtensionsArr) / sizeof(char *);
+	*sandboxExtensionsOut = combine_strings('|', sandboxExtensionsArr, sandboxExtensionsCount);
+	for (int i = 0; i < sandboxExtensionsCount; i++) {
+		if (sandboxExtensionsArr[i]) {
+			free(sandboxExtensionsArr[i]);
+		}
 	}
-	if (readExtension) free(readExtension);
-	if (execExtension) free(execExtension);
 
 	bool fullyDebugged = false;
 	if (stringStartsWith(procPath, "/private/var/containers/Bundle/Application") || stringStartsWith(procPath, JBRootPath("/Applications"))) {
-		// This is an app
-		// Enable CS_DEBUGGED based on user preference
+		// This is an app, enable CS_DEBUGGED based on user preference
 		if (jbsetting(markAppsAsDebugged)) {
 			fullyDebugged = true;
 		}
@@ -174,6 +231,26 @@ static int systemwide_process_checkin(audit_token_t *processToken, char **rootPa
 		// platformize
 		proc_csflags_set(proc, CS_PLATFORM_BINARY);
 	}
+
+#ifdef __arm64e__
+	// On arm64e every image has a trust level associated with it
+	// "In trust cache" trust levels have higher runtime enforcements, this can be a problem for some tools as Dopamine trustcaches everything that's adhoc signed
+	// So we add the ability for a binary to get a different trust level using the "jb.pmap_cs_custom_trust" entitlement
+	// This is for binaries that rely on weaker PMAP_CS checks (e.g. Lua trampolines need it)
+	xpc_object_t customTrustObj = xpc_copy_entitlement_for_token("jb.pmap_cs.custom_trust", processToken);
+	if (customTrustObj) {
+		if (xpc_get_type(customTrustObj) == XPC_TYPE_STRING) {
+			const char *customTrustStr = xpc_string_get_string_ptr(customTrustObj);
+			uint32_t customTrust = pmap_cs_trust_string_to_int(customTrustStr);
+			if (customTrust >= 2) {
+				uint64_t mainCodeDir = proc_find_main_binary_code_dir(proc);
+				if (mainCodeDir) {
+					kwrite32(mainCodeDir + koffsetof(pmap_cs_code_directory, trust), customTrust);
+				}
+			}
+		}
+	}
+#endif
 
 	proc_rele(proc);
 	return 0;
@@ -280,6 +357,7 @@ struct jbserver_domain gSystemwideDomain = {
 			.handler = systemwide_trust_binary,
 			.args = (jbserver_arg[]){
 				{ .name = "binary-path", .type = JBS_TYPE_STRING, .out = false },
+				{ .name = "preferred-archs", .type = JBS_TYPE_ARRAY, .out = false },
 				{ 0 },
 			},
 		},

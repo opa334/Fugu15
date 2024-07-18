@@ -184,7 +184,7 @@ char *realafpath(const char *restrict path, char *restrict resolved_path)
 	}
 }
 
-int jbclient_trust_binary(const char *binaryPath)
+int jbclient_trust_binary(const char *binaryPath, xpc_object_t preferredArchsArray)
 {
 	if (!binaryPath) return -1;
 
@@ -195,6 +195,9 @@ int jbclient_trust_binary(const char *binaryPath)
 
 	xpc_object_t xargs = xpc_dictionary_create_empty();
 	xpc_dictionary_set_string(xargs, "binary-path", absolutePath);
+	if (preferredArchsArray) {
+		xpc_dictionary_set_value(xargs, "preferred-archs", preferredArchsArray);
+	}
 	xpc_object_t xreply = jbserver_xpc_send(JBS_DOMAIN_SYSTEMWIDE, JBS_SYSTEMWIDE_TRUST_BINARY, xargs);
 	xpc_release(xargs);
 	if (xreply) {

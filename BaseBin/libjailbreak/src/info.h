@@ -189,10 +189,22 @@ struct system_info {
 		struct {
 			uint32_t tte;
 			uint32_t ttep;
+			uint32_t pmap_cs_main;
 			uint32_t sw_asid;
 			uint32_t wx_allowed;
 			uint32_t type;
 		} pmap;
+
+		struct {
+			uint32_t pmap_cs_region_next;
+			uint32_t cd_entry;
+		} pmap_cs_region;
+
+		struct {
+			uint32_t pmap_cs_code_directory_next;
+			uint32_t main_binary;
+			uint32_t trust;
+		} pmap_cs_code_directory;
 
 		struct {
 			uint32_t pmap;
@@ -359,9 +371,17 @@ extern struct system_info gSystemInfo;
 	\
 	iterator(ctx, kernelStruct.pmap.tte); \
 	iterator(ctx, kernelStruct.pmap.ttep); \
+	iterator(ctx, kernelStruct.pmap.pmap_cs_main); \
 	iterator(ctx, kernelStruct.pmap.sw_asid); \
 	iterator(ctx, kernelStruct.pmap.wx_allowed); \
 	iterator(ctx, kernelStruct.pmap.type); \
+	\
+	iterator(ctx, kernelStruct.pmap_cs_region.pmap_cs_region_next); \
+	iterator(ctx, kernelStruct.pmap_cs_region.cd_entry); \
+	\
+	iterator(ctx, kernelStruct.pmap_cs_code_directory.pmap_cs_code_directory_next); \
+	iterator(ctx, kernelStruct.pmap_cs_code_directory.main_binary); \
+	iterator(ctx, kernelStruct.pmap_cs_code_directory.trust); \
 	\
 	iterator(ctx, kernelStruct.pt_desc.pmap); \
 	iterator(ctx, kernelStruct.pt_desc.va); \

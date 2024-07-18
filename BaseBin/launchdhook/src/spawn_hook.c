@@ -10,7 +10,7 @@
 #include <sys/mount.h>
 extern char **environ;
 
-extern int systemwide_trust_binary(const char *binaryPath);
+extern int systemwide_trust_binary(const char *binaryPath, xpc_object_t preferredArchsArray);
 extern int platform_set_process_debugged(uint64_t pid, bool fullyDebugged);
 
 #define LOG_PROCESS_LAUNCHES 0

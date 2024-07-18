@@ -12,7 +12,7 @@ xpc_object_t jbserver_xpc_send(uint64_t domain, uint64_t action, xpc_object_t xa
 
 char *jbclient_get_jbroot(void);
 char *jbclient_get_boot_uuid(void);
-int jbclient_trust_binary(const char *binaryPath);
+int jbclient_trust_binary(const char *binaryPath, xpc_object_t preferredArchsArray);
 int jbclient_trust_library(const char *libraryPath, void *addressInCaller);
 int jbclient_process_checkin(char **rootPathOut, char **bootUUIDOut, char **sandboxExtensionsOut, bool *fullyDebuggedOut);
 int jbclient_fork_fix(uint64_t childPid);

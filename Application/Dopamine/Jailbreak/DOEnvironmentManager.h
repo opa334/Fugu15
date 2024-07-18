@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)versionSupportString;
 - (NSString *)accessibleKernelPath;
 - (void)locateJailbreakRoot;
-- (void)ensureJailbreakRootExists;
+- (NSError *)ensureJailbreakRootExists;
 
 
 - (void)runUnsandboxed:(void (^)(void))unsandboxBlock;

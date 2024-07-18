@@ -12,6 +12,7 @@
 #import "DODownloadViewController.h"
 #import "DOUIManager.h"
 #import "DOEnvironmentManager.h"
+#import <CoreServices/LSApplicationProxy.h>
 
 @interface DOUpdateViewController ()
 
@@ -111,6 +112,13 @@
 
         if (![DOEnvironmentManager sharedManager].isJailbroken || [[DOUIManager sharedInstance] launchedReleaseNeedsManualUpdate] || ![DOEnvironmentManager sharedManager].isInstalledThroughTrollStore)
         {
+            if ([DOEnvironmentManager sharedManager].isInstalledThroughTrollStore) {
+                LSApplicationProxy *tsAppProxy = [LSApplicationProxy applicationProxyForIdentifier:@"com.opa334.TrollStore"];
+                if ([tsAppProxy.claimedURLSchemes containsObject:@"apple-magnifier"]) {
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"apple-magnifier://install?url=" stringByAppendingString:self.lastestDownloadUrl]] options:@{} completionHandler:nil];
+                    return;
+                }
+            }
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/opa334/Dopamine/releases"] options:@{} completionHandler:nil];
             return;
         }
@@ -166,7 +174,19 @@
         NSString *name = release[@"name"];
         NSString *body = release[@"body"];
         [changelogText appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", name] attributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:18], NSForegroundColorAttributeName : [UIColor whiteColor], NSParagraphStyleAttributeName:paragraphStyle}]];
-        [changelogText appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n%@\n\n\n", body] attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:16], NSForegroundColorAttributeName : [UIColor whiteColor], NSParagraphStyleAttributeName:paragraphStyle}]];
+        [changelogText appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+        
+        NSAttributedStringMarkdownParsingOptions *parsingOptions = [[NSAttributedStringMarkdownParsingOptions alloc] init];
+        parsingOptions.allowsExtendedAttributes = YES;
+        parsingOptions.interpretedSyntax = NSAttributedStringMarkdownInterpretedSyntaxInlineOnlyPreservingWhitespace;
+
+        NSMutableAttributedString *markdownStringMut = [[NSAttributedString alloc] initWithMarkdownString:body options:parsingOptions baseURL:nil error:nil].mutableCopy;
+        
+        [markdownStringMut addAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:16], NSForegroundColorAttributeName : [UIColor whiteColor], NSParagraphStyleAttributeName:paragraphStyle} range:NSMakeRange(0, markdownStringMut.length)];
+
+        [changelogText appendAttributedString:markdownStringMut];
+        
+        [changelogText appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n\n"]];
         if (idx == 0)
         {
             NSArray *assets = release[@"assets"];

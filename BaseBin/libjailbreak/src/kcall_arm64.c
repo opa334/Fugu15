@@ -111,21 +111,27 @@ uint64_t arm64_kcall(uint64_t func, int argc, const uint64_t *argv)
 int arm64_kcall_init(void)
 {
 	if (!gPrimitives.kalloc_local) return -1;
+	
+	// When doing an OTA update from 2.0.x to >=2.1, we will not have offsets for kcall yet so we can't initialize it
+	if (!koffsetof(thread, machine_contextData)) return -1;
 
-	pthread_mutex_init(&gArm64KcallThead.lock, NULL);
+	static dispatch_once_t ot;
+	dispatch_once(&ot, ^{
+		pthread_mutex_init(&gArm64KcallThead.lock, NULL);
 
-	// Kcall thread
-	// The thread that we make execute in kernelspace by ovewriting it's cpsr in kernel memory
-	thread_create(mach_task_self_, &gArm64KcallThead.thread);
-	uint64_t threadKptr = task_get_ipc_port_kobject(task_self(), gArm64KcallThead.thread);
-	gArm64KcallThead.actContext = kread_ptr(threadKptr + koffsetof(thread, machine_contextData));
+		// Kcall thread
+		// The thread that we make execute in kernelspace by ovewriting it's cpsr in kernel memory
+		thread_create(mach_task_self_, &gArm64KcallThead.thread);
+		uint64_t threadKptr = task_get_ipc_port_kobject(task_self(), gArm64KcallThead.thread);
+		gArm64KcallThead.actContext = kread_ptr(threadKptr + koffsetof(thread, machine_contextData));
 
-	// In order to do kcalls, we need to make a kernel allocation that is used as the stack
-	kalloc_with_options(&gArm64KcallThead.kernelStack, 0x10000, KALLOC_OPTION_LOCAL);
-	gArm64KcallThead.kernelStack += 0x8000;
+		// In order to do kcalls, we need to make a kernel allocation that is used as the stack
+		kalloc_with_options(&gArm64KcallThead.kernelStack, 0x10000, KALLOC_OPTION_LOCAL);
+		gArm64KcallThead.kernelStack += 0x8000;
 
-	// Aligned state, we write to this allocation and then we can get the kernel pointer from it to pass to exception_return
-	posix_memalign((void **)&gArm64KcallThead.alignedState, vm_real_kernel_page_size, vm_real_kernel_page_size);
+		// Aligned state, we write to this allocation and then we can get the kernel pointer from it to pass to exception_return
+		posix_memalign((void **)&gArm64KcallThead.alignedState, vm_real_kernel_page_size, vm_real_kernel_page_size);
+	});
 
 	gPrimitives.kcall = arm64_kcall;
 	gPrimitives.kexec = arm64_kexec;
