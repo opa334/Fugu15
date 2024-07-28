@@ -371,7 +371,6 @@
 		04DD0B452B7CBEEA0055DE4F /* DOTheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOTheme.h; sourceTree = "<group>"; };
 		04DD0B462B7CBEEA0055DE4F /* DOTheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOTheme.m; sourceTree = "<group>"; };
 		04DD0B5A2B7D19E60055DE4F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		04DD0B5D2B7D1A210055DE4F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		04DD0B5C2B7D1A210055DE4F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		04DD0B5D2B7D1A210055DE4F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		51AB98D92BBF44390042EA7B /* libpartial.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpartial.a; path = Dopamine/Dependencies/libpartial.a; sourceTree = "<group>"; };
