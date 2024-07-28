@@ -12,6 +12,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <CoreFoundation/CoreFoundation.h>
+#include <mach-o/dyld.h>
 extern CFStringRef CFCopySystemVersionString(void);
 
 void abort_with_reason(uint32_t reason_namespace, uint64_t reason_code, const char *reason_string, uint64_t reason_flags);
@@ -128,15 +129,18 @@ const char *crashreporter_string_for_code(int code)
 void crashreporter_dump_backtrace_line(FILE *f, vm_address_t addr)
 {
 	Dl_info info;
-	dladdr((void *)addr, &info);
+	if (dladdr((void *)addr, &info) != 0) {
+		const char *sname = info.dli_sname;
+		const char *fname = info.dli_fname;
+		if (!sname) {
+			sname = "<unexported>";
+		}
 
-	const char *sname = info.dli_sname;
-	const char *fname = info.dli_fname;
-	if (!sname) {
-		sname = "<unexported>";
+		fprintf(f, "0x%lX: %s (0x%lX + 0x%lX) (%s(0x%lX) + 0x%lX)\n", addr, sname, (vm_address_t)info.dli_saddr, addr - (vm_address_t)info.dli_saddr, fname, (vm_address_t)info.dli_fbase, addr - (vm_address_t)info.dli_fbase);
 	}
-
-	fprintf(f, "0x%lX: %s (0x%lX + 0x%lX) (%s(0x%lX) + 0x%lX)\n", addr, sname, (vm_address_t)info.dli_saddr, addr - (vm_address_t)info.dli_saddr, fname, (vm_address_t)info.dli_fbase, addr - (vm_address_t)info.dli_fbase);
+	else {
+		fprintf(f, "0x%lX (no association)\n", addr);
+	}
 }
 
 FILE *crashreporter_open_outfile(const char *source, char **nameOut)
@@ -241,6 +245,14 @@ void crashreporter_dump_mach(FILE *f, int code, int subcode, arm_thread_state64_
 	fprintf(f, "\n");
 }
 
+void crashreporter_dump_image_list(FILE *f)
+{
+	fprintf(f, "Images:\n");
+	for (uint32_t i = 0; i < _dyld_image_count(); i++) {
+		fprintf(f, "%s: %p\n", _dyld_get_image_name(i), _dyld_get_image_header(i));
+	}
+}
+
 void crashreporter_catch_mach(exception_raise_request *request, exception_raise_reply *reply)
 {
 	pthread_t pthread = pthread_from_mach_thread_np(request->thread.name);
@@ -265,6 +277,7 @@ void crashreporter_catch_mach(exception_raise_request *request, exception_raise_
 	FILE *f = crashreporter_open_outfile("launchd", &name);
 	if (f) {
 		crashreporter_dump_mach(f, request->code, request->subcode, threadState, exceptionState, bt);
+		crashreporter_dump_image_list(f);
 		crashreporter_save_outfile(f);
 	}
 
@@ -319,6 +332,7 @@ void crashreporter_catch_objc(NSException *e)
 		if (f) {
 			@try {
 				crashreporter_dump_objc(f, e);
+				crashreporter_dump_image_list(f);
 			}
 			@catch (NSException *e2) {
 				exit(187);

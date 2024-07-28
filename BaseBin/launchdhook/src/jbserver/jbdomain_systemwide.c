@@ -1,4 +1,5 @@
 #include "jbserver_global.h"
+#include "jbsettings.h"
 #include <libjailbreak/info.h>
 #include <sandbox.h>
 #include <libproc.h>
@@ -11,8 +12,8 @@
 #include <libjailbreak/primitives.h>
 #include <libjailbreak/codesign.h>
 
-extern bool stringStartsWith(const char *str, const char* prefix);
-extern bool stringEndsWith(const char* str, const char* suffix);
+extern bool string_has_prefix(const char *str, const char* prefix);
+extern bool string_has_suffix(const char* str, const char* suffix);
 
 char *combine_strings(char separator, char **components, int count)
 {
@@ -144,11 +145,11 @@ static int systemwide_process_checkin(audit_token_t *processToken, char **rootPa
 	// Generate sandbox extensions for the requesting process
 	char *sandboxExtensionsArr[] = {
 		// Make /var/jb readable and executable
-		sandbox_extension_issue_file_to_process("com.apple.app-sandbox.read", JBRootPath(""), 0, *processToken),
-		sandbox_extension_issue_file_to_process("com.apple.sandbox.executable", JBRootPath(""), 0, *processToken),
+		sandbox_extension_issue_file_to_process("com.apple.app-sandbox.read", JBROOT_PATH(""), 0, *processToken),
+		sandbox_extension_issue_file_to_process("com.apple.sandbox.executable", JBROOT_PATH(""), 0, *processToken),
 
 		// Make /var/jb/var/mobile writable
-		sandbox_extension_issue_file_to_process("com.apple.app-sandbox.read-write", JBRootPath("/var/mobile"), 0, *processToken),
+		sandbox_extension_issue_file_to_process("com.apple.app-sandbox.read-write", JBROOT_PATH("/var/mobile"), 0, *processToken),
 	};
 	int sandboxExtensionsCount = sizeof(sandboxExtensionsArr) / sizeof(char *);
 	*sandboxExtensionsOut = combine_strings('|', sandboxExtensionsArr, sandboxExtensionsCount);
@@ -159,7 +160,7 @@ static int systemwide_process_checkin(audit_token_t *processToken, char **rootPa
 	}
 
 	bool fullyDebugged = false;
-	if (stringStartsWith(procPath, "/private/var/containers/Bundle/Application") || stringStartsWith(procPath, JBRootPath("/Applications"))) {
+	if (string_has_prefix(procPath, "/private/var/containers/Bundle/Application") || string_has_prefix(procPath, JBROOT_PATH("/Applications"))) {
 		// This is an app, enable CS_DEBUGGED based on user preference
 		if (jbsetting(markAppsAsDebugged)) {
 			fullyDebugged = true;
@@ -220,7 +221,7 @@ static int systemwide_process_checkin(audit_token_t *processToken, char **rootPa
 	}
 	// For the Dopamine app itself we want to give it a saved uid/gid of 0, unsandbox it and give it CS_PLATFORM_BINARY
 	// This is so that the buttons inside it can work when jailbroken, even if the app was not installed by TrollStore
-	else if (stringEndsWith(procPath, "/Dopamine.app/Dopamine")) {
+	else if (string_has_suffix(procPath, "/Dopamine.app/Dopamine")) {
 		// svuid = 0, svgid = 0
 		uint64_t ucred = proc_ucred(proc);
 		kwrite32(proc + koffsetof(proc, svuid), 0);
@@ -275,11 +276,11 @@ static int systemwide_fork_fix(audit_token_t *parentToken, uint64_t childPid)
 			uint64_t parentTask  = proc_task(parentProc);
 			uint64_t parentVmMap = kread_ptr(parentTask + koffsetof(task, map));
 
-			uint64_t parentHeader     = kread_ptr(parentVmMap  + koffsetof(vm_map, hdr));
-			uint64_t parentEntry      = kread_ptr(parentHeader + koffsetof(vm_map_header, links) + koffsetof(vm_map_links, next));
+			uint64_t parentHeader = kread_ptr(parentVmMap  + koffsetof(vm_map, hdr));
+			uint64_t parentEntry  = kread_ptr(parentHeader + koffsetof(vm_map_header, links) + koffsetof(vm_map_links, next));
 
-			uint64_t childHeader     = kread_ptr(childVmMap + koffsetof(vm_map, hdr));
-			uint64_t childEntry      = kread_ptr(childHeader + koffsetof(vm_map_header, links) + koffsetof(vm_map_links, next));
+			uint64_t childHeader  = kread_ptr(childVmMap  + koffsetof(vm_map, hdr));
+			uint64_t childEntry   = kread_ptr(childHeader + koffsetof(vm_map_header, links) + koffsetof(vm_map_links, next));
 
 			uint64_t childFirstEntry = childEntry, parentFirstEntry = parentEntry;
 			do {
@@ -299,7 +300,7 @@ static int systemwide_fork_fix(audit_token_t *parentToken, uint64_t childPid)
 					uint64_t childFlags  = kread64(childEntry  + koffsetof(vm_map_entry, flags));
 
 					uint8_t parentProt = VM_FLAGS_GET_PROT(parentFlags), parentMaxProt = VM_FLAGS_GET_MAXPROT(parentFlags);
-					uint8_t childProt =  VM_FLAGS_GET_PROT(childFlags),  childMaxProt  = VM_FLAGS_GET_MAXPROT(childFlags);
+					uint8_t childProt  = VM_FLAGS_GET_PROT(childFlags),  childMaxProt  = VM_FLAGS_GET_MAXPROT(childFlags);
 
 					if (parentProt != childProt || parentMaxProt != childMaxProt) {
 						VM_FLAGS_SET_PROT(childFlags, parentProt);
@@ -308,7 +309,7 @@ static int systemwide_fork_fix(audit_token_t *parentToken, uint64_t childPid)
 					}
 
 					parentEntry = kread_ptr(parentEntry + koffsetof(vm_map_entry, links) + koffsetof(vm_map_links, next));
-					childEntry = kread_ptr(childEntry + koffsetof(vm_map_entry, links) + koffsetof(vm_map_links, next));
+					childEntry  = kread_ptr(childEntry  + koffsetof(vm_map_entry, links) + koffsetof(vm_map_links, next));
 				}
 			} while (parentEntry != 0 && childEntry != 0 && parentEntry != parentFirstEntry && childEntry != childFirstEntry);
 			retval = 0;
@@ -398,6 +399,14 @@ struct jbserver_domain gSystemwideDomain = {
 			.args = (jbserver_arg[]) {
 				{ .name = "caller-token", .type = JBS_TYPE_CALLER_TOKEN, .out = false },
 				{ 0 },
+			},
+		},
+		// JBS_SYSTEMWIDE_JBSETTINGS_GET
+		{
+			.handler = jbsettings_get,
+			.args = (jbserver_arg[]){
+				{ .name = "key", .type = JBS_TYPE_STRING, .out = false },
+				{ .name = "value", .type = JBS_TYPE_XPC_GENERIC, .out = true },
 			},
 		},
 		{ 0 },

@@ -15,7 +15,6 @@ extern int platform_set_process_debugged(uint64_t pid, bool fullyDebugged);
 
 #define LOG_PROCESS_LAUNCHES 0
 
-void *posix_spawn_orig;
 extern bool gInEarlyBoot;
 
 void early_boot_done(void)
@@ -23,27 +22,23 @@ void early_boot_done(void)
 	gInEarlyBoot = false;
 }
 
-int posix_spawn_orig_wrapper(pid_t *restrict pid, const char *restrict path,
-					   const posix_spawn_file_actions_t *restrict file_actions,
-					   const posix_spawnattr_t *restrict attrp,
+int __posix_spawn_orig_wrapper(pid_t *restrict pid, const char *restrict path,
+					   struct _posix_spawn_args_desc *desc,
 					   char *const argv[restrict],
 					   char *const envp[restrict])
 {
-	int (*orig)(pid_t *restrict, const char *restrict, const posix_spawn_file_actions_t *restrict, const posix_spawnattr_t *restrict, char *const[restrict], char *const[restrict]) = posix_spawn_orig;
-
 	// we need to disable the crash reporter during the orig call
 	// otherwise the child process inherits the exception ports
 	// and this would trip jailbreak detections
 	crashreporter_pause();	
-	int r = orig(pid, path, file_actions, attrp, argv, envp);
+	int r = __posix_spawn_orig(pid, path, desc, argv, envp);
 	crashreporter_resume();
 
 	return r;
 }
 
-int posix_spawn_hook(pid_t *restrict pid, const char *restrict path,
-					   const posix_spawn_file_actions_t *restrict file_actions,
-					   const posix_spawnattr_t *restrict attrp,
+int __posix_spawn_hook(pid_t *restrict pid, const char *restrict path,
+					   struct _posix_spawn_args_desc *desc,
 					   char *const argv[restrict],
 					   char *const envp[restrict])
 {
@@ -56,13 +51,17 @@ int posix_spawn_hook(pid_t *restrict pid, const char *restrict path,
 			// Instead of the ordinary hook, we want to reinsert this dylib
 			// This has already been done in envp so we only need to call the original posix_spawn
 
+			// We are back in "early boot" for the remainder of this launchd instance
+			// Mainly so we don't lock up while spawning boomerang
+			gInEarlyBoot = true;
+
 #if LOG_PROCESS_LAUNCHES
 			FILE *f = fopen("/var/mobile/launch_log.txt", "a");
 			fprintf(f, "==== USERSPACE REBOOT ====\n");
 			fclose(f);
 #endif
 
-			// But before, we want to stash the primitives in boomerang
+			// Before the userspace reboot, we want to stash the primitives into boomerang
 			boomerang_stashPrimitives();
 
 			// Fix Xcode debugging being broken after the userspace reboot
@@ -79,7 +78,7 @@ int posix_spawn_hook(pid_t *restrict pid, const char *restrict path,
 			// setenv / unsetenv can sometimes cause environ to get reallocated
 			// In that case envp may point to garbage or be empty
 			// Say goodbye to this process
-			return posix_spawn_orig_wrapper(pid, path, file_actions, attrp, argv, environ);
+			return __posix_spawn_orig_wrapper(pid, path, desc, argv, environ);
 		}
 	}
 
@@ -88,7 +87,7 @@ int posix_spawn_hook(pid_t *restrict pid, const char *restrict path,
 		FILE *f = fopen("/var/mobile/launch_log.txt", "a");
 		fprintf(f, "%s", path);
 		int ai = 0;
-		while (true) {
+		while (argv) {
 			if (argv[ai]) {
 				if (ai >= 1) {
 					fprintf(f, " %s", argv[ai]);
@@ -113,8 +112,7 @@ int posix_spawn_hook(pid_t *restrict pid, const char *restrict path,
 		// 			FILE *f = fopen("/var/mobile/launch_log.txt", "a");
 		// 			fprintf(f, "blocked injection %s\n", firstArg);
 		// 			fclose(f);
-		// 			int (*orig)(pid_t *restrict, const char *restrict, const posix_spawn_file_actions_t *restrict, const posix_spawnattr_t *restrict, char *const[restrict], char *const[restrict]) = posix_spawn_orig;
-		// 			return orig(pid, path, file_actions, attrp, argv, envp);
+		// 			return __posix_spawn_orig_wrapper(pid, path, file_actions, desc, envp);
 		// 		}
 		// 	}
 		// }
@@ -122,6 +120,7 @@ int posix_spawn_hook(pid_t *restrict pid, const char *restrict path,
 #endif
 
 	// We can't support injection into processes that get spawned before the launchd XPC server is up
+	// (Technically we could but there is little reason to, since it requires additional work)
 	if (gInEarlyBoot) {
 		if (!strcmp(path, "/usr/libexec/xpcproxy")) {
 			// The spawned process being xpcproxy indicates that the launchd XPC server is up
@@ -129,14 +128,14 @@ int posix_spawn_hook(pid_t *restrict pid, const char *restrict path,
 			early_boot_done();
 		}
 		else {
-			return posix_spawn_orig_wrapper(pid, path, file_actions, attrp, argv, envp);
+			return __posix_spawn_orig_wrapper(pid, path, desc, argv, envp);
 		}
 	}
 
-	return spawn_hook_common(pid, path, file_actions, attrp, argv, envp, posix_spawn_orig_wrapper, systemwide_trust_binary, platform_set_process_debugged);
+	return spawn_hook_common(pid, path, desc, argv, envp, __posix_spawn_orig_wrapper, systemwide_trust_binary, platform_set_process_debugged, jbsetting(jetsamMultiplier));
 }
 
 void initSpawnHooks(void)
 {
-	MSHookFunction(&posix_spawn, (void *)posix_spawn_hook, &posix_spawn_orig);
+	MSHookFunction(&__posix_spawn, (void *)__posix_spawn_hook, NULL);
 }

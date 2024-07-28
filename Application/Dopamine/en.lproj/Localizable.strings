@@ -37,11 +37,12 @@
 "Button_Share" = "Share";
 "Button_Reboot" = "Reboot";
 
-// Settings Toggles
+// Settings Options
 "Settings_Tweak_Injection" = "Tweak Injection";
 "Settings_iDownload" = "iDownload (Developer Shell)";
 "Settings_Verbose_Logs" = "Verbose Logs";
 "Settings_Apps_JIT" = "Allow JIT in Apps";
+"Settings_Jetsam_Multiplier" = "Jetsam Multiplier";
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "Remove Jailbreak";
@@ -58,6 +59,7 @@
 "Section_Actions" = "Actions";
 "Section_Customization" = "Customization";
 "Section_Exploits" = "Exploits";
+"Jetsam_Description" = "Jetsam is a system feature that will automatically kill processes whose memory usage exceeds a specified limit. When many tweaks are installed, it is possible for this limit to be exceeded right at launch, causing processes to crash loop. Here you can select a multiplier that the memory limit of all processes launched with a memory limit will be multiplied by. Increase this setting when stuff is crash looping or if you encounter weird system behaviour when a large number of tweaks are installed. To not negatively impact the memory usage of the entire system, it is recommended to select the lowest option under which the system is stable.";
 
 // Settings Alerts
 "Alert_Tweak_Injection_Toggled_Title" = "Userspace Reboot Required";

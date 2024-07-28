@@ -297,7 +297,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     // /private/preboot/UUID/dopamine-<UUID>
     // /private/preboot/UUID/dopamine-<UUID>/procursus
 
-    NSString *tmpPath = NSJBRootPath(@"/");
+    NSString *tmpPath = JBROOT_PATH(@"/");
     while (![tmpPath isEqualToString:@"/"]) {
         struct stat s;
         stat(tmpPath.fileSystemRepresentation, &s);
@@ -319,7 +319,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
         NSMutableArray *programArguments = ((NSArray *)plistDict[@"ProgramArguments"]).mutableCopy;
         for (NSString *argument in [programArguments reverseObjectEnumerator]) {
             if ([argument containsString:@"@JBROOT@"]) {
-                programArguments[[programArguments indexOfObject:argument]] = [argument stringByReplacingOccurrencesOfString:@"@JBROOT@" withString:NSJBRootPath(@"/")];
+                programArguments[[programArguments indexOfObject:argument]] = [argument stringByReplacingOccurrencesOfString:@"@JBROOT@" withString:JBROOT_PATH(@"/")];
                 madeChanges = YES;
             }
         }
@@ -332,7 +332,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
 
 - (void)patchBasebinDaemonPlists
 {
-    NSURL *basebinDaemonsURL = [NSURL fileURLWithPath:NSJBRootPath(@"/basebin/LaunchDaemons")];
+    NSURL *basebinDaemonsURL = [NSURL fileURLWithPath:JBROOT_PATH(@"/basebin/LaunchDaemons")];
     for (NSURL *basebinDaemonURL in [[NSFileManager defaultManager] contentsOfDirectoryAtURL:basebinDaemonsURL includingPropertiesForKeys:nil options:0 error:nil]) {
         [self patchBasebinDaemonPlist:basebinDaemonURL.path];
     }
@@ -387,7 +387,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
         return;
     }
     
-    [[NSData data] writeToFile:NSJBRootPath(@"/.installed_dopamine") atomically:YES];
+    [[NSData data] writeToFile:JBROOT_PATH(@"/.installed_dopamine") atomically:YES];
     completion(nil);
 }
 
@@ -473,9 +473,9 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
         }
     }
     
-    NSString *basebinPath = NSJBRootPath(@"/basebin");
-    NSString *installedPath = NSJBRootPath(@"/.installed_dopamine");
-    error = [self createSymlinkAtPath:@"/var/jb" toPath:NSJBRootPath(@"/") createIntermediateDirectories:YES];
+    NSString *basebinPath = JBROOT_PATH(@"/basebin");
+    NSString *installedPath = JBROOT_PATH(@"/.installed_dopamine");
+    error = [self createSymlinkAtPath:@"/var/jb" toPath:JBROOT_PATH(@"/") createIntermediateDirectories:YES];
     if (error) {
         completion(error);
         return;
@@ -487,13 +487,13 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
             return;
         }
     }
-    error = [self extractTar:[[NSBundle mainBundle].bundlePath stringByAppendingPathComponent:@"basebin.tar"] toPath:NSJBRootPath(@"/")];
+    error = [self extractTar:[[NSBundle mainBundle].bundlePath stringByAppendingPathComponent:@"basebin.tar"] toPath:JBROOT_PATH(@"/")];
     if (error) {
         completion(error);
         return;
     }
     [self patchBasebinDaemonPlists];
-    [[NSFileManager defaultManager] removeItemAtPath:NSJBRootPath(@"/basebin/basebin.tc") error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:JBROOT_PATH(@"/basebin/basebin.tc") error:nil];
     
     void (^bootstrapFinishedCompletion)(NSError *) = ^(NSError *error){
         if (error) {
@@ -520,9 +520,9 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
             @"URIs: https://ellekit.space/\n"
             @"Suites: ./\n"
             @"Components:\n";
-        [defaultSources writeToFile:NSJBRootPath(@"/etc/apt/sources.list.d/default.sources") atomically:NO encoding:NSUTF8StringEncoding error:nil];
+        [defaultSources writeToFile:JBROOT_PATH(@"/etc/apt/sources.list.d/default.sources") atomically:NO encoding:NSUTF8StringEncoding error:nil];
         
-        NSString *mobilePreferencesPath = NSJBRootPath(@"/var/mobile/Library/Preferences");
+        NSString *mobilePreferencesPath = JBROOT_PATH(@"/var/mobile/Library/Preferences");
         if (![[NSFileManager defaultManager] fileExistsAtPath:mobilePreferencesPath]) {
             NSDictionary<NSFileAttributeKey, id> *attributes = @{
                 NSFilePosixPermissions : @0755,
@@ -541,7 +541,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     BOOL needsBootstrap = ![[NSFileManager defaultManager] fileExistsAtPath:installedPath];
     if (needsBootstrap) {
         // First, wipe any existing content that's not basebin
-        for (NSURL *subItemURL in [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:NSJBRootPath(@"/")] includingPropertiesForKeys:nil options:0 error:nil]) {
+        for (NSURL *subItemURL in [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:JBROOT_PATH(@"/")] includingPropertiesForKeys:nil options:0 error:nil]) {
             if (![subItemURL.lastPathComponent isEqualToString:@"basebin"]) {
                 [[NSFileManager defaultManager] removeItemAtURL:subItemURL error:nil];
             }
@@ -582,23 +582,23 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
 - (int)installPackage:(NSString *)packagePath
 {
     if (getuid() == 0) {
-        return exec_cmd_trusted(JBRootPath("/usr/bin/dpkg"), "-i", packagePath.fileSystemRepresentation, NULL);
+        return exec_cmd_trusted(JBROOT_PATH("/usr/bin/dpkg"), "-i", packagePath.fileSystemRepresentation, NULL);
     }
     else {
         // idk why but waitpid sometimes fails and this returns -1, so we just ignore the return value
-        exec_cmd(JBRootPath("/basebin/jbctl"), "internal", "install_pkg", packagePath.fileSystemRepresentation, NULL);
+        exec_cmd(JBROOT_PATH("/basebin/jbctl"), "internal", "install_pkg", packagePath.fileSystemRepresentation, NULL);
         return 0;
     }
 }
 
 - (int)uninstallPackageWithIdentifier:(NSString *)identifier
 {
-    return exec_cmd_trusted(JBRootPath("/usr/bin/dpkg"), "-r", identifier.UTF8String, NULL);
+    return exec_cmd_trusted(JBROOT_PATH("/usr/bin/dpkg"), "-r", identifier.UTF8String, NULL);
 }
 
 - (NSString *)installedVersionForPackageWithIdentifier:(NSString *)identifier
 {
-    NSString *dpkgStatus = [NSString stringWithContentsOfFile:NSJBRootPath(@"/var/lib/dpkg/status") encoding:NSUTF8StringEncoding error:nil];
+    NSString *dpkgStatus = [NSString stringWithContentsOfFile:JBROOT_PATH(@"/var/lib/dpkg/status") encoding:NSUTF8StringEncoding error:nil];
     NSString *packageStartLine = [NSString stringWithFormat:@"Package: %@", identifier];
     
     NSArray *packageInfos = [dpkgStatus componentsSeparatedByString:@"\n\n"];
@@ -644,9 +644,9 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
 - (NSError *)finalizeBootstrap
 {
     // Initial setup on first jailbreak
-    if ([[NSFileManager defaultManager] fileExistsAtPath:NSJBRootPath(@"/prep_bootstrap.sh")]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:JBROOT_PATH(@"/prep_bootstrap.sh")]) {
         [[DOUIManager sharedInstance] sendLog:@"Finalizing Bootstrap" debug:NO];
-        int r = exec_cmd_trusted(JBRootPath("/bin/sh"), JBRootPath("/prep_bootstrap.sh"), NULL);
+        int r = exec_cmd_trusted(JBROOT_PATH("/bin/sh"), JBROOT_PATH("/prep_bootstrap.sh"), NULL);
         if (r != 0) {
             return [NSError errorWithDomain:bootstrapErrorDomain code:BootstrapErrorCodeFailedFinalising userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"prep_bootstrap.sh returned %d\n", r]}];
         }
@@ -675,18 +675,18 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
         
         if (shouldInstallBasebinLink) {
             // Clean symlinks from earlier Dopamine versions
-            if (![self fileOrSymlinkExistsAtPath:NSJBRootPath(@"/usr/bin/opainject")]) {
-                [[NSFileManager defaultManager] removeItemAtPath:NSJBRootPath(@"/usr/bin/opainject") error:nil];
+            if (![self fileOrSymlinkExistsAtPath:JBROOT_PATH(@"/usr/bin/opainject")]) {
+                [[NSFileManager defaultManager] removeItemAtPath:JBROOT_PATH(@"/usr/bin/opainject") error:nil];
             }
-            if (![self fileOrSymlinkExistsAtPath:NSJBRootPath(@"/usr/bin/jbctl")]) {
-                [[NSFileManager defaultManager] removeItemAtPath:NSJBRootPath(@"/usr/bin/jbctl") error:nil];
+            if (![self fileOrSymlinkExistsAtPath:JBROOT_PATH(@"/usr/bin/jbctl")]) {
+                [[NSFileManager defaultManager] removeItemAtPath:JBROOT_PATH(@"/usr/bin/jbctl") error:nil];
             }
-            if (![self fileOrSymlinkExistsAtPath:NSJBRootPath(@"/usr/lib/libjailbreak.dylib")]) {
-                [[NSFileManager defaultManager] removeItemAtPath:NSJBRootPath(@"/usr/lib/libjailbreak.dylib") error:nil];
+            if (![self fileOrSymlinkExistsAtPath:JBROOT_PATH(@"/usr/lib/libjailbreak.dylib")]) {
+                [[NSFileManager defaultManager] removeItemAtPath:JBROOT_PATH(@"/usr/lib/libjailbreak.dylib") error:nil];
             }
-            if (![self fileOrSymlinkExistsAtPath:NSJBRootPath(@"/usr/bin/libjailbreak.dylib")]) {
+            if (![self fileOrSymlinkExistsAtPath:JBROOT_PATH(@"/usr/bin/libjailbreak.dylib")]) {
                 // Yes this exists >.< was a typo
-                [[NSFileManager defaultManager] removeItemAtPath:NSJBRootPath(@"/usr/bin/libjailbreak.dylib") error:nil];
+                [[NSFileManager defaultManager] removeItemAtPath:JBROOT_PATH(@"/usr/bin/libjailbreak.dylib") error:nil];
             }
             
             NSString *basebinLinkPath = [[NSBundle mainBundle].bundlePath stringByAppendingPathComponent:@"basebin-link.deb"];

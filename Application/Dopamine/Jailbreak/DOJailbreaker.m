@@ -328,7 +328,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     posix_spawnattr_init(&attr);
     posix_spawnattr_set_registered_ports_np(&attr, (mach_port_t[]){MACH_PORT_NULL, MACH_PORT_NULL, serverPort}, 3);
     pid_t spawnedPid = 0;
-    const char *jbctlPath = JBRootPath("/basebin/jbctl");
+    const char *jbctlPath = JBROOT_PATH("/basebin/jbctl");
     int spawnError = posix_spawn(&spawnedPid, jbctlPath, NULL, &attr, (char *const *)(const char *[]){ jbctlPath, "internal", "launchd_stash_port", NULL }, NULL);
     if (spawnError != 0) {
         dispatch_cancel(serverSource);
@@ -344,7 +344,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     } while (!WIFEXITED(status) && !WIFSIGNALED(status));
 
     // Inject launchdhook.dylib into launchd via opainject
-    int r = exec_cmd(JBRootPath("/basebin/opainject"), "1", JBRootPath("/basebin/launchdhook.dylib"), NULL);
+    int r = exec_cmd(JBROOT_PATH("/basebin/opainject"), "1", JBROOT_PATH("/basebin/launchdhook.dylib"), NULL);
     if (r != 0) {
         dispatch_cancel(serverSource);
         return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedLaunchdInjection userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"opainject failed with error code %d", r]}];
@@ -360,7 +360,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
 
 - (NSError *)applyProtection
 {
-    int r = exec_cmd(JBRootPath("/basebin/jbctl"), "internal", "protection_init", NULL);
+    int r = exec_cmd(JBROOT_PATH("/basebin/jbctl"), "internal", "protection_init", NULL);
     if (r != 0) {
         return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedInitProtection userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Failed initializing protection with error: %d", r]}];
     }
@@ -369,14 +369,14 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
 
 - (NSError *)createFakeLib
 {
-    int r = exec_cmd(JBRootPath("/basebin/jbctl"), "internal", "fakelib_init", NULL);
+    int r = exec_cmd(JBROOT_PATH("/basebin/jbctl"), "internal", "fakelib_init", NULL);
     if (r != 0) {
         return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedInitFakeLib userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Creating fakelib failed with error: %d", r]}];
     }
 
     cdhash_t *cdhashes = NULL;
     uint32_t cdhashesCount = 0;
-    macho_collect_untrusted_cdhashes(JBRootPath("/basebin/.fakelib/dyld"), NULL, NULL, NULL, NULL, 0, &cdhashes, &cdhashesCount);
+    macho_collect_untrusted_cdhashes(JBROOT_PATH("/basebin/.fakelib/dyld"), NULL, NULL, NULL, NULL, 0, &cdhashes, &cdhashesCount);
     if (cdhashesCount != 1) return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedInitFakeLib userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Got unexpected number of cdhashes for dyld???: %d", cdhashesCount]}];
     
     trustcache_file_v1 *dyldTCFile = NULL;
@@ -391,7 +391,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
         return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedInitFakeLib userInfo:@{NSLocalizedDescriptionKey : @"Failed to build dyld trustcache"}];
     }
     
-    r = exec_cmd(JBRootPath("/basebin/jbctl"), "internal", "fakelib_mount", NULL);
+    r = exec_cmd(JBROOT_PATH("/basebin/jbctl"), "internal", "fakelib_mount", NULL);
     if (r != 0) {
         return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedInitFakeLib userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Mounting fakelib failed with error: %d", r]}];
     }
@@ -406,7 +406,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     NSMutableSet *dopamineInstalledAppIds = [NSMutableSet new];
     NSMutableSet *userInstalledAppIds = [NSMutableSet new];
     
-    NSString *dopamineAppsPath = NSJBRootPath(@"/Applications");
+    NSString *dopamineAppsPath = JBROOT_PATH(@"/Applications");
     NSString *userAppsPath = @"/var/containers/Bundle/Application";
     
     for (NSString *dopamineAppName in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dopamineAppsPath error:nil]) {
@@ -477,6 +477,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     BOOL tweaksEnabled = [[DOPreferenceManager sharedManager] boolPreferenceValueForKey:@"tweakInjectionEnabled" fallback:YES];
     BOOL idownloadEnabled = [[DOPreferenceManager sharedManager] boolPreferenceValueForKey:@"idownloadEnabled" fallback:NO];
     BOOL appJITEnabled = [[DOPreferenceManager sharedManager] boolPreferenceValueForKey:@"appJITEnabled" fallback:YES];
+    NSNumber *jetsamMultiplierOption = [[DOPreferenceManager sharedManager] preferenceValueForKey:@"jetsamMultiplier"];
     
     struct utsname systemInfo;
     uname(&systemInfo);
@@ -489,6 +490,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     if (*errOut) return;
     
     gSystemInfo.jailbreakSettings.markAppsAsDebugged = appJITEnabled;
+    gSystemInfo.jailbreakSettings.jetsamMultiplier = jetsamMultiplierOption ? (jetsamMultiplierOption.doubleValue / 2) : 0;
     
     [[DOUIManager sharedInstance] sendLog:DOLocalizedString(@"Building Phys R/W Primitive") debug:NO];
     *errOut = [self buildPhysRWPrimitive];
@@ -526,7 +528,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     
     if (!tweaksEnabled) {
         printf("Creating safe mode marker file since tweaks were disabled in settings\n");
-        [[NSData data] writeToFile:NSJBRootPath(@"/basebin/.safe_mode") atomically:YES];
+        [[NSData data] writeToFile:JBROOT_PATH(@"/basebin/.safe_mode") atomically:YES];
     }
     
     [[DOUIManager sharedInstance] sendLog:DOLocalizedString(@"Loading BaseBin TrustCache") debug:NO];
@@ -549,7 +551,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     if (*errOut) return;
     
     // Unsandbox iconservicesagent so that app icons can work
-    exec_cmd_trusted(JBRootPath("/usr/bin/killall"), "-9", "iconservicesagent", NULL);
+    exec_cmd_trusted(JBROOT_PATH("/usr/bin/killall"), "-9", "iconservicesagent", NULL);
     
     *errOut = [self finalizeBootstrapIfNeeded];
     if (*errOut) return;
@@ -564,8 +566,8 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     }
     
     //printf("Starting launch daemons...\n");
-    //exec_cmd_trusted(JBRootPath("/usr/bin/launchctl"), "bootstrap", "system", JBRootPath("/Library/LaunchDaemons"), NULL);
-    //exec_cmd_trusted(JBRootPath("/usr/bin/launchctl"), "bootstrap", "system", JBRootPath("/basebin/LaunchDaemons"), NULL);
+    //exec_cmd_trusted(JBROOT_PATH("/usr/bin/launchctl"), "bootstrap", "system", JBROOT_PATH("/Library/LaunchDaemons"), NULL);
+    //exec_cmd_trusted(JBROOT_PATH("/usr/bin/launchctl"), "bootstrap", "system", JBROOT_PATH("/basebin/LaunchDaemons"), NULL);
     // Note: This causes the app to freeze in some instances due to launchd only having physrw_pte, we might want to only do it when neccessary
     // It's only neccessary when we don't immediately userspace reboot
     
