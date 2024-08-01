@@ -12,8 +12,6 @@
 
 int posix_spawnattr_set_registered_ports_np(posix_spawnattr_t *__restrict attr, mach_port_t portarray[], uint32_t count);
 
-extern int (*posix_spawn_orig)(pid_t *restrict, const char *restrict, const posix_spawn_file_actions_t *restrict, const posix_spawnattr_t *restrict, char *const[restrict], char *const[restrict]);
-
 #define JB_DOMAIN_PRIMITIVE_STORAGE 10
 
 #define JB_PRIMITIVE_STORAGE_RETRIEVE_PHYSRW 1
@@ -45,7 +43,7 @@ void boomerang_stashPrimitives()
 	posix_spawnattr_t attr = NULL;
 	posix_spawnattr_init(&attr);
 	posix_spawnattr_set_registered_ports_np(&attr, (mach_port_t[]){ MACH_PORT_NULL, MACH_PORT_NULL, serverPort }, 3);
-	int ret = posix_spawn_orig(&boomerangPid, JBRootPath("/basebin/boomerang"), NULL, &attr, NULL, NULL);
+	int ret = posix_spawn(&boomerangPid, JBROOT_PATH("/basebin/boomerang"), NULL, &attr, NULL, NULL);
 	if (ret != 0) return;
 	posix_spawnattr_destroy(&attr);
 

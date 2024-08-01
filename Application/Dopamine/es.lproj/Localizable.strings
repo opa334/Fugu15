@@ -37,11 +37,12 @@
 "Button_Share" = "Compartir";
 "Button_Reboot" = "Reiniciar";
 
-// Settings Toggles
+// Settings Options
 "Settings_Tweak_Injection" = "Inyección de ajustes";
 "Settings_iDownload" = "iDownload (Shell de desarrollador)";
 "Settings_Verbose_Logs" = "Registros detallados";
 "Settings_Apps_JIT" = "Permitir JIT en las aplicaciones";
+"Settings_Jetsam_Multiplier" = "Multiplicador Jetsam";
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "Eliminar Jailbreak";
@@ -58,6 +59,7 @@
 "Section_Actions" = "Acciones";
 "Section_Customization" = "Personalización";
 "Section_Exploits" = "Exploits";
+"Jetsam_Description" = "Jetsam es una característica del sistema que matará automáticamente los procesos cuyo uso de memoria supere un límite especificado. Cuando se instalan muchos tweaks, es posible que este límite se exceda justo en el lanzamiento, causando que los procesos se bloqueen en bucle. Aquí puede seleccionar un multiplicador por el que se multiplicará el límite de memoria de todos los procesos lanzados con un límite de memoria. Aumente este valor cuando se produzca un bucle de bloqueo o si encuentra un comportamiento extraño del sistema cuando se instala un gran número de tweaks. Para no impactar negativamente en el uso de memoria de todo el sistema, se recomienda seleccionar la opción más baja bajo la cual el sistema sea estable.";
 
 // Settings Alerts
 "Alert_Tweak_Injection_Toggled_Title" = "Es necesario reiniciar el Espacio de Usuario";

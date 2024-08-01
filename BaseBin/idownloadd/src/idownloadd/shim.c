@@ -20,7 +20,7 @@ uint64_t c_getkbase(void)
 
 bool c_kcall_supported(void)
 {
-    return jbinfo(usesPACBypass);
+    return is_kcall_available();
 }
 
 int c_kcall(uint64_t *result, uint64_t func, int argc, const uint64_t *argv)

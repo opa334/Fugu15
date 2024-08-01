@@ -178,7 +178,7 @@ __attribute__((constructor)) static void initializer(void)
 
 	// This will ensure launchdhook is always reinjected after userspace reboots
 	// As this launchd will pass environ to the next launchd...
-	setenv("DYLD_INSERT_LIBRARIES", JBRootPath("/basebin/launchdhook.dylib"), 1);
+	setenv("DYLD_INSERT_LIBRARIES", JBROOT_PATH("/basebin/launchdhook.dylib"), 1);
 
 	// Mark Dopamine as having been initialized before
 	setenv("DOPAMINE_INITIALIZED", "1", 1);

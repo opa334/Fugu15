@@ -34,6 +34,7 @@ struct system_info {
 
 	struct {
 		bool markAppsAsDebugged;
+		double jetsamMultiplier;
 	} jailbreakSettings;
 
 	struct {
@@ -248,7 +249,8 @@ extern struct system_info gSystemInfo;
 	iterator(ctx, jailbreakInfo.rootPath);
 
 #define JAILBREAK_SETTINGS_ITERATE(ctx, iterator) \
-	iterator(ctx, jailbreakSettings.markAppsAsDebugged);
+	iterator(ctx, jailbreakSettings.markAppsAsDebugged); \
+	iterator(ctx, jailbreakSettings.jetsamMultiplier);
 
 #define KERNEL_SYMBOLS_ITERATE(ctx, iterator) \
 	iterator(ctx, kernelSymbol.perfmon_dev_open); \
@@ -422,6 +424,7 @@ __attribute__((__unused__)) static void _safe_xpc_dictionary_set_string(xpc_obje
 	char *: _safe_xpc_dictionary_set_string(xdict, name, (const char*)(uint64_t)value), \
 	uint64_t: xpc_dictionary_set_uint64(xdict, name, (uint64_t)value), \
 	uint32_t: xpc_dictionary_set_uint64(xdict, name, (uint64_t)value), \
+	double: xpc_dictionary_set_double(xdict, name, *(double *)&value), \
 	bool: xpc_dictionary_set_bool(xdict, name, (bool)value) \
 )
 
@@ -430,6 +433,7 @@ __attribute__((__unused__)) static void _safe_xpc_dictionary_set_string(xpc_obje
 	char *: _safe_xpc_dictionary_get_string(xdict, name, (char **)&target), \
 	uint64_t: *((uint64_t *)&target) = xpc_dictionary_get_uint64(xdict, name), \
 	uint32_t: *((uint32_t *)&target) = (uint32_t)xpc_dictionary_get_uint64(xdict, name), \
+	double: *((double *)&target) = xpc_dictionary_get_double(xdict, name), \
 	bool: *((bool *)&target) = xpc_dictionary_get_bool(xdict, name) \
 )
 

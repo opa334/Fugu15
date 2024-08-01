@@ -175,6 +175,8 @@
 		8C5FA9712BDD81EF008C246F /* LICENSE_weightBufs.md in Resources */ = {isa = PBXBuildFile; fileRef = 8C5FA9702BDD81EF008C246F /* LICENSE_weightBufs.md */; };
 		8C609C9E2C19B4270023DD12 /* NSString+Version.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C609C9C2C19AECF0023DD12 /* NSString+Version.m */; };
 		8C609C9F2C19B6FA0023DD12 /* libkrw-dopamine.deb in Resources */ = {isa = PBXBuildFile; fileRef = 8C609C992C19AC250023DD12 /* libkrw-dopamine.deb */; };
+		8C6599DB2C555A60000FF57F /* DOPSJetsamListItemsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C6599DA2C555A60000FF57F /* DOPSJetsamListItemsController.m */; };
+		8C6599DD2C555A71000FF57F /* DOPSJetsamListItemsController.h in Sources */ = {isa = PBXBuildFile; fileRef = 8C6599DC2C555A71000FF57F /* DOPSJetsamListItemsController.h */; };
 		8C71981A2ABF0E82003C6658 /* DOAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C7198192ABF0E82003C6658 /* DOAppDelegate.m */; };
 		8C71981D2ABF0E82003C6658 /* DOSceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C71981C2ABF0E82003C6658 /* DOSceneDelegate.m */; };
 		8C7198252ABF0E84003C6658 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C7198242ABF0E84003C6658 /* Assets.xcassets */; };
@@ -506,6 +508,8 @@
 		8C609C992C19AC250023DD12 /* libkrw-dopamine.deb */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libkrw-dopamine.deb"; path = "../../../Packages/libkrw-provider/libkrw-dopamine.deb"; sourceTree = "<group>"; };
 		8C609C9C2C19AECF0023DD12 /* NSString+Version.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Version.m"; sourceTree = "<group>"; };
 		8C609C9D2C19AEE70023DD12 /* NSString+Version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Version.h"; sourceTree = "<group>"; };
+		8C6599DA2C555A60000FF57F /* DOPSJetsamListItemsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOPSJetsamListItemsController.m; sourceTree = "<group>"; };
+		8C6599DC2C555A71000FF57F /* DOPSJetsamListItemsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOPSJetsamListItemsController.h; sourceTree = "<group>"; };
 		8C7198152ABF0E82003C6658 /* Dopamine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dopamine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C7198182ABF0E82003C6658 /* DOAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOAppDelegate.h; sourceTree = "<group>"; };
 		8C7198192ABF0E82003C6658 /* DOAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOAppDelegate.m; sourceTree = "<group>"; };
@@ -724,6 +728,8 @@
 				0443A9AF2B79D9C10014C933 /* DOPSListItemsController.m */,
 				8C296BAA2BE049E4007C2AD1 /* DOPSExploitListItemsController.h */,
 				8C296BAB2BE049E4007C2AD1 /* DOPSExploitListItemsController.m */,
+				8C6599DC2C555A71000FF57F /* DOPSJetsamListItemsController.h */,
+				8C6599DA2C555A60000FF57F /* DOPSJetsamListItemsController.m */,
 			);
 			path = PSLists;
 			sourceTree = "<group>";
@@ -1660,10 +1666,12 @@
 			files = (
 				8C609C9E2C19B4270023DD12 /* NSString+Version.m in Sources */,
 				042479A62B66916B0082581B /* DOHeaderCell.m in Sources */,
+				8C6599DD2C555A71000FF57F /* DOPSJetsamListItemsController.h in Sources */,
 				042479A22B66916B0082581B /* DOCreditsViewController.m in Sources */,
 				042479B32B66916B0082581B /* DODebugLogView.m in Sources */,
 				042479AF2B66916B0082581B /* DONavigationController.m in Sources */,
 				04C246AE2B74ACA200E17924 /* DOAppSwitch.m in Sources */,
+				8C6599DB2C555A60000FF57F /* DOPSJetsamListItemsController.m in Sources */,
 				042479B22B66916B0082581B /* DOLyricsLogView.m in Sources */,
 				042479A52B66916B0082581B /* DOCreditsCell.m in Sources */,
 				8C296BAC2BE049E4007C2AD1 /* DOPSExploitListItemsController.m in Sources */,
@@ -2234,7 +2242,7 @@
 					"$(PROJECT_DIR)/Dopamine/Dependencies",
 					"$(PROJECT_DIR)/Dopamine/Resources",
 				);
-				MARKETING_VERSION = 2.1.7;
+				MARKETING_VERSION = 2.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.opa334.Dopamine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -2271,7 +2279,7 @@
 					"$(PROJECT_DIR)/Dopamine/Dependencies",
 					"$(PROJECT_DIR)/Dopamine/Resources",
 				);
-				MARKETING_VERSION = 2.1.7;
+				MARKETING_VERSION = 2.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.opa334.Dopamine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

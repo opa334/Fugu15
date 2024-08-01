@@ -37,22 +37,22 @@ xpc_object_t xpc_dictionary_get_value_hook(xpc_object_t xdict, const char *key)
 	xpc_object_t origXvalue = xpc_dictionary_get_value_orig(xdict, key);
 	if (!strcmp(key, "LaunchDaemons")) {
 		if (xpc_get_type(origXvalue) == XPC_TYPE_DICTIONARY) {
-			for (NSString *daemonPlistName in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:NSJBRootPath(@"/basebin/LaunchDaemons") error:nil]) {
+			for (NSString *daemonPlistName in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:JBROOT_PATH(@"/basebin/LaunchDaemons") error:nil]) {
 				if ([daemonPlistName.pathExtension isEqualToString:@"plist"]) {
-					xpc_dictionary_add_launch_daemon_plist_at_path(origXvalue, [NSJBRootPath(@"/basebin/LaunchDaemons") stringByAppendingPathComponent:daemonPlistName].fileSystemRepresentation);
+					xpc_dictionary_add_launch_daemon_plist_at_path(origXvalue, [JBROOT_PATH(@"/basebin/LaunchDaemons") stringByAppendingPathComponent:daemonPlistName].fileSystemRepresentation);
 				}
 			}
-			for (NSString *daemonPlistName in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:NSJBRootPath(@"/Library/LaunchDaemons") error:nil]) {
+			for (NSString *daemonPlistName in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:JBROOT_PATH(@"/Library/LaunchDaemons") error:nil]) {
 				if ([daemonPlistName.pathExtension isEqualToString:@"plist"]) {
-					xpc_dictionary_add_launch_daemon_plist_at_path(origXvalue, [NSJBRootPath(@"/Library/LaunchDaemons") stringByAppendingPathComponent:daemonPlistName].fileSystemRepresentation);
+					xpc_dictionary_add_launch_daemon_plist_at_path(origXvalue, [JBROOT_PATH(@"/Library/LaunchDaemons") stringByAppendingPathComponent:daemonPlistName].fileSystemRepresentation);
 				}
 			}
 		}
 	}
 	else if (!strcmp(key, "Paths")) {
 		if (xpc_get_type(origXvalue) == XPC_TYPE_ARRAY) {
-			xpc_array_set_string(origXvalue, XPC_ARRAY_APPEND, JBRootPath("/basebin/LaunchDaemons"));
-			xpc_array_set_string(origXvalue, XPC_ARRAY_APPEND, JBRootPath("/Library/LaunchDaemons"));
+			xpc_array_set_string(origXvalue, XPC_ARRAY_APPEND, JBROOT_PATH("/basebin/LaunchDaemons"));
+			xpc_array_set_string(origXvalue, XPC_ARRAY_APPEND, JBROOT_PATH("/Library/LaunchDaemons"));
 		}
 	}
 	else if (!strcmp(key, "com.apple.private.xpc.launchd.userspace-reboot")) {

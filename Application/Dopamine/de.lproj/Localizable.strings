@@ -42,6 +42,7 @@
 "Settings_iDownload" = "iDownload (Entwickler-Terminal)";
 "Settings_Verbose_Logs" = "Detaillierte Logs";
 "Settings_Apps_JIT" = "Erlaube JIT in Apps";
+"Settings_Jetsam_Multiplier" = "Jetsam Multiplikator";
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "Jailbreak entfernen";
@@ -58,6 +59,7 @@
 "Section_Actions" = "Aktionen";
 "Section_Customization" = "Design";
 "Section_Exploits" = "Exploits";
+"Jetsam_Description" = "Jetsam ist ein System-Feature, welches Prozesse, die vorgegebene Speicherlimit überschreiten, automatisch beendet. Wenn viele Tweaks installiert wurden, kann es passieren, dass Prozesse direkt nach dem Start beendet werden, was diese in eine Absturzschleife versetzen kann. Hier kann ein Multiplikator gewählt werden, mit welchem jedes Speicherlimit, das vom System gesetzt wird, multipliziert wird. Erhöhe diese Einstellung, falls unterwünschtes Systemverhalten bei einer hohen Anzahl von installierten Tweaks auftritt. Um den Speicherverbrauch des Systems nicht negativ zu beeinflussen, wird empfohlen die kleinstmögliche Einstellung zu wählen, unter welcher das System stabil läuft.";
 
 // Settings Alerts
 "Alert_Tweak_Injection_Toggled_Title" = "Userspace-Neustart erforderlich";

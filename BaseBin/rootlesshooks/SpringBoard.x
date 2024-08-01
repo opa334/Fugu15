@@ -4,7 +4,7 @@
 #import <libroot.h>
 #import <fcntl.h>
 
-bool stringStartsWith(const char *str, const char* prefix)
+bool string_has_prefix(const char *str, const char* prefix)
 {
 	if (!str || !prefix) {
 		return false;
@@ -43,7 +43,7 @@ bool stringStartsWith(const char *str, const char* prefix)
 		char filePath[PATH_MAX];
 		if (fcntl(fildes, F_GETPATH, filePath) != -1) {
 			// Skip setting protection class on jailbreak apps, this doesn't work and causes snapshots to not be saved correctly
-			if (stringStartsWith(filePath, JBROOT_PATH_CSTRING("/var/mobile/Library/SplashBoard/Snapshots"))) {
+			if (string_has_prefix(filePath, JBROOT_PATH_CSTRING("/var/mobile/Library/SplashBoard/Snapshots"))) {
 				return 0;
 			}
 		}

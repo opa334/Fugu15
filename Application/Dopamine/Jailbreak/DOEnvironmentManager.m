@@ -238,7 +238,7 @@ int reboot3(uint64_t flags, ...);
     __block NSString *version;
     [self runAsRoot:^{
         [self runUnsandboxed:^{
-            version = [NSString stringWithContentsOfFile:NSJBRootPath(@"/basebin/.version") encoding:NSUTF8StringEncoding error:nil];
+            version = [NSString stringWithContentsOfFile:JBROOT_PATH(@"/basebin/.version") encoding:NSUTF8StringEncoding error:nil];
         }];
     }];
     return version;
@@ -302,7 +302,7 @@ int reboot3(uint64_t flags, ...);
         __block int pid = 0;
         __block int r = 0;
         [self runUnsandboxed:^{
-            r = exec_cmd_suspended(&pid, JBRootPath("/usr/bin/sbreload"), NULL);
+            r = exec_cmd_suspended(&pid, JBROOT_PATH("/usr/bin/sbreload"), NULL);
             if (r == 0) {
                 kill(pid, SIGCONT);
             }
@@ -319,7 +319,7 @@ int reboot3(uint64_t flags, ...);
         __block int pid = 0;
         __block int r = 0;
         [self runUnsandboxed:^{
-            r = exec_cmd_suspended(&pid, JBRootPath("/basebin/jbctl"), "reboot_userspace", NULL);
+            r = exec_cmd_suspended(&pid, JBROOT_PATH("/basebin/jbctl"), "reboot_userspace", NULL);
             if (r == 0) {
                 // the original plan was to have the process continue outside of this block
                 // unfortunately sandbox blocks kill aswell, so it's a bit racy but works
@@ -340,7 +340,7 @@ int reboot3(uint64_t flags, ...);
 {
     [self runAsRoot:^{
         [self runUnsandboxed:^{
-            exec_cmd(JBRootPath("/usr/bin/uicache"), "-a", NULL);
+            exec_cmd(JBROOT_PATH("/usr/bin/uicache"), "-a", NULL);
         }];
     }];
 }
@@ -349,11 +349,11 @@ int reboot3(uint64_t flags, ...);
 {
     [self runAsRoot:^{
         [self runUnsandboxed:^{
-            NSArray *jailbreakApps = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:NSJBRootPath(@"/Applications") error:nil];
+            NSArray *jailbreakApps = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:JBROOT_PATH(@"/Applications") error:nil];
             if (jailbreakApps.count) {
                 for (NSString *jailbreakApp in jailbreakApps) {
-                    NSString *jailbreakAppPath = [NSJBRootPath(@"/Applications") stringByAppendingPathComponent:jailbreakApp];
-                    exec_cmd(JBRootPath("/usr/bin/uicache"), "-u", jailbreakAppPath.fileSystemRepresentation, NULL);
+                    NSString *jailbreakAppPath = [JBROOT_PATH(@"/Applications") stringByAppendingPathComponent:jailbreakApp];
+                    exec_cmd(JBROOT_PATH("/usr/bin/uicache"), "-u", jailbreakAppPath.fileSystemRepresentation, NULL);
                 }
             }
         }];
@@ -374,8 +374,8 @@ int reboot3(uint64_t flags, ...);
 {
     [self runAsRoot:^{
         [self runUnsandboxed:^{
-            NSString *dashCommand = [NSString stringWithFormat:@"printf \"%%s\\n\" \"%@\" | %@ usermod 501 -h 0", newPassword, NSJBRootPath(@"/usr/sbin/pw")];
-            exec_cmd(JBRootPath("/usr/bin/dash"), "-c", dashCommand.UTF8String, NULL);
+            NSString *dashCommand = [NSString stringWithFormat:@"printf \"%%s\\n\" \"%@\" | %@ usermod 501 -h 0", newPassword, JBROOT_PATH(@"/usr/sbin/pw")];
+            exec_cmd(JBROOT_PATH("/usr/bin/dash"), "-c", dashCommand.UTF8String, NULL);
         }];
     }];
 }
@@ -396,7 +396,7 @@ int reboot3(uint64_t flags, ...);
     [self runAsRoot:^{
         [self runUnsandboxed:^{
             pid_t pid = 0;
-            if (exec_cmd_suspended(&pid, JBRootPath("/basebin/jbctl"), "update", "tipa", tipaPath.fileSystemRepresentation, NULL) == 0) {
+            if (exec_cmd_suspended(&pid, JBROOT_PATH("/basebin/jbctl"), "update", "tipa", tipaPath.fileSystemRepresentation, NULL) == 0) {
                 kill(pid, SIGCONT);
             }
         }];
@@ -405,12 +405,12 @@ int reboot3(uint64_t flags, ...);
 
 - (BOOL)isTweakInjectionEnabled
 {
-    return ![[NSFileManager defaultManager] fileExistsAtPath:NSJBRootPath(@"/basebin/.safe_mode")];
+    return ![[NSFileManager defaultManager] fileExistsAtPath:JBROOT_PATH(@"/basebin/.safe_mode")];
 }
 
 - (void)setTweakInjectionEnabled:(BOOL)enabled
 {
-    NSString *safeModePath = NSJBRootPath(@"/basebin/.safe_mode");
+    NSString *safeModePath = JBROOT_PATH(@"/basebin/.safe_mode");
     if ([self isJailbroken]) {
         [self runAsRoot:^{
             [self runUnsandboxed:^{
@@ -447,10 +447,10 @@ int reboot3(uint64_t flags, ...);
 {
     void (^updateBlock)(void) = ^{
         if (enabled) {
-            exec_cmd_trusted(JBRootPath("/usr/bin/launchctl"), "enable", "system/com.opa334.Dopamine.idownloadd", NULL);
+            exec_cmd_trusted(JBROOT_PATH("/usr/bin/launchctl"), "enable", "system/com.opa334.Dopamine.idownloadd", NULL);
         }
         else {
-            exec_cmd_trusted(JBRootPath("/usr/bin/launchctl"), "disable", "system/com.opa334.Dopamine.idownloadd", NULL);
+            exec_cmd_trusted(JBROOT_PATH("/usr/bin/launchctl"), "disable", "system/com.opa334.Dopamine.idownloadd", NULL);
         }
     };
 
@@ -472,10 +472,10 @@ int reboot3(uint64_t flags, ...);
     
     void (^updateBlock)(void) = ^{
         if (loaded) {
-            exec_cmd(JBRootPath("/usr/bin/launchctl"), "load", JBRootPath("/basebin/LaunchDaemons/com.opa334.Dopamine.idownloadd.plist"), NULL);
+            exec_cmd(JBROOT_PATH("/usr/bin/launchctl"), "load", JBROOT_PATH("/basebin/LaunchDaemons/com.opa334.Dopamine.idownloadd.plist"), NULL);
         }
         else {
-            exec_cmd(JBRootPath("/usr/bin/launchctl"), "unload", JBRootPath("/basebin/LaunchDaemons/com.opa334.Dopamine.idownloadd.plist"), NULL);
+            exec_cmd(JBROOT_PATH("/usr/bin/launchctl"), "unload", JBROOT_PATH("/basebin/LaunchDaemons/com.opa334.Dopamine.idownloadd.plist"), NULL);
         }
     };
     
@@ -511,16 +511,16 @@ int reboot3(uint64_t flags, ...);
             if (hidden) {
                 if ([self isJailbroken]) {
                     [self unregisterJailbreakApps];
-                    [[NSFileManager defaultManager] removeItemAtPath:NSJBRootPath(@"/basebin/.fakelib/systemhook.dylib") error:nil];
-                    carbonCopy(NSJBRootPath(@"/basebin/.dyld.orig"), NSJBRootPath(@"/basebin/.fakelib/dyld"));
+                    [[NSFileManager defaultManager] removeItemAtPath:JBROOT_PATH(@"/basebin/.fakelib/systemhook.dylib") error:nil];
+                    carbonCopy(JBROOT_PATH(@"/basebin/.dyld.orig"), JBROOT_PATH(@"/basebin/.fakelib/dyld"));
                 }
                 [[NSFileManager defaultManager] removeItemAtPath:@"/var/jb" error:nil];
             }
             else {
-                [[NSFileManager defaultManager] createSymbolicLinkAtPath:@"/var/jb" withDestinationPath:NSJBRootPath(@"/") error:nil];
+                [[NSFileManager defaultManager] createSymbolicLinkAtPath:@"/var/jb" withDestinationPath:JBROOT_PATH(@"/") error:nil];
                 if ([self isJailbroken]) {
-                    carbonCopy(NSJBRootPath(@"/basebin/.dyld.patched"), NSJBRootPath(@"/basebin/.fakelib/dyld"));
-                    carbonCopy(NSJBRootPath(@"/basebin/systemhook.dylib"), NSJBRootPath(@"/basebin/.fakelib/systemhook.dylib"));
+                    carbonCopy(JBROOT_PATH(@"/basebin/.dyld.patched"), JBROOT_PATH(@"/basebin/.fakelib/dyld"));
+                    carbonCopy(JBROOT_PATH(@"/basebin/systemhook.dylib"), JBROOT_PATH(@"/basebin/.fakelib/systemhook.dylib"));
                     [self refreshJailbreakApps];
                 }
             }
