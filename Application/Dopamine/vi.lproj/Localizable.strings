@@ -42,6 +42,7 @@
 "Settings_iDownload" = "iDownload (nhà phát triển)";
 "Settings_Verbose_Logs" = "Hiện Log dạng phức tạp";
 "Settings_Apps_JIT" = "Bật JIT";
+"Settings_Jetsam_Multiplier" = "Hệ số Jetsam";
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "Gỡ Jailbreak";
@@ -58,6 +59,7 @@
 "Section_Actions" = "Tác vụ";
 "Section_Customization" = "Tùy biến";
 "Section_Exploits" = "Khai thác";
+"Jetsam_Description" = "Jetsam là một tính năng hệ thống nhằm tự động dừng các tiến trình vượt quá giới hạn bộ nhớ đã định. Khi có nhiều tweak được cài đặt, giới hạn này có thể bị vượt quá ngay khi tiến trình vừa khởi động, gây ra tình trạng treo. Ở mục này, bạn có thể chọn một hệ số nhất định, hệ số này sau đó sẽ được nhân với giới hạn bộ nhớ riêng của từng tiến trình. Tăng hệ số này nếu các ứng dụng hay tiến trình xuất hiện lỗi văng/treo, hoặc nếu hệ thống xuất hiện lỗi vặt khi có nhiều tweak được cài đặt. Tuy nhiên, bạn nên chọn hệ số thấp nhất có thể sao cho hệ thống vẫn chạy ổn định, tránh ảnh hưởng đến hiệu năng.";
 
 // Settings Alerts
 "Alert_Tweak_Injection_Toggled_Title" = "Khởi động lại Userspace";
