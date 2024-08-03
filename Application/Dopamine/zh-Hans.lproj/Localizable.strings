@@ -37,11 +37,12 @@
 "Button_Share" = "分享";
 "Button_Reboot" = "重启";
 
-// Settings Toggles
+// Settings Options
 "Settings_Tweak_Injection" = "插件注入";
 "Settings_iDownload" = "iDownload (开发者终端)";
 "Settings_Verbose_Logs" = "详细日志";
 "Settings_Apps_JIT" = "允许在应用程序中使用JIT";
+"Settings_Jetsam_Multiplier" = "Jetsam倍数";
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "移除越狱";
@@ -58,6 +59,7 @@
 "Section_Actions" = "操作";
 "Section_Customization" = "自定义";
 "Section_Exploits" = "漏洞利用";
+"Jetsam_Description" = "Jetsam是一个在系统中可自动终止内存使用量超过指定限制的进程。当安装了部分插件时，可能会导致进程占用内存变大，从而导致进程崩溃。您可以手动指定一个倍数，增大原有的内存限制。如果您的系统频繁崩溃或者出现各种异常，请适当的增加这个倍数。但过大的倍数将会占用更多的内存，因此建议选择能够使系统稳定运行的最低倍数。";
 
 // Settings Alerts
 "Alert_Tweak_Injection_Toggled_Title" = "需要重启用户空间";
@@ -111,4 +113,3 @@
 "Status_Title_Select_Package_Managers" = "请选择包管理器";
 "Select_Package_Managers_Install_Message" = "如果你不确定选择哪一个比较好，请选择 Sileo";
 "Continue" = "继续";
-
