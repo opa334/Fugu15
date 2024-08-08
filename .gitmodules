@@ -8,5 +8,5 @@
 	path = Application/Dopamine/Dopamine/Exploits/kfd/kfd
 	url = https://github.com/opa334/kfd
 [submodule "BaseBin/opainject"]
-	path = BaseBin/opainject
+	path = BaseBin/opainjectuu
 	url = https://github.com/opa334/opainject
