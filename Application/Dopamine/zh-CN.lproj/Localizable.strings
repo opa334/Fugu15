@@ -21,9 +21,9 @@
 "Button_Update_Environment" = "更新环境";
 
 // Update View
-"Update_Status_Downloading" = "正在下载更新...";
+"Update_Status_Downloading" = "正在下载更新…";
 "Update_Status_Subtitle_Please_Wait" = "请等待文件下载完成";
-"Update_Status_Installing" = "正在安装更新...";
+"Update_Status_Installing" = "正在安装更新…";
 "Update_Status_Subtitle_Restart_Soon" = "设备即将重启";
 "Title_Changelog" = "更新日志";
 "Changelog_Unavailable_Text" = "更新日志不可用";
@@ -41,7 +41,7 @@
 "Settings_Tweak_Injection" = "插件注入";
 "Settings_iDownload" = "iDownload (开发者终端)";
 "Settings_Verbose_Logs" = "详细日志";
-"Settings_Apps_JIT" = "允许在应用程序中使用 JIT";
+"Settings_Apps_JIT" = "允许应用程序使用 JIT";
 "Settings_Jetsam_Multiplier" = "Jetsam 倍数";
 
 // Settings Buttons
@@ -50,7 +50,7 @@
 "Button_Unhide_Jailbreak" = "取消隐藏越狱";
 "Button_Refresh_Jailbreak_Apps" = "刷新越狱应用";
 "Button_Reinstall_Package_Managers" = "重新安装包管理器";
-"Button_Change_Mobile_Password" = "修改\"mobile\"密码";
+"Button_Change_Mobile_Password" = "修改 “mobile” 密码";
 
 // Settings Hints
 "Hint_Hide_Jailbreak" = "“隐藏越狱”将在下次越狱前移除部分可能导致越狱检测的文件。";
@@ -59,7 +59,7 @@
 "Section_Actions" = "操作";
 "Section_Customization" = "自定义";
 "Section_Exploits" = "漏洞利用";
-"Jetsam_Description" = "Jetsam 是一个在系统中可自动终止内存使用量超过指定限制的进程。当安装了部分插件时，可能会导致进程占用内存变大，从而导致进程崩溃。您可以手动指定一个倍数，增大原有的内存限制。如果您的系统频繁崩溃或者出现各种异常，请适当的增加这个倍数。但过大的倍数将会占用更多的内存，因此建议选择能够使系统稳定运行的最低倍数。";
+"Jetsam_Description" = "Jetsam 是一个系统特性，其可自动终止内存用量超过特定限制的进程。当安装了很多插件时，可能会使进程在启动时的占用内存超出限制从而导致崩溃。您可以手动指定一个倍数，从而使被限制的进程在启动时翻倍可使用的内存上限。如果您的系统在加载大量插件之后频繁崩溃或者出现各种异常行为，请适当的增加这个倍数。但为了不严重影响系统的内存用量，建议选择能够使系统稳定运行的最低倍数。";
 
 // Settings Alerts
 "Alert_Tweak_Injection_Toggled_Title" = "需要重启用户空间";
@@ -69,7 +69,7 @@
 "Alert_Remove_Jailbreak_Title" = "移除越狱";
 "Alert_Remove_Jailbreak_Pressed_Body" = "“移除越狱”将移除所有和越狱相关的文件，而常规的 App、文档及数据不会受到任何影响。请注意，此操作无法撤销。确认要移除越狱吗？";
 "Alert_Remove_Jailbreak_Enabled_Body" = "“移除越狱”将在下次越狱时移除所有和越狱相关的文件，而常规的 App、文档及数据不会受到任何影响。请注意，此操作无法撤销。确认要移除越狱吗？";
-"Alert_Change_Mobile_Password_Body" = "这将会在您的设备上修改 “mobile” 用户的密码，该密码可以用于使用 sudo 命令。如果要设置 root 密码，请在 shell 中使用命令“sudo passwd root”。";
+"Alert_Change_Mobile_Password_Body" = "这将会在您的设备上修改 “mobile” 用户的密码，该密码亦可用于使用 sudo 命令。如果要设置 root 密码，请在 shell 中使用命令“sudo passwd root”。";
 "Password_Placeholder" = "密码";
 "Repeat_Password_Placeholder" = "重复密码";
 "Button_Change" = "修改";
