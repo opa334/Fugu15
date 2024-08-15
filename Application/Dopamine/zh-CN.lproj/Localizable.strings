@@ -21,15 +21,15 @@
 "Button_Update_Environment" = "更新环境";
 
 // Update View
-"Update_Status_Downloading" = "正在下载更新…";
+"Update_Status_Downloading" = "正在下载更新...";
 "Update_Status_Subtitle_Please_Wait" = "请等待文件下载完成";
-"Update_Status_Installing" = "正在安装更新…";
+"Update_Status_Installing" = "正在安装更新...";
 "Update_Status_Subtitle_Restart_Soon" = "设备即将重启";
 "Title_Changelog" = "更新日志";
 "Changelog_Unavailable_Text" = "更新日志不可用";
 
 // Removed Jailbreak Alert
-"Removed_Jailbreak_Alert_Title" = "已移除越狱";
+"Removed_Jailbreak_Alert_Title" = "移除越狱";
 "Removed_Jailbreak_Alert_Message" = "已成功移除越狱，建议重启设备。";
 "Button_Close" = "关闭";
 
@@ -41,35 +41,35 @@
 "Settings_Tweak_Injection" = "插件注入";
 "Settings_iDownload" = "iDownload (开发者终端)";
 "Settings_Verbose_Logs" = "详细日志";
-"Settings_Apps_JIT" = "允许应用程序使用 JIT";
+"Settings_Apps_JIT" = "允许 App 使用 JIT";
 "Settings_Jetsam_Multiplier" = "Jetsam 倍数";
 
 // Settings Buttons
 "Button_Remove_Jailbreak" = "移除越狱";
 "Button_Hide_Jailbreak" = "隐藏越狱";
 "Button_Unhide_Jailbreak" = "取消隐藏越狱";
-"Button_Refresh_Jailbreak_Apps" = "刷新越狱应用";
+"Button_Refresh_Jailbreak_Apps" = "刷新越狱 App";
 "Button_Reinstall_Package_Managers" = "重新安装包管理器";
 "Button_Change_Mobile_Password" = "修改 “mobile” 密码";
 
 // Settings Hints
-"Hint_Hide_Jailbreak" = "“隐藏越狱”将在下次越狱前移除部分可能导致越狱检测的文件。";
-"Hint_Hide_Jailbreak_Jailbroken" = "“隐藏越狱”将禁用部分越狱功能以提升检测越狱的难度，不过这并不能完全防止应用检测到越狱。";
+"Hint_Hide_Jailbreak" = "“隐藏越狱” 将在下次越狱前移除部分可能导致越狱检测的文件。";
+"Hint_Hide_Jailbreak_Jailbroken" = "“隐藏越狱” 将禁用部分越狱功能以提升检测越狱的难度，不过这并不能完全防止应用检测到越狱。";
 "Section_Jailbreak_Settings" = "越狱设置";
 "Section_Actions" = "操作";
 "Section_Customization" = "自定义";
 "Section_Exploits" = "漏洞利用";
-"Jetsam_Description" = "Jetsam 是一个系统特性，其可自动终止内存用量超过特定限制的进程。当安装了很多插件时，可能会使进程在启动时的占用内存超出限制从而导致崩溃。您可以手动指定一个倍数，从而使被限制的进程在启动时翻倍可使用的内存上限。如果您的系统在加载大量插件之后频繁崩溃或者出现各种异常行为，请适当的增加这个倍数。但为了不严重影响系统的内存用量，建议选择能够使系统稳定运行的最低倍数。";
+"Jetsam_Description" = "Jetsam 是一个系统守护进程，它会自动终止超过指定内存限制的进程。当安装了大量插件后，某些进程可能在启动时或启动后没多久内存使用超出限制，被 Jetsam 终止，导致进程循环崩溃。你可以选择一个倍数来扩大所有带内存限制进程的限制。如果你的系统在安装了大量插件之后出现频繁崩溃或者各种异常行为，请适当地增加这个倍数。但为了不对系统内存使用产生负面影响，建议选择能够使系统稳定运行的最低倍数。";
 
 // Settings Alerts
 "Alert_Tweak_Injection_Toggled_Title" = "需要重启用户空间";
-"Alert_Tweak_Injection_Toggled_Body" = "需要重启用户空间才能应用更改，你现在要重启吗？";
+"Alert_Tweak_Injection_Toggled_Body" = "需要重启用户空间才能应用更改，是否现在重启？";
 "Alert_Tweak_Injection_Toggled_Reboot_Now" = "立即重启";
 "Alert_Tweak_Injection_Toggled_Reboot_Later" = "稍后重启";
 "Alert_Remove_Jailbreak_Title" = "移除越狱";
-"Alert_Remove_Jailbreak_Pressed_Body" = "“移除越狱”将移除所有和越狱相关的文件，而常规的 App、文档及数据不会受到任何影响。请注意，此操作无法撤销。确认要移除越狱吗？";
-"Alert_Remove_Jailbreak_Enabled_Body" = "“移除越狱”将在下次越狱时移除所有和越狱相关的文件，而常规的 App、文档及数据不会受到任何影响。请注意，此操作无法撤销。确认要移除越狱吗？";
-"Alert_Change_Mobile_Password_Body" = "这将会在您的设备上修改 “mobile” 用户的密码，该密码亦可用于使用 sudo 命令。如果要设置 root 密码，请在 shell 中使用命令“sudo passwd root”。";
+"Alert_Remove_Jailbreak_Pressed_Body" = "“移除越狱” 将移除所有和越狱相关的文件，而常规的 App、文档及数据不会受到任何影响。请注意，此操作无法撤销。确认要移除越狱吗？";
+"Alert_Remove_Jailbreak_Enabled_Body" = "“移除越狱” 将在下次越狱时移除所有和越狱相关的文件，而常规的 App、文档及数据不会受到任何影响。请注意，此操作无法撤销。确认要移除越狱吗？";
+"Alert_Change_Mobile_Password_Body" = "这将会在你的设备上修改 “mobile” 密码，此密码可用于使用 sudo 命令。如需设置 “root” 密码，请在 shell 中使用命令 “sudo passwd root”。";
 "Password_Placeholder" = "密码";
 "Repeat_Password_Placeholder" = "重复密码";
 "Button_Change" = "修改";
@@ -77,9 +77,9 @@
 "Button_Continue" = "继续";
 
 // Duplicate Apps Errors
-"Duplicate_Apps_Error_Dopamine_App" = "检测到多个标识符为 \"%@\" 的应用在 Dopamine 应用目录中 (\"%@\")，无法继续。";
-"Duplicate_Apps_Error_User_App" = "检测到标识符为 %@ 的应用程序存在于 Dopamines 应用目录中 (\"%@\") ，但其已被单独安装在系统上，无法继续。";
-"Duplicate_Apps_Error_Icon_Cache" = "检测到标识符为 \"%@\" 的应用程序存在于 Dopamine 应用程序目录中 (\"%@\")，但其已在不同路径 (\"%@\") 下注册了图标缓存，无法继续。";
+"Duplicate_Apps_Error_Dopamine_App" = "检测到多个标识符为 \"%@\" 的 App 在 Dopamine 的 App 目录中 (\"%@\")，无法继续。";
+"Duplicate_Apps_Error_User_App" = "检测到标识符为 \"%@\" 的 App 存在 Dopamine 的 App 目录中 (\"%@\") ，但其已被单独安装在系统上，无法继续。";
+"Duplicate_Apps_Error_Icon_Cache" = "检测到标识符为 \"%@\" 的 App 存在于 Dopamine 的 App 目录中 (\"%@\")，但其已在不同路径 (\"%@\") 下注册了图标缓存，无法继续。";
 
 // Settings Lists
 "Theme" = "主题";
