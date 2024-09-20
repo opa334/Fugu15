@@ -29,7 +29,7 @@
 "Changelog_Unavailable_Text" = "변경 로그 없음";
 
 // Removed Jailbreak Alert
-"Removed_Jailbreak_Alert_Title" = "탈옥이 제거되었습니다";
+"Removed_Jailbreak_Alert_Title" = "탈옥이 제거되었습니다.";
 "Removed_Jailbreak_Alert_Message" = "탈옥을 성공적으로 제거했습니다. 기기를 재시작하는 것이 권장됩니다.";
 "Button_Close" = "닫기";
 
@@ -57,7 +57,7 @@
 "Hint_Hide_Jailbreak_Jailbroken" = "\"탈옥 숨기기\"는 탈옥 기능을 부분적으로 비활성화하여 탐지를 더 어렵게 만듭니다. 하지만 완벽하게 우회되지 않으며, 모든 것을 숨길 수는 없습니다.";
 "Section_Jailbreak_Settings" = "탈옥 설정";
 "Section_Actions" = "작업";
-"Section_Customization" = "커스터마이징";
+"Section_Customization" = "커스텀";
 "Section_Exploits" = "익스플로잇";
 "Jetsam_Description" = "Jetsam은 메모리 사용량이 지정된 한도를 초과하는 프로세스를 자동으로 종료하는 시스템 기능입니다. 많은 트윅이 설치된 경우 이 한도가 시작 시에 초과되어 프로세스가 계속해서 충돌할 수 있습니다. 여기에서는 메모리 한도가 적용된 모든 프로세스의 메모리 한도를 배수로 늘릴 수 있습니다. 시스템이 충돌하거나 많은 트윅 설치로 이상한 동작이 발생하면 이 설정을 높이세요. 시스템 전체의 메모리 사용량에 부정적인 영향을 주지 않도록, 시스템이 안정적으로 작동하는 가장 낮은 옵션을 선택하는 것이 좋습니다.";
 
