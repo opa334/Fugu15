@@ -1,8 +1,8 @@
 "Credits_Made_By" = "Сделано opa334, évelyne";
 
 // Log
-"Status_Title_Jailbreaking" = "Выполнение джейлбрейка";
-"Log_Error" = "Неудачно";
+"Status_Title_Jailbreaking" = "Выполнение Джейлбрейка";
+"Log_Error" = "Ошибка";
 
 // Jailbreak Button
 "Button_Jailbreak_Title" = "Джейлбрейк";
@@ -18,11 +18,11 @@
 // Updating
 "Button_Update" = "Обновить";
 "Button_Update_Available" = "Доступно обновление";
-"Button_Update_Environment" = "Обновить переменную среду";
+"Button_Update_Environment" = "Обновить среду";
 
 // Update View
 "Update_Status_Downloading" = "Загрузка обновления...";
-"Update_Status_Subtitle_Please_Wait" = "Пожалуйста подождите, пока файлы будут загружены";
+"Update_Status_Subtitle_Please_Wait" = "Пожалуйста, подождите, пока файлы будут загружены";
 "Update_Status_Installing" = "Установка обновления...";
 "Update_Status_Subtitle_Restart_Soon" = "Устройство скоро перезагрузится";
 "Title_Changelog" = "Список изменений";
@@ -37,36 +37,38 @@
 "Button_Share" = "Поделиться";
 "Button_Reboot" = "Перезагрузить";
 
-// Settings Toggles
+// Settings Options
 "Settings_Tweak_Injection" = "Внедрение твиков";
 "Settings_iDownload" = "iDownload (Терминал разработчика)";
 "Settings_Verbose_Logs" = "Расширенные логи";
 "Settings_Apps_JIT" = "Разрешить JIT в приложениях";
+"Settings_Jetsam_Multiplier" = "Множитель Jetsam";
 
 // Settings Buttons
-"Button_Remove_Jailbreak" = "Удалить джейлбрейк";
-"Button_Hide_Jailbreak" = "Скрыть джейлбрейк";
-"Button_Unhide_Jailbreak" = "Отобразить джейлбрейк";
-"Button_Refresh_Jailbreak_Apps" = "Обновить приложения джейлбрейка";
+"Button_Remove_Jailbreak" = "Удалить Джейлбрейк";
+"Button_Hide_Jailbreak" = "Скрыть Джейлбрейк";
+"Button_Unhide_Jailbreak" = "Отобразить Джейлбрейк";
+"Button_Refresh_Jailbreak_Apps" = "Обновить приложения Джейлбрейка";
 "Button_Reinstall_Package_Managers" = "Переустановить менеджеры пакетов";
 "Button_Change_Mobile_Password" = "Изменить пароль для \"mobile\"";
 
 // Settings Hints
-"Hint_Hide_Jailbreak" = "\"Скрыть джейлбрейк\" временно удаляет файлы, связанные с джейлбрейком, до следующего джейлбрейка";
-"Hint_Hide_Jailbreak_Jailbroken" = "\"Скрыть джейлбрейк\" частично отключает джейлбрейк и стремится сделать обнаружение более сложным. Однако это не совсем эффективно и скрывает не всё.";
-"Section_Jailbreak_Settings" = "Настройки джейлбрейка";
+"Hint_Hide_Jailbreak" = "\"Скрыть Джейлбрейк\" временно удаляет файлы, связанные с Джейлбрейком, до следующего Джейлбрейка";
+"Hint_Hide_Jailbreak_Jailbroken" = "\"Скрыть Джейлбрейк\" частично отключает Джейлбрейк и стремится сделать обнаружение более сложным. Однако это не совсем эффективно и скрывает не всё.";
+"Section_Jailbreak_Settings" = "Настройки Джейлбрейка";
 "Section_Actions" = "Действия";
 "Section_Customization" = "Кастомизация";
 "Section_Exploits" = "Эксплоиты";
+"Jetsam_Description" = "Jetsam - это системная функция, которая автоматически завершает процессы, превышающие заданный лимит памяти. Если установлено много твиков, этот лимит может быть превышен при запуске, что вызывает циклические сбои процессов. Здесь вы можете выбрать множитель, на который будет умножен лимит памяти для всех процессов, запускаемых с ограничением памяти. Увеличьте этот параметр, если наблюдаются циклические сбои или странное поведение системы при большом количестве установленных твиков. Чтобы не ухудшить использование памяти всей системы, рекомендуется выбирать минимальный вариант, при котором система стабильна.";
 
 // Settings Alerts
-"Alert_Tweak_Injection_Toggled_Title" = "Перезагрузите Userspace";
-"Alert_Tweak_Injection_Toggled_Body" = "Чтобы изменения вступили в силу, нужно перезагрузить Userspace. Перезагрузить сейчас?";
+"Alert_Tweak_Injection_Toggled_Title" = "Требуется перезагрузка Userspace";
+"Alert_Tweak_Injection_Toggled_Body" = "Для применения изменений требуется перезагрузка Userspace. Перезагрузить Userspace сейчас?";
 "Alert_Tweak_Injection_Toggled_Reboot_Now" = "Сейчас";
 "Alert_Tweak_Injection_Toggled_Reboot_Later" = "Потом";
-"Alert_Remove_Jailbreak_Title" = "Удаление джейлбрейка";
-"Alert_Remove_Jailbreak_Pressed_Body" = "Удаление джейлбрейка приведёт к удалению всех файлов, связанных с джейлбрейком, но все обычные приложения, файлы и данные будут сохранены. Вы уверены, что хотите продолжить? Вы не сможете отменить это действие.";
-"Alert_Remove_Jailbreak_Enabled_Body" = "Нажимая \"Удаление джейлбрейка\", все файлы, связанные с джейлбрейком, будут удалены до следующего джейлбрейка. Все обычные приложения, файлы и данные будут сохранены. Вы уверены, что хотите продолжить? Вы не сможете отменить это действие.";
+"Alert_Remove_Jailbreak_Title" = "Удаление Джейлбрейка";
+"Alert_Remove_Jailbreak_Pressed_Body" = "Удаление Джейлбрейка приведёт к удалению всех файлов, связанных с Джейлбрейком, но все обычные приложения, файлы и данные будут сохранены. Вы уверены, что хотите продолжить? Вы не сможете отменить это действие.";
+"Alert_Remove_Jailbreak_Enabled_Body" = "Нажимая \"Удаление Джейлбрейка\", все файлы, связанные с Джейлбрейком, будут удалены до следующего Джейлбрейка. Все обычные приложения, файлы и данные будут сохранены. Вы уверены, что хотите продолжить? Вы не сможете отменить это действие.";
 "Alert_Change_Mobile_Password_Body" = "Установите пароль \"mobile\" пользователя на вашем устройстве, который также можно использовать для доступа root с помощью sudo. Если вы хотите установить пароль root, вы можете сделать это из мобильной оболочки, используя команду \"sudo passwd root\"";
 "Password_Placeholder" = "Пароль";
 "Repeat_Password_Placeholder" = "Повторите пароль";
@@ -97,7 +99,7 @@
 "Initializing Protection" = "Инициализация защиты";
 "Loading BaseBin TrustCache" = "Получение кэша доверия BaseBin";
 "Applying Bind Mount" = "Применение монтирования с привязкой";
-"Removing Jailbreak" = "Удаление джейлбрейка";
+"Removing Jailbreak" = "Удаление Джейлбрейка";
 "Elevating Privileges" = "Повышение прав";
 "Cleaning Up Exploits" = "Очистка эксплоитов";
 "Building Phys R/W Primitive" = "Создание R/W примитива";
